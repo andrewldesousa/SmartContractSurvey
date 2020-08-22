@@ -12,7 +12,7 @@ var cardStyle = {
   minHeight: '180px'
 }
 
-export default class SmallText extends React.Component{
+export default class TextQA extends React.Component{
   render(){
     return(
       <div align='center'>
