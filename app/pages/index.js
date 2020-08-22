@@ -1,9 +1,9 @@
-import TextQA from '../compoments/q_text'
-import RateQA from '../compoments/q_rate'
-import SingleQA from '../compoments/q_SingleChoice'
-import MultipleQA from '../compoments/q_MultipleChoice'
-import DateQA from '../compoments/q_date'
-import DiscreteSlider from '../compoments/q_slider'
+import TextQA from '../components/q_text'
+import RateQA from '../components/q_rate'
+import SingleQA from '../components/q_SingleChoice'
+import MultipleQA from '../components/q_MultipleChoice'
+import DateQA from '../components/q_date'
+import DiscreteSlider from '../components/q_slider'
 
 export default function Home() {
   const qList=['A','B','C']
@@ -17,6 +17,5 @@ export default function Home() {
       <DiscreteSlider question = 'What is the value of...?' label='Value of' min={0} max={100} step={10}/>
       <br/>
     </div>
-//    <SingleQA  question ='What where when who why?' qList={qList}/>
   )
 }
