@@ -3,16 +3,16 @@ import { Card, CardContent, CardHeader, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
 const labels = {
-  0.5: 'Bad',
-  1: 'Bad+',
+  0.5: 'Unacceptable',
+  1: 'Bad',
   1.5: 'Poor',
-  2: 'Poor+',
-  2.5: 'Ok',
-  3: 'Ok+',
-  3.5: 'Good',
-  4: 'Good+',
-  4.5: 'Excellent',
-  5: 'Excellent+',
+  2: 'Satisfactory',
+  2.5: 'Average',
+  3: 'Above Average',
+  3.5: 'Nice',
+  4: 'Good',
+  4.5: 'Great',
+  5: 'Excellent',
 };
 
 const rateStyle = {
