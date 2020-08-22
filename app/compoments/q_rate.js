@@ -55,7 +55,8 @@ const Rate= function HoverRating() {
   
 
   return (
-    <div >
+    <span display='inline-block'>
+      
       <Rating
         name="hover-feedback"
         value={value}
@@ -69,6 +70,6 @@ const Rate= function HoverRating() {
         }}
       />
       {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
-    </div>
+    </span>
   );
 }

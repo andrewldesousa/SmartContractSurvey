@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, Checkbox , RadioGroup, FormControl, FormControlLabel } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Checkbox, RadioGroup, FormControl, FormControlLabel } from '@material-ui/core';
 
 var cardStyle = {
     textAlign: 'left',
