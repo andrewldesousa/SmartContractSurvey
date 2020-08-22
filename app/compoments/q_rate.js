@@ -22,7 +22,7 @@ const rateStyle = {
 };
 
 var cardStyle = {
-  textAlign: 'left',
+  "textAlign": 'left',
   padding: '1.5rem',
   display: 'flex',
   color: 'inherit',
