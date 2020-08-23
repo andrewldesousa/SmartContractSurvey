@@ -6,6 +6,7 @@ import DateQA from '../components/q_date'
 import DiscreteSlider from '../components/q_slider'
 import DropdownQA from '../components/q_dropdown'
 
+
 export default function Home() {
   const qList=['A','B','C']
   return (

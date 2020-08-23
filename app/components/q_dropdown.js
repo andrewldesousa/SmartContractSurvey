@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, InputLabel, NativeSelect, FormControl} from '@material-ui/core';
+import { Card, CardContent, CardHeader, InputLabel, NativeSelect, FormControl, TextField } from '@material-ui/core';
 
 var cardStyle = {
     textAlign: 'left',
@@ -41,23 +41,28 @@ function Drop_down(props) {
     };
     const FormStyle = {
         margin: 1,
+        padding: 1.5,
         minWidth: 180,
     }
     return (
         <div>
-            <FormControl variant="outlined" style={FormStyle}>
-                <InputLabel >{props.label}</InputLabel>
-                <NativeSelect
-                    value={state.age}
-                    onChange={handleChange}
-                    name="name"
-                >
-                    <option  value="" />
-                    {props.list.map(listitem => (
-                        <option value={listitem}>{listitem}</option>
-                    ))}
-                </NativeSelect>
-            </FormControl>
+            <TextField
+                select
+                style={FormStyle}
+                label={props.label}
+                value={state.age}
+                onChange={handleChange}
+                SelectProps={{
+                    native: true,
+                }}
+                helperText="Please select one"
+                variant="outlined"
+            >
+                <option value="" />
+                {props.list.map(listitem => (
+                    <option value={listitem}>{listitem}</option>
+                ))}
+            </TextField>
         </div>
     )
 }

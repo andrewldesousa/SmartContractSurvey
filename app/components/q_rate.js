@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
 
 const labels = {
+  0:'No Response',
   0.5: 'Unacceptable',
   1: 'Bad',
   1.5: 'Poor',
@@ -51,7 +52,7 @@ export default class RateQA extends React.Component {
 
 const Rate= function HoverRating() {
   const [value, setValue] = React.useState(0);
-  const [hover, setHover] = React.useState(-1);
+  const [hover, setHover] = React.useState(0);
   
 
   return (
@@ -69,7 +70,9 @@ const Rate= function HoverRating() {
           setHover(newHover);
         }}
       />
-      {value !== null && <Box ml={2}>{labels[hover !== -1 ? hover : value]}</Box>}
+      <hr/>
+      {value !== null && <Box ml={2} style={{float:'left'}}>{labels[hover !== -1 ? hover : value]}</Box>}
+       
     </span>
   );
 }
