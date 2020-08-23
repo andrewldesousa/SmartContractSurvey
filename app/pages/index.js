@@ -4,6 +4,7 @@ import SingleQA from '../components/q_SingleChoice'
 import MultipleQA from '../components/q_MultipleChoice'
 import DateQA from '../components/q_date'
 import DiscreteSlider from '../components/q_slider'
+import DropdownQA from '../components/q_dropdown'
 
 export default function Home() {
   const qList=['A','B','C']
@@ -14,6 +15,7 @@ export default function Home() {
       <SingleQA question ='Which of the following ...?' qList={qList}/>
       <MultipleQA question ='Choose the relevent options.' qList={qList} />
       <DateQA question ='When did .....?' label='Date of something' />
+      <DropdownQA question='Choose one of the following' label='Some label' list={qList} />
       <DiscreteSlider question = 'What is the value of...?' label='Value of' min={0} max={100} step={10}/>
       <br/>
     </div>
