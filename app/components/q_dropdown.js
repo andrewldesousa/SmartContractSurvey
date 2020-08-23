@@ -55,7 +55,6 @@ function Drop_down(props) {
                 SelectProps={{
                     native: true,
                 }}
-                helperText="Please select one"
                 variant="outlined"
             >
                 <option value="" />
