@@ -1,65 +1,55 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import TextQA from '../components/q_text'
+import RateQA from '../components/q_rate'
+import SingleQA from '../components/q_SingleChoice'
+import MultipleQA from '../components/q_MultipleChoice'
+import DateQA from '../components/q_date'
+import DiscreteSlider from '../components/q_slider'
+import DropdownQA from '../components/q_dropdown'
+import Wallet from '../components/q_wallet'
+import Pagination from '@material-ui/lab/Pagination';
+
+
 
 export default function Home() {
+  const qList=['A','B','C']
+  var elements = [<Wallet/>
+    ,<DropdownQA question='Choose one of the following' label='Some label' list={qList} />
+    ,<RateQA question = 'How good was ...?' />
+    ,<TextQA question ='What where when who why?' hint='Answer here' />
+    ,<SingleQA question ='Which of the following ...?' qList={qList}/>
+    ,<MultipleQA question ='Choose the relevent options.' qList={qList} />
+    ,<DateQA question ='When did .....?' label='Date of something' />
+    ,<DiscreteSlider question = 'What is the value of...?' label='Value of' min={0} max={100} step={10}/>]
+    const [currentPage, setcurrentPage] = React.useState(1);
+    
+    const [pageSize, setpageSize] = React.useState(5);
+    const [page, setPage] = React.useState(1);
+    const indexOfLastPost =  page * pageSize;
+    const indexOfFirstPost = indexOfLastPost - pageSize;
+    var paginationStyle = {
+      "textAlign": 'center',
+      padding: '1.5rem',
+      margin: '0 auto',
+      display: 'flex',
+      color: 'inherit',
+      display: 'block',
+      width: '70%',
+      transitionDuration: 'color 0.15s ease',
+      minHeight: '180px'
+    }
+    const handleChange = (event, value) => {
+
+      setPage(value);
+    };
+
+   
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+    <div id="Cards"   >
+     
+      {elements.slice(indexOfFirstPost, indexOfLastPost)}
+     
+      <Pagination count={2}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
+      <br/>
     </div>
   )
 }
