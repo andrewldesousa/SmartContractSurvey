@@ -62,7 +62,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to the <a href="#">Smart Contract Survey!</a>
+          Welcome to the <a href="#">Survey!</a>
         </h1>
         <p className={styles.description}>
           This survey is about blah blah blah. Although, it will take some time to complete. You can win X.
@@ -78,19 +78,19 @@ export default function Home() {
         <Grid container item xs={12}>
           <Grid container justify="center" spacing={spacing} className={classes.instructionSection}>
             <Grid key={0} item className={classes.instructionItem}>
-              <img src="/return-on-investment.svg" alt="ROI" className={classes.instructionIcon} />
+              <img src="/user.svg" alt="ROI" className={classes.instructionIcon} />
               <h3 className={classes.instructionHeader}>Enter Your Wallet ID</h3>
-              <p>Some description about something on something. Some description about something on something</p>
+              <p>The first thing you should do before you start the survey is enter your wallet id. This enters you in the raffle to win money rewards!</p>
             </Grid>
             <Grid key={1} item className={classes.instructionItem}>
-              <img src="/return-on-investment.svg" alt="ROI" className={classes.instructionIcon} />
+              <img src="/clipboard.svg" alt="ROI" className={classes.instructionIcon} />
               <h3 className={classes.instructionHeader}>Complete the Survey</h3>
-              <p>Some description about something on something. Some description about something on something</p>
+              <p>Make sure you answer each question before submitting.</p>
             </Grid>
             <Grid key={2} item className={classes.instructionItem}>
-              <img src="/return-on-investment.svg" alt="ROI" className={classes.instructionIcon} />
-              <h3 className={classes.instructionHeader}>Win money</h3>
-              <p>Some description about something on something. Some description about something on something</p>
+              <img src="/money.svg" alt="ROI" className={classes.instructionIcon} />
+              <h3 className={classes.instructionHeader}>Win Money</h3>
+              <p>We will get back to the winners of the prize after several weeks. Good luck!</p>
             </Grid>
           </Grid>
         </Grid>
