@@ -42,13 +42,13 @@ export default function Home() {
       setPage(value);
     };
 
-   
+  const count=Math.ceil(elements.length/5)
   return (
     <div id="Cards"   >
      
       {elements.slice(indexOfFirstPost, indexOfLastPost)}
      
-      <Pagination count={2}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
+      <Pagination count={count}  page={page} shape="rounded" color='primary' style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
   )
