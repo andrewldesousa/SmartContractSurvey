@@ -4,8 +4,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
+import Link from 'next/link'
 
 
 
@@ -69,9 +70,9 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <Button variant="contained" color="primary" className={classes.landingPageButton}>
+          <Link href="/survey"><Button variant="contained" color="primary" className={classes.landingPageButton}>
             Start the survey
-          </Button>
+          </Button></Link>
         </div>
 
         <h2 className={classes.instructionSectionHeader}>How it works</h2>
