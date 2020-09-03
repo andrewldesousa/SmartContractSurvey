@@ -28,7 +28,6 @@ var cardStyle = {
 }
 
 export default class Likert extends React.Component {
-
     render() {
         return (
             <div align='center'>
@@ -59,35 +58,35 @@ const Rate = function HoverRating(props) {
                         control={<Radio color="primary" />}
                         label="Strongly Disagree"
                         labelPlacement="bottom"
-                        style={{float:'right',padding:'1.2rem'}}
+                        style={{float:'right',padding:'0.75rem'}}
                     />
                     <FormControlLabel
                         value="2"
                         control={<Radio color="primary" />}
                         label="Disagree"
                         labelPlacement="bottom"
-                        style={{float:'right',padding:'1.2rem'}}
+                        style={{float:'right',padding:'0.75rem'}}
                     />
                     <FormControlLabel
                         value="3"
                         control={<Radio color="primary" />}
                         label="Neutral"
                         labelPlacement="bottom"
-                        style={{float:'right',padding:'1.2rem'}}
+                        style={{float:'right',padding:'0.75rem','margin-left':'2.75em'}}
                     />
                     <FormControlLabel
                         value="4"
                         control={<Radio color="primary" />}
                         label="Agree"
                         labelPlacement="bottom"
-                        style={{float:'right',padding:'1.2rem'}}
+                        style={{float:'right',padding:'0.75rem','margin-left':'3.2em'}}
                     />
                     <FormControlLabel
                         value="5"
                         control={<Radio color="primary" />}
                         label="Strongly Agree"
                         labelPlacement="bottom"
-                        style={{float:'right',padding:'1.2rem'}}  
+                        style={{float:'right',padding:'0.75rem','margin-left':'3.2em'}}  
                     />
                 </RadioGroup>
             </FormControl>
