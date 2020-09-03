@@ -69,7 +69,7 @@ const GenSlider = function MakeSlider(props) {
                 />
             </div>
             <hr />
-            <p>{props.list[value]}</p>
+            <big>{props.list[value]}</big>
         </span>
     )
 }
