@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import { red } from '@material-ui/core/colors'
 import Link from 'next/link'
 
-
-
 const useStyles = makeStyles((theme) => ({
   landingPageButton: {
     width: 400,
