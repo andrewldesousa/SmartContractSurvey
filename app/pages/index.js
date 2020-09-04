@@ -8,7 +8,7 @@ import DropdownQA from '../components/q_dropdown'
 import Wallet from '../components/q_wallet'
 import Pagination from '@material-ui/lab/Pagination';
 import Likert from '../components/q_likert'
-import YesNo from '../components/q_binary'
+import YesNo   from '../components/q_binary'
 import DiscreteSlider from '../components/q_sliderDiscrete'
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
      
       {elements.slice(indexOfFirstPost, indexOfLastPost)}
      
-      <Pagination count={2}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
+      <Pagination count={3}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
   )
