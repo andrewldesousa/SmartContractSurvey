@@ -37,9 +37,6 @@ export default function OutlinedCard() {
                     Congratulations, your response has been successfully saved.
                 </Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small">Learn More</Button>
-            </CardActions>
         </Card>
     );
 }

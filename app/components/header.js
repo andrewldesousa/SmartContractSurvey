@@ -32,7 +32,6 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         BlocSurvey
                     </Typography>
-                    <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
         </div>
