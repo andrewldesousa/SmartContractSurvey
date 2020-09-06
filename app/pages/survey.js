@@ -10,8 +10,6 @@ import Pagination from '@material-ui/lab/Pagination'
 import React from 'react'
 import Likert from '../components/q_likert';
 
-
-
 export default function Home() {
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -53,8 +51,6 @@ export default function Home() {
 
           } } 
           ));
-          console.log("hello")
-          console.log(result);
           
           //setItems(result);
         },
@@ -67,9 +63,6 @@ export default function Home() {
   }, [])
   var contents;
   
-  
-  
- 
   
     const [currentPage, setcurrentPage] = React.useState(1);
     
@@ -98,6 +91,10 @@ export default function Home() {
     return <div>Loading...</div>;
   } else { 
   return (
+      <React.Fragment>
+        <ButtonAppBar/>
+        <br/>
+        <br/>
     <div id="Cards"   >
      
       
@@ -106,6 +103,8 @@ export default function Home() {
       <Pagination count={noOfpages}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
+      </React.Fragment>
+
   )
 }
 }
