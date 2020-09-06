@@ -7,12 +7,13 @@ import DiscreteSlider from '../components/q_slider'
 import DropdownQA from '../components/q_dropdown'
 import Wallet from '../components/q_wallet'
 import Pagination from '@material-ui/lab/Pagination';
-
-
+import ButtonAppBar from '../components/header'
 
 export default function Home() {
   const qList=['A','B','C']
+
   var elements = [<Wallet/>
+
     ,<DropdownQA question='Choose one of the following' label='Some label' list={qList} />
     ,<RateQA question = 'How good was ...?' />
     ,<TextQA question ='What where when who why?' hint='Answer here' />
@@ -44,6 +45,10 @@ export default function Home() {
 
    
   return (
+      <React.Fragment>
+        <ButtonAppBar/>
+        <br/>
+        <br/>
     <div id="Cards"   >
      
       {elements.slice(indexOfFirstPost, indexOfLastPost)}
@@ -51,5 +56,7 @@ export default function Home() {
       <Pagination count={2}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
+      </React.Fragment>
+
   )
 }

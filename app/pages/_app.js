@@ -1,8 +1,8 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
 
 import purple from '@material-ui/core/colors/purple';
 import blue from '@material-ui/core/colors/blue';
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+import {createMuiTheme, responsiveFontSizes, ThemeProvider} from '@material-ui/core/styles';
 
 
 const currentTheme = createMuiTheme({
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={theme}>
       <Component {...pageProps} />
     </ThemeProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
