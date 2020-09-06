@@ -2,7 +2,6 @@ import {Link, useHistory} from 'react-router-dom';
 import {authenticate, signin} from '../auth';
 import React from 'react';
 
-
 export default function Signin(props) {
     const history = useHistory();
     const [values, setValues] = useState({
@@ -42,11 +41,12 @@ export default function Signin(props) {
     setTimeout(function () {
         setCardAnimation("");
     }, 700);
+
     const classes = useStyles();
+    
     const {...rest} = props;
 
     return(
         <div></div>
     );
-
 }
