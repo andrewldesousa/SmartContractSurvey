@@ -22,7 +22,7 @@ function valuetext(value) {
     return `${value}`;
 }
 
-export default class DiscreteSlider extends React.Component{
+export default class SliderQA extends React.Component{
     render(){
     return (
         <div align='center'>
