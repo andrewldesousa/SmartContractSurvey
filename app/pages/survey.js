@@ -7,7 +7,8 @@ import DiscreteSlider from '../components/q_slider'
 import DropdownQA from '../components/q_dropdown'
 import Wallet from '../components/q_wallet'
 import Pagination from '@material-ui/lab/Pagination'
-import React from 'react';
+import React from 'react'
+import Likert from '../components/q_likert';
 
 
 
@@ -17,16 +18,9 @@ export default function Home() {
   const [items, setItems] = React.useState([]);
   var data;
   const qList=['A','B','C']
-  var initial = [<Wallet/>
-    ,<DropdownQA question='Choose one of the following' label='Some label' list={qList} />
-    ,<RateQA question = 'How good was ...?' />
-    ,<TextQA question ='What where when who why?' hint='Answer here' />
-    ,<SingleQA question ='Which of the following ...?' qList={qList}/>
-    ,<MultipleQA question ='Choose the relevent options.' qList={qList} />
-    ,<DateQA question ='When did .....?' label='Date of something' />
-    ,<DiscreteSlider question = 'What is the value of...?' label='Value of' min={0} max={100} step={10}/>]
+  var initial = [<Wallet/>]
 
-  const [elements, setElement] = React.useState([]);
+  const [elements, setElement] = React.useState(initial);
   React.useEffect(() => {
     fetch("http://localhost:3000/api/survey")
       .then(res => res.json())
@@ -52,6 +46,9 @@ export default function Home() {
                   break;
                 case "rate":
                   setElement(elements => [...elements,<RateQA key = {i} question ={question.prompt}  />]);
+                  break;
+                case "likert":
+                  setElement(elements => [...elements,<Likert key = {i} question = {question.prompt}/>])
                 
 
           } } 
@@ -80,6 +77,7 @@ export default function Home() {
     const [page, setPage] = React.useState(1);
     const indexOfLastPost =  page * pageSize;
     const indexOfFirstPost = indexOfLastPost - pageSize;
+    const noOfpages = Math.ceil(elements.length/pageSize);
     var paginationStyle = {
       "textAlign": 'center',
       padding: '1.5rem',
@@ -105,7 +103,7 @@ export default function Home() {
       
       {elements.slice(indexOfFirstPost,indexOfLastPost)}
      
-      <Pagination count={2}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
+      <Pagination count={noOfpages}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
   )
