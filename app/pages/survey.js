@@ -10,6 +10,9 @@ import Pagination from '@material-ui/lab/Pagination'
 import React from 'react'
 import Likert from '../components/q_likert';
 
+import ButtonAppBar from '../components/header'
+
+
 export default function Home() {
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
