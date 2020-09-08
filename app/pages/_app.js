@@ -1,22 +1,24 @@
-import NextApp from 'next/app'
-import React from 'react'
-import { ThemeProvider as StyledThemeProvider } from 'styled-components'
-import { ThemeProvider as MaterialThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import React from 'react';
+import NextApp from 'next/app';
+
+import {ThemeProvider as StyledThemeProvider} from 'styled-components';
+import {ThemeProvider as MaterialThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 
 const theme = {
   primary: '#f2f2f2',
-  ...createMuiTheme()
-}
+  ...createMuiTheme(),
+};
 
 export default class App extends NextApp {
   componentDidMount() {
-    const jssStyles = document.querySelector('#jss-server-side')
-    if (jssStyles && jssStyles.parentNode)
-      jssStyles.parentNode.removeChild(jssStyles)
+    const jssStyles = document.querySelector('#jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
   }
 
   render() {
-    const { Component, pageProps } = this.props
+    const {Component, pageProps} = this.props;
 
     return (
       <StyledThemeProvider theme={theme}>
@@ -24,6 +26,6 @@ export default class App extends NextApp {
           <Component {...pageProps} />
         </MaterialThemeProvider>
       </StyledThemeProvider>
-    )
+    );
   }
 }

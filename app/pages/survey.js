@@ -1,16 +1,15 @@
-import TextQA from '../components/questions/text'
-import RateQA from '../components/questions/rate'
-import SingleQA from '../components/questions/singleChoice'
+import TextQA from '../components/questions/text';
+import RateQA from '../components/questions/rate';
+import SingleQA from '../components/questions/singleChoice';
 import MultipleQA from '../components/questions/multipleChoice';
-import DateQA from '../components/questions/date'
-import DiscreteSlider from '../components/questions/slider'
-import DropdownQA from '../components/questions/dropdown'
-import Wallet from '../components/questions/wallet'
-import Pagination from '@material-ui/lab/Pagination'
-import React from 'react'
+import DateQA from '../components/questions/date';
+import DiscreteSlider from '../components/questions/slider';
+import DropdownQA from '../components/questions/dropdown';
+import Wallet from '../components/questions/wallet';
+import Pagination from '@material-ui/lab/Pagination';
+import React from 'react';
 import Likert from '../components/questions/likert';
-
-import ButtonAppBar from '../components/header'
+import ButtonAppBar from '../components/header';
 
 
 export default function Home() {
@@ -18,42 +17,40 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = React.useState(false);
   const [items, setItems] = React.useState([]);
   var data;
-  const qList=['A','B','C']
-  var initial = [<Wallet/>]
+  const qList=['A', 'B', 'C'];
+  var initial = [<Wallet/>];
 
   const [elements, setElement] = React.useState(initial);
   React.useEffect(() => {
     fetch("http://localhost:3000/api/survey")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          data=result;
-          console.log(elements);
-          
-          data.sections.map((section) => section.questions.map((question, i) => 
-            {switch(question.type){
-                case "slider":
-                  setElement(elements => [...elements,<DiscreteSlider  key= {i} question = {question.prompt} label='' min={0} max={100} step={1}/>]);
-                  break;
-                case "selectOne":
-                  setElement(elements => [...elements,<SingleQA key = {i} question ={question.prompt} qList={question.choices} />]);
-                  break;
-                case "selectOneOrOther":
-                  setElement(elements => [...elements,<MultipleQA key = {i} question ={question.prompt} qList={question.choices} />]);
-                  break;
-                case "number":
-                  setElement(elements => [...elements,<TextQA key = {i} question ={question.prompt} hint='Answer here' />]);
-                  break;
-                case "rate":
-                  setElement(elements => [...elements,<RateQA key = {i} question ={question.prompt}  />]);
-                  break;
-                case "likert":
-                  setElement(elements => [...elements,<Likert key = {i} question = {question.prompt}/>])
-                
-
-          } } 
-          ));
+        .then(res => res.json())
+        .then(
+            (result) => {
+              setIsLoaded(true);
+              data=result;
+              data.sections.map((section) => section.questions.map((question, i) => {
+                switch (question.type) {
+                  case 'slider':
+                    setElement(elements => [...elements,<DiscreteSlider  key= {i} question = {question.prompt} label='' min={0} max={100} step={1}/>]);
+                    break;
+                  case 'selectOne':
+                    setElement(elements => [...elements,<SingleQA key = {i} question ={question.prompt} qList={question.choices} />]);
+                    break;
+                  case 'selectOneOrOther':
+                    setElement(elements => [...elements,<MultipleQA key = {i} question ={question.prompt} qList={question.choices} />]);
+                    break;
+                  case 'number':
+                    setElement(elements => [...elements,<TextQA key = {i} question ={question.prompt} hint='Answer here' />]);
+                    break;
+                  case 'rate':
+                    setElement(elements => [...elements,<RateQA key = {i} question ={question.prompt}/>]);
+                    break;
+                  case 'likert':
+                    setElement(elements => [...elements,<Likert key = {i} question = {question.prompt}/>]);
+                }
+              }
+              )
+              );
           
           //setItems(result);
         },
@@ -98,16 +95,12 @@ export default function Home() {
         <ButtonAppBar/>
         <br/>
         <br/>
-    <div id="Cards"   >
-     
-      
+    <div id="Cards">  
       {elements.slice(indexOfFirstPost,indexOfLastPost)}
-     
       <Pagination count={noOfpages}  page={page} shape="rounded" style = {paginationStyle} onChange={handleChange} />
       <br/>
     </div>
       </React.Fragment>
-
-  )
+  );
 }
 }
