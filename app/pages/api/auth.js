@@ -1,5 +1,5 @@
 export const signup = user => {
-    return fetch(`http://localhost:8000/authentication/signup`, {
+    return fetch(`http://localhost:8000/user/signup`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -11,19 +11,20 @@ export const signup = user => {
             return response.json();
         })
         .catch(err => {
-            console.log(err);
+            console.log(err)
+            return response.json();
         });
 };
 
 
-export const signin = user => {
-    return fetch(`http://localhost:8000/authentication/signin`, {
+export const signin = (input) => { 
+    return fetch(`http://localhost:8000/user/signin`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(input)
     })
         .then(response => {
             return response.json();
@@ -37,7 +38,7 @@ export const signout = next => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt');
         next();
-        return fetch(`localhost:8000/authentication/signout`, {
+        return fetch(`localhost:8000/user/signout`, {
             method: 'GET'
         })
             .then(response => {

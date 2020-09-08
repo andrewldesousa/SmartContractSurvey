@@ -31,7 +31,7 @@ exports.signin=(req,res)=>{
     User.findOne({email},(err,user)=>{
         if (err || !user){
             return res.status(400).json({
-                error:"This is not a registered email. Please check the email or signup!"
+                error:"Please check the email or signup!"
             })
         }
         //authenticating the user pass

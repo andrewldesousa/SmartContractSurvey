@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, CardHeader, Checkbox, RadioGroup, FormControl, FormControlLabel } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Checkbox, RadioGroup, FormControl, FormControlLabel,FormLabel } from '@material-ui/core';
 
 var cardStyle = {
     textAlign: 'left',
@@ -12,10 +12,7 @@ var cardStyle = {
     minHeight: '220px'
 }
 
-
-
 export default class SingleQA extends React.Component {
-
     render() {
         return (
             <div align='center'>
@@ -23,7 +20,8 @@ export default class SingleQA extends React.Component {
                 <Card variant="outlined" style={cardStyle}>
                     <CardHeader title={this.props.question} />
                     <CardContent>
-                        <QList list={this.props.qList} />
+
+                        <QList list={this.props.qList} label={this.props.label} />
                     </CardContent>
                 </Card>
             </div>
@@ -36,8 +34,9 @@ function QList(props) {
         <div>
             <FormControl component="fieldset">
                 <RadioGroup >
+                    <FormLabel component='legend'>{props.label}</FormLabel>
                     {props.list.map(listitem => (
-                        <FormControlLabel value={listitem} control={<Checkbox color="primary" />} label={listitem} />
+                        <FormControlLabel value={listitem} control={<Checkbox color="primary" />} label={listitem} labelPlacement='end' />
                     ))}
                 </RadioGroup>
             </FormControl>

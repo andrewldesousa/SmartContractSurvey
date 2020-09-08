@@ -1,4 +1,4 @@
-    const mongo = require('mongoose')
+const mongo = require('mongoose')
 const express = require('express')
 require('dotenv').config()
 const user = require('./routes/user');
@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
+const cors = require('cors')
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use(cookieParser())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(expressValidator())
+app.use(cors());
 
 //routes
 app.use('/user',user)

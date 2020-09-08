@@ -1,5 +1,6 @@
 exports.userSignupValidator = (req, res, next) => {
     req.check('name', 'Name is required').notEmpty();
+    req.check('email', 'Email is required').notEmpty();
     req.check('email', 'Email must be between 3 to 320 characters')
         .matches(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
         .withMessage('Email invalid')
