@@ -3,6 +3,7 @@ const questionTypes = {
   SELECT_ONE: 'selectOne',
   SELECT_ONE_OR_OTHER: 'selectOneOrOther',
   SLIDER: 'slider',
+  RATE: 'rate',
   LIKERT: 'likert',
   TRUE_OR_FALSE: 'trueOrFalse',
 };
@@ -60,19 +61,19 @@ export default (req, res) => {
             dependsOn: [-1],
           },
           {
-            type: questionTypes.SLIDER,
+            type: questionTypes.RATE,
             prompt: 'What is your level of knowledge about blockchain in general?',
           },
           {
-            type: questionTypes.SLIDER,
+            type: questionTypes.RATE,
             prompt: 'What is your level of ability to read solidity code?',
           },
           {
-            type: questionTypes.SLIDER,
+            type: questionTypes.RATE,
             prompt: 'What is your level of ability to read solidity code?',
           },
           {
-            type: questionTypes.SLIDER,
+            type: questionTypes.RATE,
             prompt: 'What is your level of knowledge about the Ethereum protocol and infrastructure?',
           },
           {
