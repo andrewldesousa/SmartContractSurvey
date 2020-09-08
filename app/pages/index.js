@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from '../styles/Home.module.css';
+
 import Link from 'next/link';
 import Head from 'next/head';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import styles from '../styles/Home.module.css';
 
 
 const useStyles = makeStyles((theme) => ({

@@ -1,16 +1,17 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, Checkbox, RadioGroup, FormControl, FormControlLabel,FormLabel } from '@material-ui/core';
+import React from 'react';
+import {Card, CardContent, CardHeader, Checkbox, RadioGroup, FormControl, FormControlLabel, FormLabel} from '@material-ui/core';
 
-var cardStyle = {
-    textAlign: 'left',
-    padding: '1.5rem',
-    display: 'flex',
-    color: 'inherit',
-    display: 'block',
-    width: '70%',
-    transitionDuration: 'color 0.15s ease',
-    minHeight: '220px'
-}
+
+const cardStyle = {
+  textAlign: 'left',
+  padding: '1.5rem',
+  display: 'flex',
+  color: 'inherit',
+  display: 'block',
+  width: '70%',
+  transitionDuration: 'color 0.15s ease',
+  minHeight: '220px',
+};
 
 export default class SingleQA extends React.Component {
     render() {

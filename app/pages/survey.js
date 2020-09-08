@@ -1,14 +1,14 @@
-import TextQA from '../components/q_text'
-import RateQA from '../components/q_rate'
-import SingleQA from '../components/q_SingleChoice'
-import MultipleQA from '../components/q_MultipleChoice'
-import DateQA from '../components/q_date'
-import DiscreteSlider from '../components/q_slider'
-import DropdownQA from '../components/q_dropdown'
-import Wallet from '../components/q_wallet'
+import TextQA from '../components/questions/text'
+import RateQA from '../components/questions/rate'
+import SingleQA from '../components/questions/singleChoice'
+import MultipleQA from '../components/questions/multipleChoice';
+import DateQA from '../components/questions/date'
+import DiscreteSlider from '../components/questions/slider'
+import DropdownQA from '../components/questions/dropdown'
+import Wallet from '../components/questions/wallet'
 import Pagination from '@material-ui/lab/Pagination'
 import React from 'react'
-import Likert from '../components/q_likert';
+import Likert from '../components/questions/likert';
 
 import ButtonAppBar from '../components/header'
 
