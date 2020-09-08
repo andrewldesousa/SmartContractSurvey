@@ -14,8 +14,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import { Helmet } from 'react-helmet';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
@@ -74,7 +72,7 @@ var cardStyle = {
     transitionDuration: 'color 0.15s ease',
     position: 'fixed',
     marginLeft: '37%',
-    marginTop: '6%'
+    marginTop: '12%'
 }
 
 var margin1={
@@ -127,7 +125,7 @@ const Signin = () => {
     const signInForm = () => (
         <div align='center'>
             <Card variant="outlined" style={cardStyle}>
-                <CardHeader className={classes.cardHeader} title='Signin' />
+                <CardHeader className={classes.cardHeader} title='Login' />
                 <CardContent>
                     <form>
                         <FormControl className={classes.margin}>
@@ -195,7 +193,7 @@ const Signin = () => {
     return (
         <div>
             <Helmet>
-                <style>{'body { background-color: #00aff5 ; }'}</style>
+                <style>{'body { background-color: #1976d2 ; }'}</style>
             </Helmet>
             <Layout title='Signin'>
                 {showLoading()}

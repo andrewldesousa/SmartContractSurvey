@@ -63,7 +63,7 @@ var cardStyle = {
     transitionDuration: 'color 0.15s ease',
     position: 'fixed',
     marginLeft: '37%',
-    marginTop: '4%'
+    marginTop: '10%'
 }
 
 var margin1 = {
@@ -183,7 +183,7 @@ const Signup = () => {
     return (
         <div>
             <Helmet>
-                <style>{'body { background-color: #00aff5 ; }'}</style>
+                <style>{'body { background-color: #1976d2 ; }'}</style>
             </Helmet>
             <Layout title="SignUp">
                 {signUpForm()}
