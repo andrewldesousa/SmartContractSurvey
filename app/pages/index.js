@@ -47,45 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const useStyles = makeStyles((theme) => ({
-  landingPageButton: {
-    width: 400,
-    height: 60,
-    backgroundColor: theme.primary,
-    color: 'white',
-  },
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    height: 240,
-    width: 400,
-  },
-  control: {
-    padding: theme.spacing(2),
-  },
-  instructionSection: {
-    height: 400
-  },
-  instructionSectionHeader: {
-    fontSize: 30,
-    textAlign: "center",
-    marginTop: 80,
-    marginBottom: 50,
-  },
-  instructionItem: {
-    width: 400,
-    textAlign: "center"
-  },
-  instructionHeader: {
-    fontSize: 20,
-    textAlign: "center"
-  },
-  instructionIcon: {
-    height: 100,
-  },
-}));
-
 
 export default function Home() {
   const [spacing, setSpacing] = React.useState(2);
