@@ -1,11 +1,11 @@
-import '../styles/globals.css';
-
+import React from 'react';
+import NextApp from 'next/app';
 import purple from '@material-ui/core/colors/purple';
 import blue from '@material-ui/core/colors/blue';
 import {createMuiTheme, responsiveFontSizes, ThemeProvider} from '@material-ui/core/styles';
+import '../styles/globals.css';
 
-
-const currentTheme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     primary: {
       main: blue[700],
@@ -16,15 +16,14 @@ const currentTheme = createMuiTheme({
   },
 });
 
-function MyApp({ Component, pageProps }) {
-  let theme = createMuiTheme(currentTheme);
-  theme = responsiveFontSizes(theme);
+export default class App extends NextApp {
+  render() {
+    const {Component, pageProps} = this.props;
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
-    </ThemeProvider>
-  );
+    return (
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    );
+  }
 }
-
-export default MyApp;

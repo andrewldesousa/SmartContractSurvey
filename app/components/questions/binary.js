@@ -1,93 +1,91 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, withStyles} from '@material-ui/core';
+import {Card, CardContent, CardHeader, withStyles} from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 
 const labels = {
-    0: 'No Response',
-    0.5: 'Unacceptable',
-    1: 'Bad',
-    1.5: 'Poor',
-    2: 'Satisfactory',
-    2.5: 'Average',
-    3: 'Above Average',
-    3.5: 'Nice',
-    4: 'Good',
-    4.5: 'Great',
-    5: 'Excellent',
+  0: 'No Response',
+  0.5: 'Unacceptable',
+  1: 'Bad',
+  1.5: 'Poor',
+  2: 'Satisfactory',
+  2.5: 'Average',
+  3: 'Above Average',
+  3.5: 'Nice',
+  4: 'Good',
+  4.5: 'Great',
+  5: 'Excellent',
 };
 
 const rateStyle = {
-    width: 200,
-    display: 'flex',
-    alignItems: 'center',
+  width: 200,
+  display: 'flex',
+  alignItems: 'center',
 };
 
-var cardStyle = {
-    "textAlign": 'left',
-    padding: '1.5rem',
-    display: 'flex',
-    color: 'inherit',
-    display: 'block',
-    width: '70%',
-    transitionDuration: 'color 0.15s ease',
-    minHeight: '180px'
-}
+const cardStyle = {
+  textAlign: 'left',
+  padding: '1.5rem',
+  display: 'flex',
+  color: 'inherit',
+  display: 'block',
+  width: '70%',
+  transitionDuration: 'color 0.15s ease',
+  minHeight: '180px',
+};
 
 
 export default class RateQA extends React.Component {
-
-    render() {
-        return (
-            <div align='center'>
-                <br />
-                <Card variant="outlined" style={cardStyle}>
-                    <CardHeader title={this.props.question} />
-                    <CardContent>
-                        <Choose />
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div align='center'>
+        <br />
+        <Card variant="outlined" style={cardStyle}>
+          <CardHeader title={this.props.question} />
+          <CardContent>
+            <Choose />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 }
 
 const AntSwitch = withStyles((theme) => ({
-    root: {
-      width: 42,
-      height: 24,
-      padding: 0,
-      display: 'flex',
-    },
-    switchBase: {
-      padding: 2,
-      color: theme.palette.grey[500],
-      '&$checked': {
-        transform: 'translateX(12px)',
-        color: theme.palette.common.white,
-        '& + $track': {
-          opacity: 1,
-          backgroundColor: theme.palette.primary.main,
-          borderColor: theme.palette.primary.main,
-        },
+  root: {
+    width: 42,
+    height: 24,
+    padding: 0,
+    display: 'flex',
+  },
+  switchBase: {
+    padding: 2,
+    color: theme.palette.grey[500],
+    '&$checked': {
+      transform: 'translateX(12px)',
+      color: theme.palette.common.white,
+      '& + $track': {
+        opacity: 1,
+        backgroundColor: theme.palette.primary.main,
+        borderColor: theme.palette.primary.main,
       },
     },
-    thumb: {
-      width: 12,
-      height: 12,
-      boxShadow: 'none',
-    },
-    track: {
-      border: `1px solid ${theme.palette.grey[500]}`,
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor: theme.palette.common.white,
-    },
-    checked: {},
-  }))(Switch);
-  
+  },
+  thumb: {
+    width: 12,
+    height: 12,
+    boxShadow: 'none',
+  },
+  track: {
+    border: `1px solid ${theme.palette.grey[500]}`,
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor: theme.palette.common.white,
+  },
+  checked: {},
+}))(Switch);
 
 
 const Choose = function Yes_No() {

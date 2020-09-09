@@ -1,12 +1,11 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import { red } from '@material-ui/core/colors'
-import Link from 'next/link'
+import React from 'react';
+
+import Link from 'next/link';
+import Head from 'next/head';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import styles from '../styles/Home.module.css';
 
 const useStyles = makeStyles((theme) => ({
   landingPageButton: {
@@ -26,21 +25,21 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   instructionSection: {
-    height: 400
+    height: 400,
   },
   instructionSectionHeader: {
     fontSize: 30,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 80,
     marginBottom: 50,
   },
   instructionItem: {
     width: 400,
-    textAlign: "center"
+    textAlign: 'center',
   },
   instructionHeader: {
     fontSize: 20,
-    textAlign: "center"
+    textAlign: 'center',
   },
   instructionIcon: {
     height: 100,
@@ -79,7 +78,8 @@ export default function Home() {
             <Grid key={0} item className={classes.instructionItem}>
               <img src="/user.svg" alt="ROI" className={classes.instructionIcon} />
               <h3 className={classes.instructionHeader}>Enter Your Wallet ID</h3>
-              <p>The first thing you should do before you start the survey is enter your wallet id. This enters you in the raffle to win money rewards!</p>
+              <p>The first thing you should do before you start the survey is enter your wallet id.
+                This enters you in the raffle to win money rewards!</p>
             </Grid>
             <Grid key={1} item className={classes.instructionItem}>
               <img src="/clipboard.svg" alt="ROI" className={classes.instructionIcon} />
@@ -95,5 +95,5 @@ export default function Home() {
         </Grid>
       </main>
     </div>
-  )
+  );
 }

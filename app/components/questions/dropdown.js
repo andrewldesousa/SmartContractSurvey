@@ -1,31 +1,31 @@
-import React from 'react'
-import { Card, CardContent, CardHeader, InputLabel, NativeSelect, FormControl, TextField } from '@material-ui/core';
+import React from 'react';
+import {Card, CardContent, CardHeader, InputLabel, NativeSelect, FormControl, TextField} from '@material-ui/core';
 
-var cardStyle = {
-    textAlign: 'left',
-    padding: '1.5rem',
-    display: 'flex',
-    color: 'inherit',
-    display: 'block',
-    width: '70%',
-    transitionDuration: 'color 0.15s ease',
-    minHeight: '220px'
-}
+const cardStyle = {
+  textAlign: 'left',
+  padding: '1.5rem',
+  display: 'flex',
+  color: 'inherit',
+  display: 'block',
+  width: '70%',
+  transitionDuration: 'color 0.15s ease',
+  minHeight: '220px',
+};
 
 export default class DropdownQA extends React.Component {
-    render() {
-        return (
-            <div align='center'>
-                <br />
-                <Card variant="outlined" style={cardStyle}>
-                    <CardHeader title={this.props.question} />
-                    <CardContent>
-                        <Drop_down list={this.props.list} label={this.props.label} />
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div align='center'>
+        <br />
+        <Card variant="outlined" style={cardStyle}>
+          <CardHeader title={this.props.question} />
+          <CardContent>
+            <Drop_down list={this.props.list} label={this.props.label} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 }
 
 function Drop_down(props) {
