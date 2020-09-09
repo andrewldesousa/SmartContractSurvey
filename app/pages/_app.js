@@ -1,31 +1,29 @@
 import React from 'react';
 import NextApp from 'next/app';
+import purple from '@material-ui/core/colors/purple';
+import blue from '@material-ui/core/colors/blue';
+import {createMuiTheme, responsiveFontSizes, ThemeProvider} from '@material-ui/core/styles';
+import '../styles/globals.css';
 
-import {ThemeProvider as StyledThemeProvider} from 'styled-components';
-import {ThemeProvider as MaterialThemeProvider, createMuiTheme} from '@material-ui/core/styles';
-
-const theme = {
-  primary: '#f2f2f2',
-  ...createMuiTheme(),
-};
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: blue[700],
+    },
+    secondary: {
+      main: purple[500],
+    },
+  },
+});
 
 export default class App extends NextApp {
-  componentDidMount() {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles && jssStyles.parentNode) {
-      jssStyles.parentNode.removeChild(jssStyles);
-    }
-  }
-
   render() {
     const {Component, pageProps} = this.props;
 
     return (
-      <StyledThemeProvider theme={theme}>
-        <MaterialThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </MaterialThemeProvider>
-      </StyledThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     );
   }
 }

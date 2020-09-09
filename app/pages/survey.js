@@ -15,19 +15,16 @@ import ButtonAppBar from '../components/header';
 export default function Home() {
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [items, setItems] = React.useState([]);
-  var data;
-  const qList=['A', 'B', 'C'];
-  var initial = [<Wallet/>];
+  const initial = [<Wallet key={1}/>];
 
   const [elements, setElement] = React.useState(initial);
   React.useEffect(() => {
-    fetch("http://localhost:3000/api/survey")
-        .then(res => res.json())
+    fetch('http://localhost:3000/api/survey')
+        .then((res) => res.json())
         .then(
             (result) => {
               setIsLoaded(true);
-              data=result;
+              const data=result;
               data.sections.map((section) => section.questions.map((question, i) => {
                 switch (question.type) {
                   case 'slider':
@@ -54,17 +51,17 @@ export default function Home() {
                     setElement((elements) => [...elements, <Likert key = {i}
                       question = {question.prompt}/>]);
                 }
-              }
-            )
-          )
-        },
-        
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])
+              },
+              ),
+              );
+            },
+            (error) => {
+              setIsLoaded(true);
+              setError(error);
+            },
+        );
+  }, []);
+
   var contents;
   const [currentPage, setcurrentPage] = React.useState(1);
   const [pageSize, setpageSize] = React.useState(5);

@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import styles from '../styles/Home.module.css';
 
-
 const useStyles = makeStyles((theme) => ({
   landingPageButton: {
     width: 400,

@@ -1,37 +1,49 @@
 import React from 'react';
-import NextDocument from 'next/document';
-import {ServerStyleSheet as StyledComponentSheets} from 'styled-components';
-import {ServerStyleSheets as MaterialUiServerStyleSheets} from '@material-ui/core/styles';
+import Document, {Html, Head, Main, NextScript} from 'next/document';
+import {ServerStyleSheets} from '@material-ui/styles';
 
-export default class Document extends NextDocument {
-  static async getInitialProps(ctx) {
-    const styledComponentSheet = new StyledComponentSheets();
-    const materialUiSheets = new MaterialUiServerStyleSheets();
-    const originalRenderPage = ctx.renderPage;
 
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            styledComponentSheet.collectStyles(
-                materialUiSheets.collect(<App {...props} />),
-            ),
-        });
-
-      const initialProps = await NextDocument.getInitialProps(ctx);
-
-      return {
-        ...initialProps,
-        styles: [
-          <React.Fragment key="styles">
-            {initialProps.styles}
-            {materialUiSheets.getStyleElement()}
-            {styledComponentSheet.getStyleElement()}
-          </React.Fragment>,
-        ],
-      };
-    } finally {
-      styledComponentSheet.seal();
-    }
+class MyDocument extends Document {
+  render() {
+    return (
+      <Html lang="en">
+        <Head>
+          <link rel="stylesheet" type="text/css"
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+          />
+          <link rel="stylesheet" href="./../styles/globals.css"/>
+        </Head>
+        <body>
+          <div id="page-transition"></div>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
+
+MyDocument.getInitialProps = async (ctx) => {
+  const sheets = new ServerStyleSheets();
+  const originalRenderPage = ctx.renderPage;
+
+  ctx.renderPage = () =>
+    originalRenderPage({
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    });
+
+  const initialProps = await Document.getInitialProps(ctx);
+
+  return {
+    ...initialProps,
+    // Styles fragment is rendered after the app and page rendering finish.
+    styles: [
+      <React.Fragment key="styles">
+        {initialProps.styles}
+        {sheets.getStyleElement()}
+      </React.Fragment>,
+    ],
+  };
+};
+
+export default MyDocument;

@@ -19,7 +19,7 @@ const sliderStyle = {
 
 function valuetext(value) {
   return `${value}`;
-};
+}
 
 export default class SliderQA extends React.Component {
   render() {

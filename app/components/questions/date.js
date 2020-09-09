@@ -46,9 +46,7 @@ function PickDate(props) {
         format="MM/dd/yyyy"
         value={selectedDate}
         onChange={handleDateChange}
-        KeyboardButtonProps={{
-          ariaLabel: 'change date',
-        }}
+        KeyboardButtonProps={{ariaLabel: 'change date'}}
       />
     </MuiPickersUtilsProvider>
   );
