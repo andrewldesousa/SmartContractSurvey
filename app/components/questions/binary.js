@@ -3,6 +3,7 @@ import {Card, CardContent, CardHeader, withStyles} from '@material-ui/core';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 
 
 const labels = {
@@ -37,10 +38,16 @@ const cardStyle = {
 };
 
 
-export default class RateQA extends React.Component {
+export default class RateQuestion extends React.Component {
+  static get propTypes() {
+    return {
+      question: PropTypes.string,
+    };
+  }
+
   render() {
     return (
-      <div align='center'>
+      <div align="center">
         <br />
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
@@ -89,138 +96,23 @@ const AntSwitch = withStyles((theme) => ({
 
 
 const Choose = function Yes_No() {
-    const handleChange = (event) => {
-        setState({ ...state, checked: event.target.checked });
-      };
-      const [state, setState] = React.useState({
-        checked: false
-      });
-    return (
-        <div display='inline-block'>
-            <Typography component="div">
-                <Grid component="label" container alignItems="center" spacing={1}>
-                    <Grid item>NO</Grid>
-                    <Grid item>
-                        <Switch color='primary' checked={state.checked} onChange={handleChange} />
-                    </Grid>
-                    <Grid item>YES</Grid>
-                </Grid>
-            </Typography>
-        </div>
-    );
-}
-
-/*const styles = StyleSheet.create({
-    container: {
-        width: 80,
-        height: 30,
-        backgroundColor: 'grey',
-        flexDirection: 'row',
-        overflow: 'visible',
-        borderRadius: 15,
-        shadowColor: 'black',
-        shadowOpacity: 1.0,
-        shadowOffset: {
-            width: -2,
-            height: 2,
-        },
-    },
-    circle: {
-        width: 34,
-        height: 34,
-        borderRadius: 17,
-        backgroundColor: 'white',
-        marginTop: -2,
-        shadowColor: 'black',
-        shadowOpacity: 1.0,
-        shadowOffset: {
-            width: 2,
-            height: 2,
-        },
-    },
-    activeContainer: {
-        backgroundColor: 'blue',
-        flexDirection: 'row-reverse',
-    },
-    label: {
-        alignSelf: 'center',
-        backgroundColor: 'transparent',
-        paddingHorizontal: 6,
-        fontWeight: 'bold',
-    },
-});
-*/
-/*
-export default class YesNo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: props.value,
-        };
-        this.toggle = this.toggle.bind(this);
-    }
-    componentWillReceiveProps(nextProps) {
-        // update local state.value if props.value changes....
-        if (nextProps.value !== this.state.value) {
-            this.setState({ value: nextProps.value });
-        }
-    }
-    toggle() {
-        // define how we will use LayoutAnimation to give smooth transition between state change
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-        const newValue = !this.state.value;
-        this.setState({
-            value: newValue,
-        });
-
-        // fire function if exists
-        if (typeof this.props.onValueChange === 'function') {
-            this.props.onValueChange(newValue);
-        }
-    }
-    render() {
-        const { value } = this.state;
-
-        return (
-            <div align='center'>
-                <br />
-                <Card variant="outlined" style={cardStyle}>
-                    <CardHeader title={this.props.question} />
-                    <CardContent>
-                        <TouchableOpacity onPress={this.toggle}>
-                            <View style={[
-                                styles.container,
-                                value && styles.activeContainer]}
-                            >
-                                <View style={styles.circle} />
-                                <Text style={styles.label}>
-                                    {value ? 'YES' : 'NO'}
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </CardContent>
-                </Card>
-            </div>
-
-        );
-    }
-}
-
-LabeledSwitch.propTypes = {
-    onValueChange: React.PropTypes.func,
-    value: React.PropTypes.bool,
+  const handleChange = (event) => {
+    setState({...state, checked: event.target.checked});
   };
-
-  LabeledSwitch.defaultProps = {
-  };
-*/
-/*
-value={true}
-                onValueChange={(val) => console.log(val)}
-                disabled={false}
-                activeText={'On'}
-                inActiveText={'Off'}
-                backgroundActive={'green'}
-                backgroundInactive={'gray'}
-                circleActiveColor={'#30a566'}
-                circleInActiveColor={'#000000'} */
+  const [state, setState] = React.useState({
+    checked: false,
+  });
+  return (
+    <div display='inline-block'>
+      <Typography component="div">
+        <Grid component="label" container alignItems="center" spacing={1}>
+          <Grid item>NO</Grid>
+          <Grid item>
+            <Switch color='primary' checked={state.checked} onChange={handleChange} />
+          </Grid>
+          <Grid item>YES</Grid>
+        </Grid>
+      </Typography>
+    </div>
+  );
+};
