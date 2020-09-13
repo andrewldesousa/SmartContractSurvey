@@ -4,6 +4,7 @@ import blue from '@material-ui/core/colors/blue';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import '../styles/globals.css';
 
+
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
