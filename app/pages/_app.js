@@ -3,6 +3,7 @@ import NextApp from 'next/app';
 import blue from '@material-ui/core/colors/blue';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import '../styles/globals.css';
+import {blueGrey, lightBlue} from '@material-ui/core/colors';
 
 
 const theme = createMuiTheme({
@@ -36,6 +37,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: blue[700],
+      contrastText: '#ffffff',
     },
     white: '#ffffff',
   },

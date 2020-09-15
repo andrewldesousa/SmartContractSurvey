@@ -83,8 +83,6 @@ export default function Survey() {
   const indexOfFirstPost = indexOfLastPost - pageSize;
   const numOfpages = Math.ceil(questions.length / pageSize);
 
-  console.log(questions.slice(indexOfFirstPost, indexOfLastPost));
-
   return (
     <>
       <ButtonAppBar/>
