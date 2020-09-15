@@ -38,7 +38,7 @@ function useSurvey() {
 }
 
 function parseSurvey(survey) {
-  const questions = [];
+  const questions = [<Wallet key={-1}/>];
 
   survey.sections.map((section) => section.questions.map((question, i) => {
     switch (question.type) {
@@ -68,7 +68,6 @@ function parseSurvey(survey) {
 
 export default function Survey() {
   const {survey, isLoading, isError} = useSurvey();
-  const [currentPage, setCurrentPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
 
