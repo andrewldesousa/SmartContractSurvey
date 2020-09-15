@@ -30,7 +30,6 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 function useSurvey() {
   const {data, error} = useSWR('/api/survey', fetcher);
-
   return {
     survey: data,
     isLoading: !error && !data,
@@ -39,7 +38,7 @@ function useSurvey() {
 }
 
 function parseSurvey(survey) {
-  const questions = [<Wallet key={1}/>];
+  const questions = [];
 
   survey.sections.map((section) => section.questions.map((question, i) => {
     switch (question.type) {
@@ -83,7 +82,9 @@ export default function Survey() {
   const questions = parseSurvey(survey);
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  const numOfpages = Math.ceil(questions.length/ pageSize);
+  const numOfpages = Math.ceil(questions.length / pageSize);
+
+  console.log(questions.slice(indexOfFirstPost, indexOfLastPost));
 
   return (
     <>
