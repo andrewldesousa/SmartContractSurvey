@@ -11,6 +11,8 @@ import DiscreteSlider from '../components/questions/slider';
 import DropdownQA from '../components/questions/dropdown';
 import Wallet from '../components/questions/wallet';
 import Likert from '../components/questions/likert';
+import Button from '@material-ui/core/Button';
+import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
 
 
@@ -25,6 +27,22 @@ const paginationStyle = {
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
 };
+const submitStyle = {
+  textAlign: 'center',
+  padding: '1.5rem',
+  margin: '0 auto',
+  display: 'flex',
+  color: 'inherit',
+  width: '20%',
+  transitionDuration: 'color 0.15s ease',
+};
+const spinnerStyle = {
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
+};
+
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -61,7 +79,7 @@ function parseSurvey(survey) {
         questions.push(<Likert key={i} question={question.prompt}/>);
     }
   }));
-
+  questions.push(<Button variant="contained" style={submitStyle} color="primary" href="/submission">Submit</Button>);
   return questions;
 }
 
@@ -75,7 +93,7 @@ export default function Survey() {
     setPage(value);
   };
 
-  if (isLoading) return <p>Loading</p>;
+  if (isLoading) return <div style={spinnerStyle}><Spinner/></div>;
   if (isError) return <p>Error!</p>;
 
   const questions = parseSurvey(survey);
