@@ -16,7 +16,7 @@ const cardStyle = {
   minHeight: '180px',
 };
 
-export default class DateQA extends React.Component {
+export default class DateQuestion extends React.Component {
   render() {
     return (
       <div align='center'>
