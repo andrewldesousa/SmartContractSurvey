@@ -16,6 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { Helmet } from 'react-helmet';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Spinner from '../components/spinner';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -60,6 +61,13 @@ const useStyles = makeStyles((theme) => ({
         transition: ' 0.3s'
     }
 }));
+
+var spinnerStyle = {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  };
 
 var cardStyle = {
     "textAlign": 'left',
@@ -179,10 +187,7 @@ const Signin = () => {
 
     const showLoading = () =>
         success && (
-            //Replace with loading logic 
-            <div>
-                <h2>Loading...</h2>
-            </div>
+            <div style={spinnerStyle}><Spinner/></div>
         );
 
     const redirectUser = () => {
