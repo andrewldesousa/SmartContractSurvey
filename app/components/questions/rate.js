@@ -41,7 +41,7 @@ export default class RateQA extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Rate/>
+            <Rate key={this.props.key}/>
           </CardContent>
         </Card>
       </div>
@@ -49,14 +49,14 @@ export default class RateQA extends React.Component {
   }
 }
 
-const Rate= function HoverRating() {
+const Rate= function HoverRating(props) {
   const [value, setValue] = React.useState(0);
   const [hover, setHover] = React.useState(0);
 
   return (
     <span display='inline-block'>
       <Rating
-        name="hover-feedback"
+        name={props.key}
         value={value}
         precision={0.5}
         size="large"
