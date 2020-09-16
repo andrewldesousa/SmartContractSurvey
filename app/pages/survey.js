@@ -6,14 +6,16 @@ import TextQA from '../components/questions/text';
 import RateQA from '../components/questions/rate';
 import SingleQA from '../components/questions/singleChoice';
 import MultipleQA from '../components/questions/multipleChoice';
-import DateQA from '../components/questions/date';
-import DiscreteSlider from '../components/questions/slider';
+import DateQuestion from '../components/questions/date';
+import DiscreteSlider from '../components/questions/sliderDiscrete';
+import Slider from '../components/questions/slider';
 import DropdownQA from '../components/questions/dropdown';
 import Wallet from '../components/questions/wallet';
 import Likert from '../components/questions/likert';
 import Button from '@material-ui/core/Button';
 import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
+import YesNoQuestion from '../components/questions/binary';
 
 
 const paginationStyle = {
@@ -42,7 +44,7 @@ const spinnerStyle = {
   top: '50%',
   transform: 'translate(-50%, -50%)',
 };
-
+const list = [1, 2, 3, 4, 5];
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -60,8 +62,17 @@ function parseSurvey(survey) {
 
   survey.sections.map((section) => section.questions.map((question, i) => {
     switch (question.type) {
+      case 'sliderDiscrete':
+        questions.push(<DiscreteSlider key={i} question={question.prompt} label='' list={list}/>);
+        break;
       case 'slider':
-        questions.push(<DiscreteSlider key={i} question={question.prompt} label='' min={0} max={100} step={1}/>);
+        questions.push(<Slider key={i} question={question.prompt} label='' />);
+        break;
+      case 'dropDown':
+        questions.push(<DropdownQA key={i} question={question.prompt} list={question.choices} />);
+        break;
+      case 'date':
+        questions.push(<DateQuestion key={i} question={question.prompt} />);
         break;
       case 'selectOne':
         questions.push(<SingleQA key={i} question ={question.prompt} qList={question.choices}/>);
@@ -77,6 +88,10 @@ function parseSurvey(survey) {
         break;
       case 'likert':
         questions.push(<Likert key={i} question={question.prompt}/>);
+        break;
+      case 'trueOrFalse':
+        questions.push(<YesNoQuestion key={i} question={question.prompt}/>);
+        break;
     }
   }));
   questions.push(<Button variant="contained" style={submitStyle} color="primary" href="/submission">Submit</Button>);
