@@ -21,21 +21,24 @@ const paginationStyle = {
   padding: '1.5rem',
   margin: '0 auto',
   display: 'flex',
+  justifyContent: 'center',
   color: 'inherit',
-  display: 'block',
   width: '70%',
   transitionDuration: 'color 0.15s ease',
-  minHeight: '180px',
 };
+
 const submitStyle = {
   textAlign: 'center',
-  padding: '1.5rem',
-  margin: '0 auto',
+  paddingTop: '10px',
+  marginTop: '20px',
+  marginLeft: '660px',
   display: 'flex',
-  color: 'inherit',
-  width: '20%',
+  justifyContent: 'center',
+  color: 'white',
+  width: '100px',
   transitionDuration: 'color 0.15s ease',
 };
+
 const spinnerStyle = {
   position: 'absolute',
   left: '50%',
