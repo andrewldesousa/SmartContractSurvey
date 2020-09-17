@@ -75,6 +75,7 @@ exports.read = (req, res) => {
     res.json(req.profile);
 };
 
+//This is the dummy submit funciton comes without any functions other than the return statement 
 exports.submit = (req, res) => {
     res.json({message : 'Succcess'});
 };

@@ -10,7 +10,8 @@ router.post('/signin',signin);
 router.get('/signout',authenticate,requireSignin, signout);
 router.get('/:userId',authenticate,requireSignin, read);
 router.param('userId', userById);
-//Temp till data storage is not implemented 
+//Temp till data storage is not implemented the defenation is in user 
 router.post('/submit',submit);
+//it needs to be replaced by a storage function
 
 module.exports = router;
