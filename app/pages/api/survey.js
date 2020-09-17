@@ -69,11 +69,11 @@ export default (req, res) => {
           {
             type: questionTypes.SLIDER_DISCRETE,
             prompt: '(fake)Testing slider discrete question?',
+            requiredBy: [1],
           },
           {
             type: questionTypes.TRUE_OR_FALSE,
             prompt: 'Did you like school?',
-            dependsOn: [-1],
           },
           {
             type: questionTypes.RATE,

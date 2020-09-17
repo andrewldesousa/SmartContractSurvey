@@ -14,27 +14,26 @@ const cardStyle = {
 };
 
 export default class SingleQA extends React.Component {
-    render() {
-        return (
-            <div align='center'>
-                <br />
-                <Card variant="outlined" style={cardStyle}>
-                    <CardHeader title={this.props.question} />
-                    <CardContent>
-
-                        <QList list={this.props.qList} label={this.props.label} />
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div align='center'>
+        <br/>
+        <Card variant="outlined" style={cardStyle}>
+          <CardHeader title={this.props.question} />
+          <CardContent>
+            <QList list={this.props.qList} label={this.props.label} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 }
 
 function QList(props) {
     return (
         <div>
             <FormControl component="fieldset">
-                <RadioGroup >
+                <RadioGroup>
                     <FormLabel component='legend'>{props.label}</FormLabel>
                     {props.list.map(listitem => (
                         <FormControlLabel value={listitem} control={<Checkbox color="primary" />} label={listitem} labelPlacement='end' />

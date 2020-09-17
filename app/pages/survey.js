@@ -46,10 +46,10 @@ const spinnerStyle = {
   transform: 'translate(-50%, -50%)',
 };
 
- const Survey=()=> {
+const Survey = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const router = useRouter();
-  const { survey, isLoading, isError } = useSurvey();
+  const {survey, isLoading, isError} = useSurvey();
   const list = [1, 2, 3, 4, 5];
 
 
@@ -57,7 +57,7 @@ const spinnerStyle = {
     const error = responseSubmit();
     setRedirect(error);
   }
-   
+
   function useSurvey() {
     const {data, error} = useSWR('/api/survey', fetcher);
     return {
@@ -134,7 +134,7 @@ function parseSurvey(survey) {
 
   const redirectUser = () => {
     if (redirect) {
-      router.push('/submission')
+      router.push('/submission');
     }
   };
 
