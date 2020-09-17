@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Pagination from '@material-ui/lab/Pagination';
 import useSWR from 'swr';
 import TextQA from '../components/questions/text';
@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
 import { useRouter } from 'next/router'
-import survey from './api/survey';
+import responseSubmit from './api/submit';
 
 const paginationStyle = {
   textAlign: 'center',
@@ -63,15 +63,9 @@ const spinnerStyle = {
       isError: error,
     };
   }
-  const fetcher1 = (...args) => fetch(...args).then((res) => res.json());
-
   function submitBtn() {
-    const {data, error} = useSWR('/api/submit', fetcher1);
-    if (!error) {
-      setRedirect(true);
-    } else {
-      setRedirect(false);
-    }
+    const error = responseSubmit();
+    setRedirect(error);
   }
 
   const parseSurvey=(survey)=> {

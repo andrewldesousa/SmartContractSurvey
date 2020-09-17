@@ -75,6 +75,10 @@ exports.read = (req, res) => {
     res.json(req.profile);
 };
 
+exports.submit = (req, res) => {
+    res.json({message : 'Succcess'});
+};
+
 exports.authenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
