@@ -5,8 +5,9 @@ import TextQA from '../components/questions/text';
 import RateQA from '../components/questions/rate';
 import SingleQA from '../components/questions/singleChoice';
 import MultipleQA from '../components/questions/multipleChoice';
-import DateQA from '../components/questions/date';
+import DateQuestion from '../components/questions/date';
 import DiscreteSlider from '../components/questions/sliderDiscrete';
+import Slider from '../components/questions/slider';
 import DropdownQA from '../components/questions/dropdown';
 import Wallet from '../components/questions/wallet';
 import Likert from '../components/questions/likert';
@@ -15,6 +16,8 @@ import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
 import { useRouter } from 'next/router'
 import responseSubmit from './api/submit';
+import YesNoQuestion from '../components/questions/binary';
+
 
 const paginationStyle = {
   textAlign: 'center',
@@ -47,6 +50,64 @@ const spinnerStyle = {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const router = useRouter();
   const { survey, isLoading, isError } = useSurvey();
+  const list = [1, 2, 3, 4, 5];
+
+
+  function submitBtn() {
+    const error = responseSubmit();
+    setRedirect(error);
+  }
+   
+  function useSurvey() {
+    const {data, error} = useSWR('/api/survey', fetcher);
+    return {
+      survey: data,
+      isLoading: !error && !data,
+      isError: error,
+    };
+  }
+
+function parseSurvey(survey) {
+  const questions = [<Wallet key={-1}/>];
+
+  survey.sections.map((section) => section.questions.map((question, i) => {
+    switch (question.type) {
+      case 'sliderDiscrete':
+        questions.push(<DiscreteSlider key={i} question={question.prompt} label='' list={list}/>);
+        break;
+      case 'slider':
+        questions.push(<Slider key={i} question={question.prompt} label='' />);
+        break;
+      case 'dropDown':
+        questions.push(<DropdownQA key={i} question={question.prompt} list={question.choices} />);
+        break;
+      case 'date':
+        questions.push(<DateQuestion key={i} question={question.prompt} />);
+        break;
+      case 'selectOne':
+        questions.push(<SingleQA key={i} question ={question.prompt} qList={question.choices}/>);
+        break;
+      case 'selectOneOrOther':
+        questions.push(<MultipleQA key={i} question={question.prompt} qList={question.choices}/>);
+        break;
+      case 'number':
+        questions.push(<TextQA key = {i} question ={question.prompt} hint='Answer here'/>);
+        break;
+      case 'rate':
+        questions.push(<RateQA key={i} question ={question.prompt}/>);
+        break;
+      case 'likert':
+        questions.push(<Likert key={i} question={question.prompt}/>);
+        break;
+      case 'trueOrFalse':
+        questions.push(<YesNoQuestion key={i} question={question.prompt}/>);
+        break;
+    }
+  }));
+  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={submitBtn} >Submit</Button>);
+  return questions;
+}
+
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
@@ -55,46 +116,6 @@ const spinnerStyle = {
     setPage(value);
   };
 
-  function useSurvey() {
-    const { data, error } = useSWR('/api/survey', fetcher);
-    return {
-      survey: data,
-      isLoading: !error && !data,
-      isError: error,
-    };
-  }
-  function submitBtn() {
-    const error = responseSubmit();
-    setRedirect(error);
-  }
-
-  const parseSurvey=(survey)=> {
-    const questions = [<Wallet key={-1} />];
-
-    survey.sections.map((section) => section.questions.map((question, i) => {
-      switch (question.type) {
-        case 'slider':
-          questions.push(<DiscreteSlider key={i} question={question.prompt} label='' min={0} max={100} step={1} />);
-          break;
-        case 'selectOne':
-          questions.push(<SingleQA key={i} question={question.prompt} qList={question.choices} />);
-          break;
-        case 'selectOneOrOther':
-          questions.push(<MultipleQA key={i} question={question.prompt} qList={question.choices} />);
-          break;
-        case 'number':
-          questions.push(<TextQA key={i} question={question.prompt} hint='Answer here' />);
-          break;
-        case 'rate':
-          questions.push(<RateQA key={i} question={question.prompt} />);
-          break;
-        case 'likert':
-          questions.push(<Likert key={i} question={question.prompt} />);
-      }
-    }));
-    questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={submitBtn} >Submit</Button>);
-    return questions;
-  }
 
   if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
   if (isError) return <p>Error!</p>;
