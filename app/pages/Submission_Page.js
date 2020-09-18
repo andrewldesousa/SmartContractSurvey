@@ -1,46 +1,34 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
 
-const useStyles = makeStyles({
-    root: {
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "100px",
-        marginLeft: "400px",
-        width: "700px"
+const useStyles = makeStyles((theme) => ({
+    flex: {
+        backgroundColor: theme.palette.primary.main,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyItems: 'center',
+        alignItems: 'center',
+        height: '100vh',
     },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+    messageCard: {
+        padding: '2rem',
+        width: '60%',
+        marginTop: '10rem',
     },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-});
+}));
 
-export default function OutlinedCard() {
-    const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+export default function Submission() {
+    const classes = useStyles(useTheme());
 
     return (
-        <Card className={classes.root} variant="outlined">
-            <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Successfully Submitted
+        <div className={classes.flex}>
+            <Card className={classes.messageCard}>
+                <Typography variant="h2" align="center">
+                    Your submission has been successfully saved.
                 </Typography>
-                <Typography variant="h5" component="h2">
-                    Congratulations, your response has been successfully saved.
-                </Typography>
-            </CardContent>
-        </Card>
+            </Card>
+        </div>
     );
-}
+};
