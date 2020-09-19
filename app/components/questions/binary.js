@@ -38,7 +38,7 @@ const cardStyle = {
 };
 
 
-export default class RateQuestion extends React.Component {
+export default class YesNoQuestion extends React.Component {
   static get propTypes() {
     return {
       question: PropTypes.string,
@@ -95,7 +95,7 @@ const AntSwitch = withStyles((theme) => ({
 }))(Switch);
 
 
-const Choose = function Yes_No() {
+const Choose = function YesNo() {
   const handleChange = (event) => {
     setState({...state, checked: event.target.checked});
   };

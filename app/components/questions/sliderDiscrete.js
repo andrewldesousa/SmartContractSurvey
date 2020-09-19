@@ -37,21 +37,14 @@ export default class DiscreteSlider extends React.Component {
 
 const GenSlider = function MakeSlider(props) {
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  const valueLabelFormat = (value) => {
-    return `${props.list[value]}`;
-  };
-
   return (
     <span display='inline-block'>
       <div style={sliderStyle}>
         <Slider
-          getAriaValueText={valueLabelFormat}
-          valueLabelFormat={valueLabelFormat}
+          valueLabelFormat={props.list[value]}
           onChange={handleChange}
           step={1}
           marks

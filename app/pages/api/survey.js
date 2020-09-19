@@ -1,8 +1,11 @@
 const questionTypes = {
+  DATE: 'date',
+  DROP_DOWN: 'dropDown',
   NUMBER: 'number',
   SELECT_ONE: 'selectOne',
   SELECT_ONE_OR_OTHER: 'selectOneOrOther',
   SLIDER: 'slider',
+  SLIDER_DISCRETE: 'sliderDiscrete',
   RATE: 'rate',
   LIKERT: 'likert',
   TRUE_OR_FALSE: 'trueOrFalse',
@@ -27,6 +30,10 @@ export default (req, res) => {
             prompt: 'How old are you?',
           },
           {
+            type: questionTypes.DATE,
+            prompt: '(fake)When is your birthday?',
+          },
+          {
             type: questionTypes.SELECT_ONE,
             prompt: 'What is your gender?',
             choices: [
@@ -47,13 +54,21 @@ export default (req, res) => {
             ],
           },
           {
-            type: questionTypes.SELECT_ONE_OR_OTHER,
+            type: questionTypes.DROP_DOWN,
             prompt: 'What is your highest educational level?',
             choices: [
               'High school',
               'Bachelor',
               'Master',
             ],
+          },
+          {
+            type: questionTypes.SLIDER,
+            prompt: '(fake)Testing slider question?',
+          },
+          {
+            type: questionTypes.SLIDER_DISCRETE,
+            prompt: '(fake)Testing slider discrete question?',
           },
           {
             type: questionTypes.TRUE_OR_FALSE,
