@@ -17,6 +17,7 @@ import ButtonAppBar from '../components/header';
 import { useRouter } from 'next/router'
 import responseSubmit from './api/submit';
 import YesNoQuestion from '../components/questions/binary';
+import DenseAppBar from "../components/footer";
 
 
 const paginationStyle = {
@@ -148,6 +149,7 @@ function parseSurvey(survey) {
       <br />
       {questionList()}
       {redirectUser()}
+      <DenseAppBar />
     </div>
   );
 }
