@@ -75,8 +75,8 @@ function parseSurvey(survey) {
   const questions = [<Wallet key={-1}/>];
 
   survey.sections.map((section) => section.questions.map((question, i) => {
-    switch (question.type) {
-      case 'sliderDiscrete':
+      switch (question.type) {
+        case 'sliderDiscrete':
         questions.push(<DiscreteSlider key={i} question={question.prompt} label='' list={list}/>);
         break;
       case 'slider':

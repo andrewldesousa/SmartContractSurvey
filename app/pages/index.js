@@ -85,7 +85,7 @@ export default function Home() {
            Good luck!</Typography>
         </Grid>
         <Grid key={3} item className={classes.instructionItem1}>
-          <img src="/info.png" alt="ROI" className={classes.instructionIcon} />
+          <img src="/information.svg" alt="ROI" className={classes.instructionIcon} />
           <Typography variant="h3" className={classes.instructionHeader}>Info Booth</Typography>
           <Typography variant="body1">This blockchain survey is authentic and doesn't scam unlike the other surveys out there.
           Once you will all the answers, we will check the authenticity of the survey. Make sure to submit the response when you are done with the survey. This can allow us to store the data in our mongoDB database for further references and to get statistical data about what answers have been provided for each type of question in the survey.
