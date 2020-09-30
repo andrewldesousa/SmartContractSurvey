@@ -2,6 +2,7 @@ const Survey = require('../models/survey')
 const Question = require('../models/question')
 const Response = require('../models/response')
 const { errorHandler } = require('../helpers/dbErrorHandler')
+const User = require('../models/user')
 
 exports.storeResult = (req, res) => {
     for (element in req.body.responses) {
@@ -30,6 +31,8 @@ exports.createSurvey = (req,res) => {
     const survey = new Survey(req.body)
     survey.save((err,survey) => {
         if(err) return errorHandler(survey,err);
+        res.json(req.body);
+        
     });
-    res.json(survey)
+    
 }
