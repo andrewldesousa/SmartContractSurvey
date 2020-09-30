@@ -25,12 +25,11 @@ exports.storeQuestions = (req, res) => {
     res.json(req.body.questions)
 }
 
-exports.createSurvey = (req, res) => {
+exports.createSurvey = (req,res) => {
     req.body.owner = req.auth._id
     const survey = new Survey(req.body)
-    survey.save((err, survey) => {
-        if (err)
-            return errorHandler(survey, err);
-    })
+    survey.save((err,survey) => {
+        if(err) return errorHandler(survey,err);
+    });
     res.json(survey)
 }
