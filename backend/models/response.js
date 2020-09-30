@@ -4,8 +4,8 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const responseSchema = new mongoose.Schema(
     {
         question_id: {
-            type: String,
-            //ref: 'Question',
+            type: ObjectId,
+            ref: 'Question',
             required: true
         },
         answer: {

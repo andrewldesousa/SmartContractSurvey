@@ -1,42 +1,36 @@
 const Survey = require('../models/survey')
-const Question = require('../models/qusetion')
+const Question = require('../models/question')
 const Response = require('../models/response')
-const {errorHandler} = require('../helpers/dbErrorHandler')
-const user = require('../models/user')
+const { errorHandler } = require('../helpers/dbErrorHandler')
 
-exports.storeResult= (req,res) =>{
-    const reqIter=[]
-    for( element in req.body.responses) 
-    {
+exports.storeResult = (req, res) => {
+    for (element in req.body.responses) {
         const response = new Response(req.body.responses[element])
-        response.save((err,response) => {
-            if (err) 
+        response.save((err, response) => {
+            if (err)
                 return errorHandler(response, err);
-                reqIter.push(response);
         })
     }
-    res.json({reqIter})
+    res.json(req.body.responses)
 }
 
-exports.storeQuestions= (req,res) =>{
-    const reqIter=[]
-    for( element in req.body.questions) 
-    {
+exports.storeQuestions = (req, res) => {
+    for (element in req.body.questions) {
         const question = new Question(req.body.questions[element])
-        question.save((err,question) => {
-            if (err) 
+        question.save((err, question) => {
+            if (err)
                 return errorHandler(question, err);
-                reqIter.push(question);
         })
     }
-    res.json({reqIter})
+    res.json(req.body.questions)
 }
 
-exports.createSurvey= (req,res) =>{
+exports.createSurvey = (req, res) => {
+    req.body.owner = req.auth._id
     const survey = new Survey(req.body)
-    survey.save((err, survey)=>{
-        if (err) return errorHandler(survey,err)
-        res.json(req.body)
-        user.survey(req.body.owner,{questionList:questionList+req.body._id})
+    survey.save((err, survey) => {
+        if (err)
+            return errorHandler(survey, err);
     })
+    res.json(survey)
 }

@@ -3,23 +3,21 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const surveySchema = new mongoose.Schema(
     {
+        
+        description: {
+            type: String,
+            default:'This a data collection survey powered by blockchains!',
+            required: true
+        },
         owner: {
             type: ObjectId,
             ref: 'User',
             required: true,
-            unique: true
-        },
-        description: {
-            type: String,
-            required: true
         },
         status: {
             type: Boolean,
-            default: true
-        },
-        questionList: {
-            type: Array,
-            required: true
+            default: false,
+            required:true
         }
     },
     {timestamps: true}

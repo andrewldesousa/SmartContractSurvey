@@ -15,7 +15,6 @@ const questionSchema = new mongoose.Schema(
         type: {
             type: String,
             required: true,
-            enum: ['trueOrFalse','likert','rate','sliderDiscrete','slider','selectOneOrOther','selectOne','number','dropDown','date']
         }
     },
     {timestamps: true}

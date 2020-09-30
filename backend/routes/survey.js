@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {storeResult, createSurvey} = require('../controller/survey');
-const { authenticate } = require('../controller/user');
+const {storeResult, createSurvey, storeQuestions} = require('../controller/survey');
+const { authenticate, authorize } = require('../controller/user');
 
-router.post('/store',storeResult);
-router.post('/createSurvey', authenticate, createSurvey);
+router.post('/storeResult',storeResult);
+router.post('/createSurvey',authenticate, createSurvey);
+router.post('/storeQuestions',storeQuestions)
 
 module.exports = router;
