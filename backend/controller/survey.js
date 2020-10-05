@@ -4,6 +4,7 @@ const Response = require('../models/response')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 const User = require('../models/user')
 
+//Storing survey data and question collection
 exports.storeResult = (req, res) => {
     for (element in req.body.responses) {
         const response = new Response(req.body.responses[element])
@@ -31,8 +32,21 @@ exports.createSurvey = (req,res) => {
     const survey = new Survey(req.body)
     survey.save((err,survey) => {
         if(err) return errorHandler(survey,err);
-        res.json(req.body);
-        
-    });
+        res.json(req.body); 
+    });    
+}
+
+//Retrival and viewing 
+exports.getSurvey = (req,res) => {
     
+}
+
+exports.getResponse = (req,res,next) => {
+    Response.find({"question_id": req.body.Qid}, function(err,data){
+        if (err) console.log(err)
+        if (!data) return res.status(400).json({err});
+        if (err) return err
+        res.list = data;
+        next();
+    })
 }
