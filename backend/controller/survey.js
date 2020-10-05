@@ -27,26 +27,40 @@ exports.storeQuestions = (req, res) => {
     res.json(req.body.questions)
 }
 
-exports.createSurvey = (req,res) => {
+exports.createSurvey = (req, res) => {
     req.body.owner = req.auth._id
     const survey = new Survey(req.body)
-    survey.save((err,survey) => {
-        if(err) return errorHandler(survey,err);
-        res.json(req.body); 
-    });    
+    survey.save((err, survey) => {
+        if (err) return errorHandler(survey, err);
+        res.json(req.body);
+    });
 }
 
 //Retrival and viewing 
-exports.getSurvey = (req,res) => {
-    
+exports.getSurvey = (req, res,next) => {
+    Response.find({},function(err,data){
+        if (err) console.log(err)
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        if (err) {
+            return err
+        }
+        res.json()//add filtered result 
+        next()
+    })
 }
 
-exports.getResponse = (req,res,next) => {
-    Response.find({"question_id": req.body.Qid}, function(err,data){
+exports.getResponse = (req, res, next) => {
+    Response.find({ "question_id": req.body.Qid }, function (err, data) {
         if (err) console.log(err)
-        if (!data) return res.status(400).json({err});
-        if (err) return err
-        res.list = data;
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        if (err) {
+            return err
+        }
+        res.json(data);
         next();
     })
 }
