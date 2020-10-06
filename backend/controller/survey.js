@@ -3,6 +3,7 @@ const Question = require('../models/question')
 const Response = require('../models/response')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 const User = require('../models/user')
+const { test } = require('./user')
 
 //Storing survey data and question collection
 exports.storeResult = (req, res) => {
@@ -79,33 +80,35 @@ exports.getResponceCount = (req, res, next) => {
         for (c=0;c<a.length;++c){
             collect[a[c]] = b[c]
         }*/
-        var collect = {}
-        var c=0
-        for (var iter=0;iter< data.length;++iter) {
+        var collect={}
+        for (var iter = 0; iter < data.length; ++iter) {
             var temp = data[iter]['_id']
             Response.find({ 'question_id': temp }, function (err1, Resdata) {
                 if (err1) console.log(err1)
                 if (!Resdata) {
                     return res.status(400).json({ err1 });
                 }
-                collect[temp] = "haha   
-                console.log(Resdata)
-                //for (j in Resdata){
-                //    collect[c++] = j
-                //}
+                var a = []
+                var b = []
+                for (var j = 0; j < Resdata.length; ++j) {
+                    if (!a.includes(Resdata[j]['answer'])) {
+                        a.push(Resdata[j]['answer'])
+                        b.push(1)
+                    }
+                    else {
+                        b[a.indexOf(Resdata[j]['answer'])]++;
+                    }
+                }
+                for (var j = 0; j < a.length; ++j) {
+                    collect[`${temp}`] = { "answer": a[j], "Count": b[j] }
+                    /*
+                    * The collect is not collecting but it is storing only the 
+                    * temp values for one option for a question  
+                    */
+                }
             })
         }
         res.json(collect);
         next();
     })
-}
-
-function getCount(group) {
-    var count = 0;
-    for (var i = 0; i < obj.people.length; i++) {
-        if (obj.people[i].group == group) {
-            count++;
-        }
-    }
-    return count;
 }
