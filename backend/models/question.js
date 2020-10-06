@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
+const Array = mongoose.Schema.Types.Array;
 
 const questionSchema = new mongoose.Schema(
     {
@@ -19,7 +20,7 @@ const questionSchema = new mongoose.Schema(
         options: {
             type: Array,
             required: true,
-            default: []
+            default:[]
         }
     },
     {timestamps: true}

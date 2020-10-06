@@ -19,6 +19,7 @@ exports.storeResult = (req, res) => {
 
 exports.storeQuestions = (req, res) => {
     for (element in req.body.questions) {
+        
         const question = new Question(req.body.questions[element])
         question.save((err, question) => {
             if (err)
@@ -26,6 +27,7 @@ exports.storeQuestions = (req, res) => {
         })
     }
     res.json(req.body.questions)
+    console.log(req.body.questions)
 }
 
 exports.createSurvey = (req, res) => {
