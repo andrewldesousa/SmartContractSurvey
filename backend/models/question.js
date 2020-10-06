@@ -15,6 +15,11 @@ const questionSchema = new mongoose.Schema(
         type: {
             type: String,
             required: true,
+        },
+        options: {
+            type: Array,
+            required: true,
+            default: []
         }
     },
     {timestamps: true}

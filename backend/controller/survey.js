@@ -36,17 +36,13 @@ exports.createSurvey = (req, res) => {
     });
 }
 
-//Retrival and viewing 
-exports.getSurvey = (req, res,next) => {
-    Response.find({},function(err,data){
+exports.getSurvey = (req, res, next) => {
+    Question.find({ 'survey_id': req.body.S_id }, function (err, data) {
         if (err) console.log(err)
         if (!data) {
             return res.status(400).json({ err });
         }
-        if (err) {
-            return err
-        }
-        res.json()//add filtered result 
+        res.json(data)
         next()
     })
 }
@@ -57,10 +53,59 @@ exports.getResponse = (req, res, next) => {
         if (!data) {
             return res.status(400).json({ err });
         }
-        if (err) {
-            return err
-        }
         res.json(data);
         next();
     })
+}
+
+exports.getResponceCount = (req, res, next) => {
+    Question.find({ 'survey_id': req.body.S_id }, function (err, data) {
+        if (err) console.log(err)
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        /*var collect={}
+        var a = []
+        var b = []
+        for (i in data){
+            if (!a.includes(i['Qid'])){
+                a.push(i['Qid'])
+                b.push(1)
+            }
+            else{
+                b[a.indexOf(i['Qid'])] = b[a.indexOf(i['Qid'])] + 1
+            }
+        }
+        for (c=0;c<a.length;++c){
+            collect[a[c]] = b[c]
+        }*/
+        var collect = {}
+        var c=0
+        for (var iter=0;iter< data.length;++iter) {
+            var temp = data[iter]['_id']
+            Response.find({ 'question_id': temp }, function (err1, Resdata) {
+                if (err1) console.log(err1)
+                if (!Resdata) {
+                    return res.status(400).json({ err1 });
+                }
+                collect[temp] = "haha   
+                console.log(Resdata)
+                //for (j in Resdata){
+                //    collect[c++] = j
+                //}
+            })
+        }
+        res.json(collect);
+        next();
+    })
+}
+
+function getCount(group) {
+    var count = 0;
+    for (var i = 0; i < obj.people.length; i++) {
+        if (obj.people[i].group == group) {
+            count++;
+        }
+    }
+    return count;
 }
