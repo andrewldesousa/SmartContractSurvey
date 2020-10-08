@@ -2,11 +2,12 @@ const mongo = require('mongoose')
 const express = require('express')
 require('dotenv').config()
 const user = require('./routes/user');
+const survey = require('./routes/survey');
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const expressValidator = require('express-validator')
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use(cors());
 
 //routes
 app.use('/user',user)
+app.use('/',survey)
 
 const port = process.env.PORT || 8000
 

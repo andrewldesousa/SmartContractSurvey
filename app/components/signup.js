@@ -123,7 +123,7 @@ const Signup = () => {
                     <form>
                         <FormControl className={classes.margin}>
                             <TextField
-                                label="Name"
+                                label="Username"
                                 required
                                 placeholder="Enter Name"
                                 onChange={handleChange('name')}
