@@ -30,6 +30,15 @@ exports.storeQuestions = (req, res) => {
     console.log(req.body.questions)
 }
 
+exports.storeOneQuestion = (req, res) => {
+        const question = new Question(req.body.question)
+        question.save((err, question) => {
+            if (err)
+                return errorHandler(question, err);
+        })
+    res.json(req.body.question)
+}
+
 exports.createSurvey = (req, res) => {
     req.body.owner = req.auth._id
     const survey = new Survey(req.body)

@@ -1,19 +1,15 @@
-const responseSubmit = ()=>{
-  return fetch(`http://localhost:8000/user/submit`, {
+const responseSubmit = (data)=>{
+  return fetch(`http://localhost:8000/storeResult`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-}).then(response => {
-    return true;
+    body: data
+  }).then( (response) => {
+    return response.json();
   }).catch(err => {
     console.log(err);
   });
-}
-
+};
 export default responseSubmit;
-/*
- *This funciton is where the api call to the backend will be added 
- *The function will push the data in json format either for inidual tables for question or
- *as a single json file per responce. */
