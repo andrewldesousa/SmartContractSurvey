@@ -3,6 +3,7 @@ const {errorHandler} = require('../helpers/dbErrorHandler')
 const jwt = require('jsonwebtoken')
 const expressJWT = require('express-jwt')
 const bcrypt = require('bcrypt');
+const Survey = require('../models/survey')
 
 exports.test = (req,res)=>{
     res.send("List of questions!")
@@ -59,7 +60,7 @@ exports.requireSignin = expressJWT({
     userProperty: "auth",
   });
 
-  exports.userById = (req, res, next, id) => {
+exports.userById = (req, res, next, id) => {
     User.findById(id)
         .exec((err, user) => {
             if (!user) return res.status(404).json({error: 'User id does not exist'});
@@ -105,3 +106,14 @@ exports.authorize = (req, res, next) => {
     if (!authorized) return res.status(403).json({error: 'Access denied'});
     next();
 };
+
+exports.getSurveyByOwner = (req, res, next) => {
+    Survey.find({ 'owner': req.profile._id }, function (err, data) {
+        if (err) console.log(err)
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        res.json(data)
+        next()
+    })
+}

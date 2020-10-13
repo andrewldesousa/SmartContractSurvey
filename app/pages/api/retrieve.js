@@ -1,30 +1,24 @@
-export const retrieveQuestionsBySurvey = ( SId, token) =>{
-  return fetch(`http://localhost:8000/storeResult`, {
+export const retrieveQuestionsBySurvey = ( SId) =>{
+  return fetch(`http://localhost:8000/getSurveyQuesitons/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: { 
-      S_id: SId,
+      'Content-Type': 'application/json'
     }
   }).then( (response) => {
     return response.json();
   }).catch((err) => {
     console.log(err);
   });
-}
+};
+// This function is not yet implemented in full
 export const retrieveSurveyByOwner = (OId, token) => {
-  return fetch(`http://localhost:8000/storeResult`, {
+  return fetch(`http://localhost:8000/user/getSurveyByOwner/${OId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
-    },
-    body: { 
-      Oid: OId
     }
   }).then( (response) => {
     return response.json();
@@ -32,16 +26,12 @@ export const retrieveSurveyByOwner = (OId, token) => {
     console.log(err);
   });
 }
-export const retrieveSurveyByID = ( SId, token) =>{
-  return fetch(`http://localhost:8000/storeResult`, {
+export const retrieveSurveyByID = ( SId) =>{
+  return fetch(`http://localhost:8000/getSurvey/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: { 
-      S_id: SId,
+      'Content-Type': 'application/json'
     }
   }).then( (response) => {
     return response.json();
@@ -50,15 +40,12 @@ export const retrieveSurveyByID = ( SId, token) =>{
   });
 }
 export const retrieveResponseCounts = (SId, token) => {
-  return fetch(`http://localhost:8000/storeResult`, {
+  return fetch(`http://localhost:8000/getResponceCount/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    },
-    body: { 
-      S_id: SId,
+      // 'Authorization': `Bearer ${token}`
     }
   }).then( (response) => {
     return response.json();

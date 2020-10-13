@@ -3,7 +3,22 @@ const Question = require('../models/question')
 const Response = require('../models/response')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 const User = require('../models/user')
-const { test } = require('./user')
+
+/*
+    Search for the survey according to the param surveyId
+    Set req.survey to that survey object of found
+ */
+exports.surveyById = (req, res, next, id) => {
+    Survey.findById(id)
+        .populate('owner')
+        .exec((err, survey) => {
+            if (!survey) return res.status(400).json({error: 'Survey not found'});
+            if (err) return errorHandler(res, err)
+            req.survey = survey;
+            next();
+        });
+};
+
 
 //Storing survey data and question collection
 exports.storeResult = (req, res) => {
@@ -48,39 +63,9 @@ exports.createSurvey = (req, res) => {
     });
 }
 
-exports.getSurveyByOwner = (req, res, next) => {
-    Survey.find({ 'owner': req.body.Oid }, function (err, data) {
-        if (err) console.log(err)
-        if (!data) {
-            return res.status(400).json({ err });
-        }
-        res.json(data)
-        next()
-    })
-}
+// Getting data from the server
 
-exports.getSurvey = (req, res, next) => {
-    Survey.find({ '_id': req.body.S_id }, function (err, data) {
-        if (err) console.log(err)
-        if (!data) {
-            return res.status(400).json({ err });
-        }
-        res.json(data)
-        next()
-    })
-}
-
-exports.getSurveyQuesitons = (req, res, next) => {
-    Question.find({ 'survey_id': req.body.S_id }, function (err, data) {
-        if (err) console.log(err)
-        if (!data) {
-            return res.status(400).json({ err });
-        }
-        res.json(data)
-        next()
-    })
-}
-
+//this is redundant  
 exports.getResponse = (req, res, next) => {
     Response.find({ "question_id": req.body.Qid }, function (err, data) {
         if (err) console.log(err)
@@ -92,11 +77,35 @@ exports.getResponse = (req, res, next) => {
     })
 }
 
+exports.getSurvey = (req, res, next) => {
+    Survey.find({ '_id': req.survey._id }, function (err, data) {
+        if (err) console.log(err)
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        res.json(data)
+        //next()
+    })
+}
+
+exports.getSurveyQuesitons = (req, res, next) => {
+    Question.find({ 'survey_id': req.survey._id }, function (err, data) {
+        if (err) console.log(err)
+        if (!data) {
+            return res.status(400).json({ err });
+        }
+        res.json(data)
+        next()
+    })
+}
+
+
+
 
 
 
 exports.getResponceCount = (req, res) => {
-    Question.find({ 'survey_id': req.body.S_id }, { '_id': 1 }, function (err, data) {
+    Question.find({ 'survey_id': req.survey._id }, { '_id': 1 }, function (err, data) {
         if (err) console.log(err)
         if (!data) {
             return res.status(400).json({ err });
@@ -130,7 +139,7 @@ exports.getResponceCount = (req, res) => {
 
 exports.getResponceCountOld = (req, res) => {
 
-    Question.find({ 'survey_id': req.body.S_id }, { '_id': 1 }, function (err, data) {
+    Question.find({ 'survey_id': req.survey._id }, { '_id': 1 }, function (err, data) {
         if (err) console.log(err)
         if (!data) {
             return res.status(400).json({ err });
