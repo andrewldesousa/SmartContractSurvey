@@ -18,6 +18,8 @@ import { useRouter } from 'next/router'
 import responseSubmit from './api/submit';
 import YesNoQuestion from '../components/questions/binary';
 import DenseAppBar from "../components/footer";
+import LinearDeterminate from "../components/progress";
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const paginationStyle = {
@@ -115,11 +117,7 @@ function parseSurvey(survey) {
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
-
-  const changePage = (event, value) => {
-    setPage(value);
-  };
-
+  const [progress, setProgress] = React.useState(0);
 
   if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
   if (isError) return <p>Error!</p>;
@@ -128,6 +126,11 @@ function parseSurvey(survey) {
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
   const numOfpages = Math.ceil(questions.length / pageSize);
+  const changePage = (event, value) => {
+    setPage(value);
+    setProgress((value-1)/numOfpages*100);
+  };
+  
   const questionList = () => (
     <div id="Cards">
       {questions.slice(indexOfFirstPost, indexOfLastPost)}
@@ -145,6 +148,8 @@ function parseSurvey(survey) {
   return (
     <div>
       <ButtonAppBar />
+      <LinearDeterminate progress={progress}/>
+
       <br />
       <br />
       {questionList()}
