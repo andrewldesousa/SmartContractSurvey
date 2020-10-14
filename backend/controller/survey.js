@@ -21,12 +21,16 @@ exports.surveyById = (req, res, next, id) => {
 
 
 //Storing survey data and question collection
-exports.storeResult = (req, res) => {
+exports.storeResult = (req, res) => { 
     for (element in req.body.responses) {
         const response = new Response(req.body.responses[element])
         response.save((err, response) => {
-            if (err)
-                return errorHandler(response, err);
+            if (err){
+                return errorHandler(err);
+            }
+            else{
+                console.log(response)
+            }
         })
     }
     res.json(req.body.responses)
@@ -34,15 +38,14 @@ exports.storeResult = (req, res) => {
 
 exports.storeQuestions = (req, res) => {
     for (element in req.body.questions) {
-        
         const question = new Question(req.body.questions[element])
         question.save((err, question) => {
             if (err)
-                return errorHandler(question, err);
+                return errorHandler(err);
         })
     }
     res.json(req.body.questions)
-    console.log(req.body.questions)
+    //console.log(req.body.questions)
 }
 
 exports.storeOneQuestion = (req, res) => {
@@ -115,7 +118,7 @@ exports.getResponceCount = (req, res) => {
         for (i in data){
             dataList.push(data[i]['_id'])
         }
-        console.log(dataList)
+        //console.log(dataList)
         Response.aggregate(
             [
                 { $match: { 'question_id': {$in:dataList} } },
@@ -128,7 +131,7 @@ exports.getResponceCount = (req, res) => {
                     return res.status(400).json({ err1 });
                 }
                 else{
-                    console.log(data1)
+                    //console.log(data1)
                     res.json(data1)
                 }
             }
@@ -148,7 +151,7 @@ exports.getResponceCountOld = (req, res) => {
         var collect = {}
         for (var iter = 0; iter < data.length; ++iter) {
             var temp = data[iter]['_id']
-            console.log(getX(temp))
+            //console.log(getX(temp))
             collect = getX(temp)
         }
         //console.log(collect)
@@ -202,7 +205,7 @@ function combineIt(a, b, temp) {
     var bucket = []
     for (var j = 0; j < a.length; ++j) {
         collect[`${temp}`] = { "answer": a[j], "Count": b[j] }
-        console.log(collect)
+        //console.log(collect)
         if (bucket.indexOf(collect) == -1)
             bucket.push(collect)
     }
