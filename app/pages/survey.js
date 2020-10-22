@@ -18,7 +18,13 @@ import { useRouter } from 'next/router'
 import responseSubmit from './api/submit';
 import YesNoQuestion from '../components/questions/binary';
 import DenseAppBar from "../components/footer";
-
+import LinearDeterminate from "../components/progress";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const paginationStyle = {
   textAlign: 'center',
@@ -56,6 +62,16 @@ const spinnerStyle = {
   const { survey, isLoading, isError } = useSurvey();
   const list = [1, 2, 3, 4, 5];
 
+
+
+ const [open, setOpen] = React.useState(false);
+
+ const handleClickOpen = () => {
+  setOpen(true);
+};
+ const handleClose = () => {
+    setOpen(false);
+  };
 
   function submitBtn() {
     const error = responseSubmit();
@@ -108,18 +124,36 @@ function parseSurvey(survey) {
         break;
     }
   }));
-  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={submitBtn} >Submit</Button>);
+  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >Submit</Button>);
+  questions.push(<Dialog
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">{"Submission"}</DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+      Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Cancel
+      </Button>
+      <Button onClick={submitBtn} color="primary" autoFocus>
+        Submit
+      </Button>
+    </DialogActions>
+  </Dialog>);
   return questions;
 }
 
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
-
-  const changePage = (event, value) => {
-    setPage(value);
-  };
-
+  const [progress, setProgress] = React.useState(0);
 
   if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
   if (isError) return <p>Error!</p>;
@@ -128,6 +162,11 @@ function parseSurvey(survey) {
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
   const numOfpages = Math.ceil(questions.length / pageSize);
+  const changePage = (event, value) => {
+    setPage(value);
+    setProgress((value-1)/numOfpages*100);
+  };
+  
   const questionList = () => (
     <div id="Cards">
       {questions.slice(indexOfFirstPost, indexOfLastPost)}
@@ -145,6 +184,8 @@ function parseSurvey(survey) {
   return (
     <div>
       <ButtonAppBar />
+      <LinearDeterminate progress={progress}/>
+
       <br />
       <br />
       {questionList()}
