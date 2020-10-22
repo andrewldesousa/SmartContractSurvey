@@ -20,7 +20,11 @@ import YesNoQuestion from '../components/questions/binary';
 import DenseAppBar from "../components/footer";
 import LinearDeterminate from "../components/progress";
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const paginationStyle = {
   textAlign: 'center',
@@ -58,6 +62,16 @@ const spinnerStyle = {
   const { survey, isLoading, isError } = useSurvey();
   const list = [1, 2, 3, 4, 5];
 
+
+
+ const [open, setOpen] = React.useState(false);
+
+ const handleClickOpen = () => {
+  setOpen(true);
+};
+ const handleClose = () => {
+    setOpen(false);
+  };
 
   function submitBtn() {
     const error = responseSubmit();
@@ -110,7 +124,29 @@ function parseSurvey(survey) {
         break;
     }
   }));
-  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={submitBtn} >Submit</Button>);
+  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >Submit</Button>);
+  questions.push(<Dialog
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">{"Submission"}</DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+      Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Cancel
+      </Button>
+      <Button onClick={submitBtn} color="primary" autoFocus>
+        Submit
+      </Button>
+    </DialogActions>
+  </Dialog>);
   return questions;
 }
 
