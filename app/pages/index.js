@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     padding: '2rem',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  paperBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 
@@ -41,10 +49,30 @@ export default function Start() {
         <Typography variant="h1">Create forms with ease</Typography>
         <div className={classes.paperContainer}>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
-            <Typography variant="h3">Information</Typography>
+            <div>
+              <Typography variant="h3">Information</Typography>
+            </div>
+
+            <div className={classes.paperBody}>
+              <Typography>
+                If you would like more information, click the link below.
+              </Typography>
+              <Link href="/info">
+                <Button variant="contained" size="large" color="primary">Info</Button>
+              </Link>
+            </div>
           </Paper>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
             <Typography variant="h3">Contact</Typography>
+
+            <div className={classes.paperBody}>
+              <Typography>
+                Contact us for any guidance or help.
+              </Typography>
+              <Link href="/contact">
+                <Button variant="contained" size="large" color="primary">Contact</Button>
+              </Link>
+            </div>
           </Paper>
         </div>
       </main>
