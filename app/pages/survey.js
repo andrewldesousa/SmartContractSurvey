@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
 import { useRouter } from 'next/router'
-import responseSubmit from './api/submit';
+import {responseSubmitDummy} from './api/submit';
 import YesNoQuestion from '../components/questions/binary';
 import DenseAppBar from "../components/footer";
 
@@ -58,7 +58,7 @@ const spinnerStyle = {
 
 
   function submitBtn() {
-    const error = responseSubmit();
+    const error = responseSubmitDummy();
     setRedirect(error);
   }
    
