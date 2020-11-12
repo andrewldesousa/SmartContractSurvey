@@ -3,9 +3,12 @@ import Link from 'next/link';
 import {Typography} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
 import ButtonAppBar from '../components/homeHeader';
 import Paper from '@material-ui/core/Paper';
+
+
+import InfoIcon from '@material-ui/icons/Info';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,6 +56,8 @@ export default function Start() {
               <Typography variant="h3">Information</Typography>
             </div>
 
+            <InfoIcon style={{fontSize: 170}}></InfoIcon>
+
             <div className={classes.paperBody}>
               <Typography>
                 If you would like more information, click the link below.
@@ -64,6 +69,8 @@ export default function Start() {
           </Paper>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
             <Typography variant="h3">Contact</Typography>
+
+            <ContactSupportIcon style={{fontSize: 170}}></ContactSupportIcon>
 
             <div className={classes.paperBody}>
               <Typography>
