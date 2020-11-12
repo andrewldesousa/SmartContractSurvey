@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import ButtonAppBar from '../../components/header';
-import Binary from '../../components/questions/create/binary';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +8,9 @@ import {Typography} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
+
+import PromptOnly from '../../components/questions/create/promptOnly';
+import QUESTION_TYPES, {ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,12 +38,24 @@ const useStyles = makeStyles((theme) => ({
     height: '15rem',
     margin: '2rem',
   },
+  newQuestionButtonContainer: {
+    textAlign: 'center',
+    width: '15rem',
+    height: '15rem',
+    margin: '2rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   questionsContainer: {
     height: '70vh',
     width: '90vw',
     maxHeight: '70vh',
     overflowY: 'scroll',
     marginBottom: '4rem',
+    justifyContent: 'center',
+    justifyItems: 'center',
+    border: '1px solid black',
   },
 }));
 
@@ -50,6 +64,7 @@ export default function Create() {
   const classes = useStyles(useTheme());
   const [questions, setQuestions] = useState([]);
   const [open, setOpen] = useState(false);
+  const [modalQuestionType, setModalQuestionType] = useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,33 +74,44 @@ export default function Create() {
     setOpen(false);
   };
 
-  function handleChange(key) {
-    console.log(key);
-    console.log('This is a test');
+  function handleChange(key, value) {
+    setQuestions(questions.slice(0, key).concat([{type: 'binary', prompt: value}])
+        .concat(questions.slice(key+1, questions.length)));
   };
 
   function handleSubmit() {
-    window.location.href = "http://localhost:3000/";
+    window.location.href = 'http://localhost:3000/';
   }
 
-  function createQuestion() {
-    switch ('binary') {
-      case 'binary':
-        /*
-        {
-          id: 0,
-          type: 'binary',
-          question: '',
-        }
-        */
-        setQuestions(questions.concat(<Binary questionKey={questions.length} key={questions.length}></Binary>));
+  function createQuestion(questionType) {
+    switch (questionType) {
+      case QUESTION_TYPES.BINARY:
+        setQuestions(questions.concat({
+          type: QUESTION_TYPES.BINARY,
+          prompt: '',
+        }));
         break;
-      case 'likert':
+      case QUESTION_TYPES.LIKERT:
         break;
       default:
+        throw console.error(`Error in createQuestion: \"${questionType}\" is an invalid question type.`);
         break;
     }
     setOpen(false);
+  }
+
+  function renderQuestions() {
+    let output = [];
+    for (let i = 0; i < questions.length; i++) {
+      const questionType = questions[i]['type'];
+      if (ADMIN_PROMPT_ONLY_TYPES[questionType]) {
+        output = output.concat(<PromptOnly key={i} questionKey={i} type={questionType}
+          prompt={questions[i]['prompt']} handleChange={handleChange}/>);
+      } else {
+        throw console.error(`Could not render question this type: ${questionType}`);
+      }
+    }
+    return output;
   }
 
   return (
@@ -94,43 +120,11 @@ export default function Create() {
       <main className={classes.container}>
         <div className={classes.questionsContainer}>
           <Grid container wrap="wrap" justify="flex-start">
+            {renderQuestions(questions)}
             <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">item</Paper>
-            </Grid>
-            <Grid item>
-              <Paper className={classes.paper} variant="outlined">
+              <div className={classes.newQuestionButtonContainer}>
                 <Button onClick={handleOpen} variant="contained" color="primary">Add a new question</Button>
-              </Paper>
+              </div>
             </Grid>
           </Grid>
         </div>
@@ -146,11 +140,14 @@ export default function Create() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              onChange={(event) => {
+                setModalQuestionType(event.target.value);
+              }}
             >
-              <MenuItem value={'binary'}>Binary</MenuItem>
-              <MenuItem value={'likert'}>Likert</MenuItem>
+              <MenuItem value={QUESTION_TYPES.BINARY}>Binary</MenuItem>
+              <MenuItem value={QUESTION_TYPES.LIKERT}>Likert</MenuItem>
             </Select>
-            <Button onClick={() => createQuestion()}>Create question</Button>
+            <Button onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
           </Paper>
         </Modal>
       </main>
