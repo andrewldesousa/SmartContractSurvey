@@ -10,7 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 
 import PromptOnly from '../../components/questions/create/promptOnly';
-import QUESTION_TYPES, {ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
+import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '4rem',
+    marginTop: '2rem',
   },
   modal: {
     display: 'flex',
@@ -31,13 +31,6 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '30rem',
     height: '10rem',
   },
-  paper: {
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    width: '15rem',
-    height: '15rem',
-    margin: '2rem',
-  },
   newQuestionButtonContainer: {
     textAlign: 'center',
     width: '15rem',
@@ -47,15 +40,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
   },
-  questionsContainer: {
-    height: '70vh',
+  window: {
     width: '90vw',
-    maxHeight: '70vh',
+    height: '80vh',
     overflowY: 'scroll',
-    marginBottom: '4rem',
-    justifyContent: 'center',
-    justifyItems: 'center',
-    border: '1px solid black',
+    marginBottom: '1rem',
   },
 }));
 
@@ -84,18 +73,13 @@ export default function Create() {
   }
 
   function createQuestion(questionType) {
-    switch (questionType) {
-      case QUESTION_TYPES.BINARY:
-        setQuestions(questions.concat({
-          type: QUESTION_TYPES.BINARY,
-          prompt: '',
-        }));
-        break;
-      case QUESTION_TYPES.LIKERT:
-        break;
-      default:
-        throw console.error(`Error in createQuestion: \"${questionType}\" is an invalid question type.`);
-        break;
+    if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
+      setQuestions(questions.concat({
+        type: questionType,
+        prompt: '',
+      }));
+    } else {
+      throw console.error(`Error in createQuestion: \"${questionType}\" is an invalid question type.`);
     }
     setOpen(false);
   }
@@ -104,9 +88,9 @@ export default function Create() {
     let output = [];
     for (let i = 0; i < questions.length; i++) {
       const questionType = questions[i]['type'];
-      if (ADMIN_PROMPT_ONLY_TYPES[questionType]) {
-        output = output.concat(<PromptOnly key={i} questionKey={i} type={questionType}
-          prompt={questions[i]['prompt']} handleChange={handleChange}/>);
+      if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
+        output = output.concat(<Grid item><PromptOnly key={i} questionKey={i} type={questionType}
+          prompt={questions[i]['prompt']} handleChange={handleChange}/></Grid>);
       } else {
         throw console.error(`Could not render question this type: ${questionType}`);
       }
@@ -118,8 +102,8 @@ export default function Create() {
     <>
       <ButtonAppBar></ButtonAppBar>
       <main className={classes.container}>
-        <div className={classes.questionsContainer}>
-          <Grid container wrap="wrap" justify="flex-start">
+        <Paper elevation={3} className={classes.window}>
+          <Grid container wrap="wrap" justify="flex-start" spacing={0}>
             {renderQuestions(questions)}
             <Grid item>
               <div className={classes.newQuestionButtonContainer}>
@@ -127,7 +111,7 @@ export default function Create() {
               </div>
             </Grid>
           </Grid>
-        </div>
+        </Paper>
 
         <Button onClick={handleSubmit} variant="contained" color="primary">Create Survey</Button>
 
@@ -138,8 +122,6 @@ export default function Create() {
           <Paper className={classes.modal}>
             <Typography variant="h3">What type of question do you want to create?</Typography>
             <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
               onChange={(event) => {
                 setModalQuestionType(event.target.value);
               }}
