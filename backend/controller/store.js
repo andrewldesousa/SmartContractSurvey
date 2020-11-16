@@ -45,6 +45,6 @@ exports.createSurvey = (req, res) => {
     const survey = new Survey(req.body)
     survey.save((err, survey) => {
         if (err) return errorHandler(survey, err);
-        res.json(req.body);
+        res.json(survey);
     });
 }

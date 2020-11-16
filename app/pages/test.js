@@ -1,7 +1,9 @@
 import {retrieveQuestionsBySurvey, retrieveResponseCounts} from './api/retrieve';
 import {retrieveSurveyByID, retrieveSurveyByOwner} from './api/retrieve';
 import React from 'react';
+import {isAuthenticate,isAuthenticated} from './api/auth'
 import {submit, addQuestions, makeSurvey, addOneQuestion} from './api/store';
+import { authenticate } from './api/auth';
 export default function testApi() {
   const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ4NjI1MmVmYmQ0YTBiMDAxMmFlN2EiLCJpYXQiOjE2MDE0OTI4MjB9.Hi5ekO8E5ElYTd1esAh1qOXPNzGBNMQIyZl-yaNoFWU'
   // Retrival OF THE REQUESTS FREQUENCIES OF THE SURVEY BY SURVEY_ID
@@ -31,7 +33,13 @@ export default function testApi() {
       'q1': {
         'survey_id': '5f75090900494a44ac63e90a',
         'question': 'TEST TEST TEST TEST TEST',
-        'type': 'MCQ'
+        'type': 'MCQ',
+        'options':['A','B']
+      },
+      'q1': {
+        'survey_id': '5f75090900494a44ac63e90a',
+        'question': 'TEST TEST TEST TEST TEST',
+        'type': 'TEXT'
       }
     }
   }
@@ -39,9 +47,15 @@ export default function testApi() {
   console.log(addQuestionRes)
   // ADDING A NEW SURVEY 
   const newSurvey={
-    'description': 'Test #1 for api' 
+    'description': 'Test IDP for api' 
   }
-  console.log(makeSurvey(newSurvey, token))
+  
+  const t1 = isAuthenticated()
+  console.log("FLAG")
+  console.log(t1.token)
+
+  console.log(makeSurvey(newSurvey, t1.token))
+  console.log("FLAG")
   // ADDING A SINGLE QUESTION
   const singleQuestion={ 
     'question': {
