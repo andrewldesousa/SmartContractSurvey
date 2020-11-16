@@ -52,12 +52,8 @@ export default function Start() {
         <Typography variant="h1">Create forms with ease</Typography>
         <div className={classes.paperContainer}>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
-            <div>
-              <Typography variant="h3">Information</Typography>
-            </div>
-
+            <Typography variant="h3">Information</Typography>
             <InfoIcon style={{fontSize: 170}}></InfoIcon>
-
             <div className={classes.paperBody}>
               <Typography>
                 If you would like more information, click the link below.
@@ -69,9 +65,7 @@ export default function Start() {
           </Paper>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
             <Typography variant="h3">Contact</Typography>
-
             <ContactSupportIcon style={{fontSize: 170}}></ContactSupportIcon>
-
             <div className={classes.paperBody}>
               <Typography>
                 Contact us for any guidance or help.

@@ -8,6 +8,10 @@ import {Typography} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import {makeSurvey, addQuestions} from '../api/store';
 
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
@@ -20,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: '2rem',
+  },
+  description: {
+    margin: '2rem',
+    width: '80%',
   },
   modal: {
     display: 'flex',
@@ -52,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Create() {
   const classes = useStyles(useTheme());
   const [questions, setQuestions] = useState([]);
+  const [description, setDescription] = useState('');
   const [open, setOpen] = useState(false);
   const [modalQuestionType, setModalQuestionType] = useState('');
 
@@ -69,6 +78,22 @@ export default function Create() {
   };
 
   function handleSubmit() {
+    const survey = {
+      'description': description,
+    };
+    const surveyId = makeSurvey(survey);
+
+    console.log(surveyId);
+    // const questionsBody = {
+    //   'questions': {
+    //     'q1': {
+    //       'survey_id': surveyId,
+    //       'question': '',
+    //       'type': 'MCQ',
+    //     },
+    //   },
+    // };
+    // addQuestions(questionsBody);
     window.location.href = 'http://localhost:3000/';
   }
 
@@ -103,6 +128,8 @@ export default function Create() {
       <ButtonAppBar></ButtonAppBar>
       <main className={classes.container}>
         <Paper elevation={3} className={classes.window}>
+          <TextField label="Description" className={classes.description}
+            onChange={(event) => setDescription(event.target.value)}/>
           <Grid container wrap="wrap" justify="flex-start" spacing={0}>
             {renderQuestions(questions)}
             <Grid item>
@@ -124,10 +151,9 @@ export default function Create() {
             <Select
               onChange={(event) => {
                 setModalQuestionType(event.target.value);
-              }}
-            >
-              <MenuItem value={QUESTION_TYPES.BINARY}>Binary</MenuItem>
-              <MenuItem value={QUESTION_TYPES.LIKERT}>Likert</MenuItem>
+              }}>
+              {Object.keys(QUESTION_TYPES).map((key, index) => (
+                <MenuItem key={index} value={QUESTION_TYPES[key]}>{key}</MenuItem>))}
             </Select>
             <Button onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
           </Paper>
