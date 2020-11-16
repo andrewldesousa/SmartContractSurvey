@@ -12,6 +12,7 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import {makeSurvey, addQuestions} from '../api/store';
+import {isAuthenticated} from '../api/auth';
 
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
@@ -81,9 +82,15 @@ export default function Create() {
     const survey = {
       'description': description,
     };
-    const surveyId = makeSurvey(survey);
 
-    console.log(surveyId);
+    
+
+    const t1 = isAuthenticated()
+    console.log(description)
+    console.log(t1.token)
+
+    console.log(makeSurvey(survey, t1.token))
+    console.log("FLAG")
     // const questionsBody = {
     //   'questions': {
     //     'q1': {
@@ -93,8 +100,8 @@ export default function Create() {
     //     },
     //   },
     // };
-    // addQuestions(questionsBody);
-    window.location.href = 'http://localhost:3000/';
+    // addQuestions(questionsBody, token);
+    //window.location.href = 'http://localhost:3000/';
   }
 
   function createQuestion(questionType) {
