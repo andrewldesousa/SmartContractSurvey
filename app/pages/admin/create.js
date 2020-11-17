@@ -14,6 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
 
+import PromptAndChoices from '../../components/questions/create/promptAndChoices';
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
@@ -73,24 +74,32 @@ export default function Create() {
     setOpen(false);
   };
 
-  function handleChange(key, value) {
-    setQuestions(questions.slice(0, key).concat([{type: 'binary', prompt: value}])
-        .concat(questions.slice(key+1, questions.length)));
+  function handleChange(key, questionData) {
+    const values = questionData['values'];
+    const questionType = questionData['type'];
+
+    console.log(questionData);
+    if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
+      setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
+          .concat(questions.slice(key+1, questions.length)));
+    } else {
+      setQuestions(questions.slice(0, key).concat([{type: questionType, values: {
+        prompt: values['prompt'],
+        answers: values['answers'],
+      }}]).concat(questions.slice(key+1, questions.length)));
+    }
   };
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const survey = {
       'description': description,
     };
 
+
+    const t1 = await isAuthenticated();
+
+    makeSurvey(survey, t1.token);
     
-
-    const t1 = isAuthenticated()
-    console.log(description)
-    console.log(t1.token)
-
-    console.log(makeSurvey(survey, t1.token))
-    console.log("FLAG")
     // const questionsBody = {
     //   'questions': {
     //     'q1': {
@@ -105,13 +114,26 @@ export default function Create() {
   }
 
   function createQuestion(questionType) {
+    if (questionType === '') {
+      return;
+    }
+
+    console.log(questionType);
     if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
       setQuestions(questions.concat({
         type: questionType,
-        prompt: '',
+        values: {
+          prompt: '',
+        },
       }));
     } else {
-      throw console.error(`Error in createQuestion: \"${questionType}\" is an invalid question type.`);
+      setQuestions(questions.concat({
+        type: questionType,
+        values: {
+          prompt: '',
+          answers: [''],
+        },
+      }));
     }
     setOpen(false);
   }
@@ -120,11 +142,13 @@ export default function Create() {
     let output = [];
     for (let i = 0; i < questions.length; i++) {
       const questionType = questions[i]['type'];
+      const values = questions[i]['values'];
       if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-        output = output.concat(<Grid item><PromptOnly key={i} questionKey={i} type={questionType}
-          prompt={questions[i]['prompt']} handleChange={handleChange}/></Grid>);
+        output = output.concat(<Grid item><PromptOnly key={i} index={i} type={questionType}
+          prompt={values['prompt']} handleChange={handleChange}/></Grid>);
       } else {
-        throw console.error(`Could not render question this type: ${questionType}`);
+        output = output.concat(<Grid item><PromptAndChoices key={i} index={i} type={questionType}
+          values={values} handleChange={handleChange}/></Grid>);
       }
     }
     return output;

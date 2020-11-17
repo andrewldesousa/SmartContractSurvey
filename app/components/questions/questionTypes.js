@@ -7,6 +7,9 @@ const QUESTION_TYPES = {
   SLIDER: 'slider',
   SLIDER_DISCRETE: 'sliderDiscrete',
   WALLET: 'wallet',
+  SINGLE_CHOICE: 'singleChoice',
+  MULTIPLE_CHOICE: 'multipleChoice',
+  DROPDOWN: 'dropdown',
 };
 
 const ADMIN_PROMPT_ONLY_TYPES = {
@@ -16,7 +19,7 @@ const ADMIN_PROMPT_ONLY_TYPES = {
   RATE: 'rate',
   TEXT: 'text',
   SLIDER: 'slider',
-  SLIDER_DISCRETE: 'sliderDiscrete',
+  SLIDERDISCRETE: 'sliderDiscrete',
   WALLET: 'wallet',
 };
 

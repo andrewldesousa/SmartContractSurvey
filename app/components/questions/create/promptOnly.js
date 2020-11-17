@@ -27,8 +27,9 @@ export default function PromptOnly(props) {
           <Typography variant="h3">{props.type} Question</Typography>
           <FormControl>
             <InputLabel>Question</InputLabel>
-            <Input type={props.type} value={value}
-              onChange={() => props.handleChange(props.questionKey, {type: props.type, prompt: event.target.value})}/>
+            <Input value={value}
+              onChange={() => props.handleChange(props.index,
+                  {type: props.type, values: {prompt: event.target.value}})}/>
           </FormControl>
         </form>
       </CardContent>
