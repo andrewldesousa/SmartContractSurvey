@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import ButtonAppBar from '../../components/header';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
-import {Typography} from '@material-ui/core';
+import {IconButton, Typography} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import {makeSurvey, addQuestions} from '../api/store';
-import {isAuthenticated} from '../api/auth';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
+import ButtonAppBar from '../../components/header';
 import PromptAndChoices from '../../components/questions/create/promptAndChoices';
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
+
+import {makeSurvey} from '../api/store';
+import {isAuthenticated} from '../api/auth';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,14 +41,10 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '30rem',
     height: '10rem',
   },
-  newQuestionButtonContainer: {
-    textAlign: 'center',
-    width: '15rem',
-    height: '15rem',
-    margin: '2rem',
+  addQuestionIconContainer: {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
+    height: '15rem',
   },
   window: {
     width: '90vw',
@@ -77,8 +73,6 @@ export default function Create() {
   function handleChange(key, questionData) {
     const values = questionData['values'];
     const questionType = questionData['type'];
-
-    console.log(questionData);
     if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
       setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
           .concat(questions.slice(key+1, questions.length)));
@@ -99,7 +93,6 @@ export default function Create() {
     const t1 = await isAuthenticated();
 
     makeSurvey(survey, t1.token);
-    
     // const questionsBody = {
     //   'questions': {
     //     'q1': {
@@ -144,10 +137,10 @@ export default function Create() {
       const questionType = questions[i]['type'];
       const values = questions[i]['values'];
       if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-        output = output.concat(<Grid item><PromptOnly key={i} index={i} type={questionType}
+        output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
           prompt={values['prompt']} handleChange={handleChange}/></Grid>);
       } else {
-        output = output.concat(<Grid item><PromptAndChoices key={i} index={i} type={questionType}
+        output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
           values={values} handleChange={handleChange}/></Grid>);
       }
     }
@@ -163,9 +156,11 @@ export default function Create() {
             onChange={(event) => setDescription(event.target.value)}/>
           <Grid container wrap="wrap" justify="flex-start" spacing={0}>
             {renderQuestions(questions)}
-            <Grid item>
-              <div className={classes.newQuestionButtonContainer}>
-                <Button onClick={handleOpen} variant="contained" color="primary">Add a new question</Button>
+            <Grid item xs={3}>
+              <div className={classes.addQuestionIconContainer}>
+                <IconButton onClick={handleOpen}>
+                  <AddCircleIcon fontSize="large"/>
+                </IconButton>
               </div>
             </Grid>
           </Grid>
