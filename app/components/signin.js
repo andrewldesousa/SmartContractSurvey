@@ -16,6 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { Helmet } from 'react-helmet';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ButtonAppBar from "./homeHeader";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -204,4 +205,5 @@ const Signin = () => {
     );
 };
 
+<ButtonAppBar></ButtonAppBar>
 export default Signin;

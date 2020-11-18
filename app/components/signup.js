@@ -7,6 +7,7 @@ import clsx from 'clsx'
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import Alert from '@material-ui/lab/Alert';
+import Link from "next/link";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -160,6 +161,11 @@ const Signup = () => {
                         </FormControl>
                         <div align='center' style={margin1}>
                             <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-up</Button>
+                        </div>
+                        <div align='center' style={margin1}>
+                            <Link href="/login">
+                            <Button type="submit" variant="contained" color="primary">Redirect To Login</Button>
+                            </Link>
                         </div>
                     </form>
                 </CardContent>

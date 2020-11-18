@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Link from "next/link";
 
 const useStyles = makeStyles({
     root: {
@@ -38,14 +39,21 @@ export default function SimpleCard() {
                 </Typography>
                 <br/>
                 <Typography className={classes.pos} color="textSecondary">
-                    Name - Mr XYZ
+                    Name - Daniel Obermeier
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    Mobile Number - +499999999999
+                    Mobile Number - +49(0)8928925745
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    Email - idp@tum.de
+                    Email - daniel.obermeier@tum.de
                 </Typography>
+                <center>
+                    <Link href="/">
+                    <Button variant="outlined" color="primary">
+                        Go Back
+                    </Button>
+                </Link>
+                </center>
             </CardContent>
         </Card>
     );
