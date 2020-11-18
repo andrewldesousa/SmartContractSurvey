@@ -192,6 +192,8 @@ const Signin = () => {
         }
     };
     return (
+        <React.Fragment>
+            <ButtonAppBar/>
         <div>
             <Helmet>
                 <style>{'body { background-color: #1976d2 ; }'}</style>
@@ -202,8 +204,8 @@ const Signin = () => {
                 {redirectUser()}
             </Layout>
         </div>
+        </React.Fragment>
     );
 };
 
-<ButtonAppBar></ButtonAppBar>
 export default Signin;
