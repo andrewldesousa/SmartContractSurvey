@@ -14,10 +14,9 @@ import ButtonAppBar from '../../components/header';
 import PromptAndChoices from '../../components/questions/create/promptAndChoices';
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
-
 import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
-
+import Signin from '../../components/signin';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,153 +59,159 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function Create() {
-  const classes = useStyles(useTheme());
-  const [questions, setQuestions] = useState([]);
-  const [description, setDescription] = useState('');
-  const [open, setOpen] = useState(false);
-  const [modalQuestionType, setModalQuestionType] = useState('');
+  if (!isAuthenticated()) {
+    return <Signin/>;}
+  else {
+    const classes = useStyles(useTheme());
+    const [questions, setQuestions] = useState([]);
+    const [description, setDescription] = useState('');
+    const [open, setOpen] = useState(false);
+    const [modalQuestionType, setModalQuestionType] = useState('');
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+    const handleOpen = () => {
+      setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
-  function handleChange(key, questionData) {
-    const values = questionData['values'];
-    const questionType = questionData['type'];
-    if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
-      setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
-          .concat(questions.slice(key+1, questions.length)));
-    } else {
-      setQuestions(questions.slice(0, key).concat([{type: questionType, values: {
-        prompt: values['prompt'],
-        answers: values['answers'],
-      }}]).concat(questions.slice(key+1, questions.length)));
+    function handleChange(key, questionData) {
+      const values = questionData['values'];
+      const questionType = questionData['type'];
+      if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
+        setQuestions(questions.slice(0, key).concat([{ type: questionType, values: { prompt: values['prompt'] } }])
+          .concat(questions.slice(key + 1, questions.length)));
+      } else {
+        setQuestions(questions.slice(0, key).concat([{
+          type: questionType, values: {
+            prompt: values['prompt'],
+            answers: values['answers'],
+          }
+        }]).concat(questions.slice(key + 1, questions.length)));
+      }
+    };
+
+    async function handleSubmit() {
+      const survey = {
+        'description': description,
+      };
+
+
+      const t1 = await isAuthenticated();
+      const output = {
+        'questions': {
+        },
+      };
+      const surveyResponse = await makeSurvey(survey, t1.token);
+      const questionsBody = () => {
+
+
+        for (let i = 0; i < questions.length; i++) {
+          if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
+            output['questions'][`q${i}`] = {
+              'survey_id': surveyResponse['_id'],
+              'question': questions[i]['values']['prompt'],
+              'type': questions[i]['type'],
+            };
+          } else {
+            output['questions'][`q${i}`] = {
+              'survey_id': surveyResponse['_id'],
+              'question': questions[i]['values']['prompt'],
+              'options': questions[i]['values']['answers'],
+              'type': questions[i]['type'],
+            };
+          }
+        }
+        //console.log(output);
+        //return output;
+      };
+      questionsBody();
+      //console.log(output)
+      addQuestions(output, t1.token);
+      //window.location.href = 'http://localhost:3000/';
     }
-  };
 
-  async function handleSubmit() {
-    const survey = {
-      'description': description,
-    };
+    function createQuestion(questionType) {
+      if (questionType === '') {
+        return;
+      }
+      if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
+        setQuestions(questions.concat({
+          type: questionType,
+          values: {
+            prompt: '',
+          },
+        }));
+      } else {
+        setQuestions(questions.concat({
+          type: questionType,
+          values: {
+            prompt: '',
+            answers: [''],
+          },
+        }));
+      }
+      setOpen(false);
+    }
 
-
-    const t1 = await isAuthenticated();
-    const output = {
-      'questions': {
-      },
-    };
-    const surveyResponse = await makeSurvey(survey, t1.token);
-    const questionsBody = () => {
-      
-
-      for (let i=0; i<questions.length; i++) {
-        if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
-          output['questions'][`q${i}`] = {
-            'survey_id': surveyResponse['_id'],
-            'question': questions[i]['values']['prompt'],
-            'type': questions[i]['type'],
-          };
+    function renderQuestions() {
+      let output = [];
+      for (let i = 0; i < questions.length; i++) {
+        const questionType = questions[i]['type'];
+        const values = questions[i]['values'];
+        if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
+          output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
+            prompt={values['prompt']} handleChange={handleChange} /></Grid>);
         } else {
-          output['questions'][`q${i}`] = {
-            'survey_id': surveyResponse['_id'],
-            'question': questions[i]['values']['prompt'],
-            'options': questions[i]['values']['answers'],
-            'type': questions[i]['type'],
-          };
+          output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
+            values={values} handleChange={handleChange} /></Grid>);
         }
       }
-      //console.log(output);
-      //return output;
-    };
-    questionsBody();
-    //console.log(output)
-    addQuestions(output, t1.token);
-    //window.location.href = 'http://localhost:3000/';
-  }
-
-  function createQuestion(questionType) {
-    if (questionType === '') {
-      return;
+      return output;
     }
-    if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-      setQuestions(questions.concat({
-        type: questionType,
-        values: {
-          prompt: '',
-        },
-      }));
-    } else {
-      setQuestions(questions.concat({
-        type: questionType,
-        values: {
-          prompt: '',
-          answers: [''],
-        },
-      }));
-    }
-    setOpen(false);
-  }
 
-  function renderQuestions() {
-    let output = [];
-    for (let i = 0; i < questions.length; i++) {
-      const questionType = questions[i]['type'];
-      const values = questions[i]['values'];
-      if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-        output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
-          prompt={values['prompt']} handleChange={handleChange}/></Grid>);
-      } else {
-        output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
-          values={values} handleChange={handleChange}/></Grid>);
-      }
-    }
-    return output;
-  }
-
-  return (
-    <>
-      <ButtonAppBar></ButtonAppBar>
-      <main className={classes.container}>
-        <Paper elevation={3} className={classes.window}>
-          <TextField label="Description" className={classes.description}
-            onChange={(event) => setDescription(event.target.value)}/>
-          <Grid container wrap="wrap" justify="flex-start" spacing={0}>
-            {renderQuestions(questions)}
-            <Grid item xs={3} className={classes.addQuestionIconContainer}>
-              <div>
-                <IconButton onClick={handleOpen}>
-                  <AddCircleIcon fontSize="large"/>
-                </IconButton>
-              </div>
+    return (
+      <>
+        <ButtonAppBar></ButtonAppBar>
+        <main className={classes.container}>
+          <Paper elevation={3} className={classes.window}>
+            <TextField label="Description" className={classes.description}
+              onChange={(event) => setDescription(event.target.value)} />
+            <Grid container wrap="wrap" justify="flex-start" spacing={0}>
+              {renderQuestions(questions)}
+              <Grid item xs={3} className={classes.addQuestionIconContainer}>
+                <div>
+                  <IconButton onClick={handleOpen}>
+                    <AddCircleIcon fontSize="large" />
+                  </IconButton>
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-
-        <Button onClick={handleSubmit} variant="contained">Create Survey</Button>
-
-        <Modal
-          open={open}
-          onClose={handleClose}
-        >
-          <Paper className={classes.modal}>
-            <Typography variant="h3">What type of question do you want to create?</Typography>
-            <Select
-              onChange={(event) => {
-                setModalQuestionType(event.target.value);
-              }}>
-              {Object.keys(QUESTION_TYPES).map((key, index) => (
-                <MenuItem key={index} value={QUESTION_TYPES[key]}>{key}</MenuItem>))}
-            </Select>
-            <Button onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
           </Paper>
-        </Modal>
-      </main>
-    </>
-  );
+
+          <Button onClick={handleSubmit} variant="contained">Create Survey</Button>
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+          >
+            <Paper className={classes.modal}>
+              <Typography variant="h3">What type of question do you want to create?</Typography>
+              <Select
+                onChange={(event) => {
+                  setModalQuestionType(event.target.value);
+                }}>
+                {Object.keys(QUESTION_TYPES).map((key, index) => (
+                  <MenuItem key={index} value={QUESTION_TYPES[key]}>{key}</MenuItem>))}
+              </Select>
+              <Button onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
+            </Paper>
+          </Modal>
+        </main>
+      </>
+    );
+
+  }
 }
