@@ -106,8 +106,6 @@ export default function Create() {
       };
       const surveyResponse = await makeSurvey(survey, t1.token);
       const questionsBody = () => {
-
-
         for (let i = 0; i < questions.length; i++) {
           if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
             output['questions'][`q${i}`] = {
@@ -124,12 +122,11 @@ export default function Create() {
             };
           }
         }
-        //console.log(output);
-        //return output;
       };
+
       questionsBody();
-      //console.log(output)
       addQuestions(output, t1.token);
+
       //window.location.href = 'http://localhost:3000/';
     }
 
