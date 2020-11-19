@@ -97,13 +97,13 @@ export default function Create() {
 
 
     const t1 = await isAuthenticated();
-
+    const output = {
+      'questions': {
+      },
+    };
     const surveyResponse = await makeSurvey(survey, t1.token);
     const questionsBody = () => {
-      const output = {
-        'questions': {
-        },
-      };
+      
 
       for (let i=0; i<questions.length; i++) {
         if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
@@ -121,10 +121,12 @@ export default function Create() {
           };
         }
       }
-      return output;
+      //console.log(output);
+      //return output;
     };
-
-    addQuestions(questionsBody, t1.token);
+    questionsBody();
+    //console.log(output)
+    addQuestions(output, t1.token);
     //window.location.href = 'http://localhost:3000/';
   }
 
