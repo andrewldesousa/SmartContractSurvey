@@ -15,21 +15,38 @@ import PromptAndChoices from '../../components/questions/create/promptAndChoices
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
-import {makeSurvey} from '../api/store';
+import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
 
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    height: '93vh',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '2rem',
+    backgroundColor: theme.palette.primary.light,
   },
   description: {
     margin: '2rem',
     width: '80%',
+  },
+  addQuestionIconContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '12rem',
+  },
+  circleIcon: {
+    display: 'box',
+  },
+  window: {
+    width: '90vw',
+    height: '75vh',
+    padding: '1rem',
+    overflowY: 'scroll',
+    marginBottom: '1rem',
   },
   modal: {
     display: 'flex',
@@ -40,17 +57,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '30rem',
     marginRight: '30rem',
     height: '10rem',
-  },
-  addQuestionIconContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '15rem',
-  },
-  window: {
-    width: '90vw',
-    height: '80vh',
-    overflowY: 'scroll',
-    marginBottom: '1rem',
   },
 }));
 
@@ -92,17 +98,33 @@ export default function Create() {
 
     const t1 = await isAuthenticated();
 
-    makeSurvey(survey, t1.token);
-    // const questionsBody = {
-    //   'questions': {
-    //     'q1': {
-    //       'survey_id': surveyId,
-    //       'question': '',
-    //       'type': 'MCQ',
-    //     },
-    //   },
-    // };
-    // addQuestions(questionsBody, token);
+    const surveyResponse = await makeSurvey(survey, t1.token);
+    const questionsBody = () => {
+      const output = {
+        'questions': {
+        },
+      };
+
+      for (let i=0; i<questions.length; i++) {
+        if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
+          output['questions'][`q${i}`] = {
+            'survey_id': surveyResponse['_id'],
+            'question': questions[i]['values']['prompt'],
+            'type': questions[i]['type'],
+          };
+        } else {
+          output['questions'][`q${i}`] = {
+            'survey_id': surveyResponse['_id'],
+            'question': questions[i]['values']['prompt'],
+            'options': questions[i]['values']['answers'],
+            'type': questions[i]['type'],
+          };
+        }
+      }
+      return output;
+    };
+
+    addQuestions(questionsBody, t1.token);
     //window.location.href = 'http://localhost:3000/';
   }
 
@@ -110,8 +132,6 @@ export default function Create() {
     if (questionType === '') {
       return;
     }
-
-    console.log(questionType);
     if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
       setQuestions(questions.concat({
         type: questionType,
@@ -156,8 +176,8 @@ export default function Create() {
             onChange={(event) => setDescription(event.target.value)}/>
           <Grid container wrap="wrap" justify="flex-start" spacing={0}>
             {renderQuestions(questions)}
-            <Grid item xs={3}>
-              <div className={classes.addQuestionIconContainer}>
+            <Grid item xs={3} className={classes.addQuestionIconContainer}>
+              <div>
                 <IconButton onClick={handleOpen}>
                   <AddCircleIcon fontSize="large"/>
                 </IconButton>
@@ -166,7 +186,7 @@ export default function Create() {
           </Grid>
         </Paper>
 
-        <Button onClick={handleSubmit} variant="contained" color="primary">Create Survey</Button>
+        <Button onClick={handleSubmit} variant="contained">Create Survey</Button>
 
         <Modal
           open={open}
