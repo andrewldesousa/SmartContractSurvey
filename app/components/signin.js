@@ -107,6 +107,7 @@ const Signin = () => {
     const clickSubmit = event => {
         event.preventDefault();
         setValues({ ...values, error: false, success: true });
+        console.log({email, password})
         signin({ email, password }).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error, success: false });

@@ -1,5 +1,7 @@
+require('dotenv').config({ path: '../../.env'})
+
 export const signup = user => {
-    return fetch(`http://localhost:8000/user/signup`, {
+    return fetch(`${process.env.url}/user/signup`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -18,27 +20,27 @@ export const signup = user => {
 
 
 export const signin = (input) => { 
-    return fetch(`http://localhost:8000/user/signin`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(input)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => {
-            console.log(err);
-        });
+  return fetch(`http://localhost:8000/user/signin`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(input)
+  })
+      .then(response => {
+        return response.json();
+      })
+      .catch(err => {
+        console.log(err);
+      });
 };
 
 export const signout = next => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt');
         next();
-        return fetch(`localhost:8000/user/signout`, {
+        return fetch(`${process.env.url}/user/signout`, {
             method: 'GET'
         })
             .then(response => {
