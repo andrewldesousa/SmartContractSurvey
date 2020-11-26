@@ -71,7 +71,7 @@ export default function ButtonAppBar() {
           :
           <div>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-  Hello, &nbsp; {user.user.name}
+  Hello
 </Button>
 <Menu
   id="simple-menu"

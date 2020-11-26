@@ -54,6 +54,7 @@ exports.getSurveyQuesitons = (req, res, next) => {
         if (!data) {
             return res.status(400).json({ err });
         }
+        console.log(data)
         res.json(data)
         next()
     })

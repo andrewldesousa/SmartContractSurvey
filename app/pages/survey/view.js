@@ -3,7 +3,7 @@ import {retrieveQuestionsBySurvey} from '../api/retrieve'
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes'
 
 import Pagination from '@material-ui/lab/Pagination';
-import useSWR from 'swr';
+
 import TextQA from '../../components/questions/text';
 import RateQA from '../../components/questions/rate';
 import SingleQA from '../../components/questions/singleChoice';
@@ -18,7 +18,7 @@ import Button from '@material-ui/core/Button';
 import Spinner from '../../components/spinner';
 import ButtonAppBar from '../../components/header';
 import { useRouter } from 'next/router'
-import {responseSubmitDummy} from '../api/submit';
+import { responseSubmitDummy } from '../api/submit';
 import YesNoQuestion from '../../components/questions/binary';
 import DenseAppBar from "../../components/footer";
 import LinearDeterminate from "../../components/progress";
@@ -30,104 +30,90 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 const paginationStyle = {
-    textAlign: 'center',
-    padding: '1.5rem',
-    margin: '0 auto',
-    display: 'flex',
-    justifyContent: 'center',
-    color: 'inherit',
-    width: '70%',
-    transitionDuration: 'color 0.15s ease',
-  };
-  
-  const submitStyle = {
-    textAlign: 'center',
-    paddingTop: '10px',
-    marginTop: '20px',
-    marginLeft: '660px',
-    display: 'flex',
-    justifyContent: 'center',
-    color: 'white',
-    width: '100px',
-    transitionDuration: 'color 0.15s ease',
-  };
-  
-  const spinnerStyle = {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-  };
+  textAlign: 'center',
+  padding: '1.5rem',
+  margin: '0 auto',
+  display: 'flex',
+  justifyContent: 'center',
+  color: 'inherit',
+  width: '70%',
+  transitionDuration: 'color 0.15s ease',
+};
 
-export const View = (props) => {
-  const [questionsVal, setQuestions] = useState([]);
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const submitStyle = {
+  textAlign: 'center',
+  paddingTop: '10px',
+  marginTop: '20px',
+  marginLeft: '660px',
+  display: 'flex',
+  justifyContent: 'center',
+  color: 'white',
+  width: '100px',
+  transitionDuration: 'color 0.15s ease',
+};
 
-  const getData = async (sid)=> {
+const spinnerStyle = {
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  transform: 'translate(-50%, -50%)',
+};
+
+
+export const View = (prop) => {
+  const [questionsVal, setQuestions] = useState([{question: 'Enter Walet ID:', type: ADMIN_PROMPT_ONLY_TYPES.WALLET}]);
+  const [isLoading, setLoading] = useState(true)
+  const router = useRouter();
+  const getData = (sid)=> {
     retrieveQuestionsBySurvey(sid).then(data => {
       if (data.error) {
         console.log('Error loding survey data!');
       } else {
         setQuestions(data);
+        setLoading(false)
       }
     })
   };
-
   useEffect(()=>{
-    const Id = props.sid;
+    const Id = prop.sid;
     getData(Id);
-  },[props])
-  const router = useRouter();
-  const { survey, isLoading, isError } = useSurvey();
-  const list = [1, 2, 3, 4, 5];
+  },[prop])  
 
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+   setOpen(true);
+ };
+  const handleClose = () => {
+     setOpen(false);
+   };
 
- const [open, setOpen] = React.useState(false);
-
- const handleClickOpen = () => {
-  setOpen(true);
-};
- const handleClose = () => {
-    setOpen(false);
-  };
-
-  function submitBtn() {
-    const error = responseSubmitDummy();//work here to connect the submit button 
+   function submitBtn() {
+    const error = responseSubmitDummy();
     setRedirect(error);
   }
-   
-  function useSurvey() {
-    const {data, error} = useSWR('/api/survey', fetcher);
-    console.log(questionsVal)
-    return {
-      survey: questionsVal,
-      isLoading: !error && !data,
-      isError: error,
-    };
-  }
+
   function parseSurvey(survey) {
     const questions = [<Wallet key={-1}/>];
-  
-    survey.sections.map((section) => section.questions.map((question, i) => {
-      switch (question.type) {
-        case QUESTION_TYPES.DiscreteSlider:
-          questions.push(<DiscreteSlider key={i} question={question.question} label='' list={list}/>);
+    survey.map((question,i)=>{
+      switch (question.type){
+        case QUESTION_TYPES.SLIDER_DISCRETE:
+          questions.push(<DiscreteSlider key={i} question={question.question} label='' list={question.options}/>);
           break;
         case QUESTION_TYPES.SLIDER:
           questions.push(<Slider key={i} question={question.question} label='' />);
           break;
         case QUESTION_TYPES.DROPDOWN:
-          questions.push(<DropdownQA key={i} question={question.question} list={question.choices} />);
+          questions.push(<DropdownQA key={i} question={question.question} list={question.options} />);
           break;
-        case QUESTION_TYPES.DateQuestion:
+        case QUESTION_TYPES.DATE:
           questions.push(<DateQuestion key={i} question={question.question} />);
           break;
-        case QUESTION_TYPES.SingleQA:
-          questions.push(<SingleQA key={i} question ={question.question} qList={question.choices}/>);
+        case QUESTION_TYPES.SINGLE_CHOICE:
+          questions.push(<SingleQA key={i} question ={question.question} qList={question.options}/>);
           break;
         case QUESTION_TYPES.MULTIPLE_CHOICE:
-          questions.push(<MultipleQA key={i} question={question.question} qList={question.choices}/>);
+          questions.push(<MultipleQA key={i} question={question.question} qList={question.options}/>);
           break;
         case QUESTION_TYPES.TEXT:
           questions.push(<TextQA key = {i} question ={question.question} hint='Answer here'/>);
@@ -142,8 +128,9 @@ export const View = (props) => {
           questions.push(<YesNoQuestion key={i} question={question.question}/>);
           break;
       }
-    }));
-    questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >Submit</Button>);
+    })
+    questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >
+      Submit</Button>);
     questions.push(<Dialog
       open={open}
       onClose={handleClose}
@@ -167,50 +154,48 @@ export const View = (props) => {
       </DialogActions>
     </Dialog>);
     return questions;
-  }
-  
-    const [pageSize, setPageSize] = React.useState(5);
-    const [page, setPage] = React.useState(1);
-    const [redirect, setRedirect] = React.useState(false);
-    const [progress, setProgress] = React.useState(0);
-  
-    if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
-    if (isError) return <p>Error!</p>;
-  
-    const questions = parseSurvey(survey);
-    const indexOfLastPost = page * pageSize;
-    const indexOfFirstPost = indexOfLastPost - pageSize;
-    const numOfpages = Math.ceil(questions.length / pageSize);
-    const changePage = (event, value) => {
-      setPage(value);
-      setProgress((value-1)/numOfpages*100);
-    };
-    
-    const questionList = () => (
-      <div id="Cards">
-        {questions.slice(indexOfFirstPost, indexOfLastPost)}
-        <Pagination count={numOfpages} page={page} shape="rounded" style={paginationStyle} onChange={changePage} />
-        <br />
-      </div>
-    )
-  
-    const redirectUser = () => {
-      if (redirect) {
-        router.push('/submission')
-      }
-    };
-  
-    return (
-      <div>
-        <ButtonAppBar />
-        <LinearDeterminate progress={progress}/>
-  
-        <br />
-        <br />
-        {questionList()}
-        {redirectUser()}
-        <DenseAppBar />
-      </div>
-    );
-  }
+  }  
 
+  const [pageSize, setPageSize] = React.useState(5);
+  const [page, setPage] = React.useState(1);
+  const [redirect, setRedirect] = React.useState(false);
+  const [progress, setProgress] = React.useState(0);
+
+  if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
+  const questions = parseSurvey(questionsVal)
+  console.log(questions)
+
+  const indexOfLastPost = page * pageSize;
+  const indexOfFirstPost = indexOfLastPost - pageSize;
+  const numOfpages = Math.ceil(questions.length / pageSize);
+  const changePage = (event, value) => {
+    setPage(value);
+    setProgress((value - 1) / numOfpages * 100);
+  };
+
+  const questionList = () => (
+    <div id="Cards">
+      {questions.slice(indexOfFirstPost, indexOfLastPost)}
+      <Pagination count={numOfpages} page={page} shape="rounded" style={paginationStyle} onChange={changePage} />
+      <br />
+    </div>
+  )
+
+  const redirectUser = () => {
+    if (redirect) {
+      router.push('/submission')
+    }
+  };
+
+  return ( 
+    <div>
+      <ButtonAppBar />
+      <LinearDeterminate progress={progress} />
+      <br />
+      <br />
+      {questionList()}
+      {redirectUser()}
+      <DenseAppBar />
+    </div>
+    )
+}

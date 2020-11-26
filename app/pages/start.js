@@ -80,7 +80,7 @@ export const Start=(props)=> {
       <Typography variant="subtitle1">
         {val.data}
       </Typography>
-      <Link href="/survey/takeSurvey">
+      <Link href={'/survey/takeSurvey?sid='+props.sid}>
         <Button variant="contained" color="primary" className={classes.landingPageButton}>Start the survey</Button>
       </Link>
 
