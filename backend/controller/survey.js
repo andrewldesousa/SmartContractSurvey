@@ -40,7 +40,10 @@ exports.getSurvey = (req, res, next) => {
         if (!data) {
             return res.status(400).json({ err });
         }
-        res.json(data)
+        const temp = {
+            "data":data[0].description
+        }
+        res.json(temp)
         //next()
     })
 }
