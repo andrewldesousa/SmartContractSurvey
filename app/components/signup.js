@@ -161,7 +161,7 @@ const Signup = () => {
                             />
                         </FormControl>
                         <div align='center' style={margin1}>
-                            <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-up</Button>
+                           <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-up</Button> 
                         </div>
                     </form>
                 </CardContent>
