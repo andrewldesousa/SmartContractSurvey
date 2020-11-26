@@ -58,7 +58,10 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static" color="default" className={classes.header}>
         <Toolbar className={classes.toolbar}>
-          <img src="/tum.png" className={classes.logo}  />
+          <Link href="/">
+            <Button size="large" >          <img src="/tum.png" className={classes.logo} />
+            </Button>
+          </Link>
           { visible || !user ?
           <div>
             <Link href="/login">
