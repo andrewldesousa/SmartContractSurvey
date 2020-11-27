@@ -179,7 +179,7 @@ export const View = (prop) => {
       <Pagination count={numOfpages} page={page} shape="rounded" style={paginationStyle} onChange={changePage} />
       <br />
     </div>
-  )
+  ) 
 
   const redirectUser = () => {
     if (redirect) {
