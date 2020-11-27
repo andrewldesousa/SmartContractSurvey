@@ -1,5 +1,5 @@
 export const addQuestions = (data, token)=>{
-  return fetch(`http://localhost:8000/store/storeQuestions`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeQuestions`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',
@@ -18,7 +18,7 @@ export const addQuestions = (data, token)=>{
 // 
 // still coming up
 export const addOneQuestion = (data, token)=>{
-  return fetch(`http://localhost:8000/store/storeOneQuestion`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeOneQuestion`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',
@@ -36,7 +36,7 @@ export const addOneQuestion = (data, token)=>{
 // 
 // 
 export const submit = (data)=>{
-  return fetch(`http://localhost:8000/store/storeResult`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeResult`, {
     'method': 'PUT',
     'headers': {
       'Accept': 'application/json',
@@ -50,7 +50,7 @@ export const submit = (data)=>{
   });
 };
 export const makeSurvey = (data, token)=>{
-  return fetch(`http://localhost:8000/store/createSurvey`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/store/createSurvey`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',

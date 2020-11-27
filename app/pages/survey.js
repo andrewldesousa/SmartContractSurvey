@@ -15,7 +15,7 @@ import Button from '@material-ui/core/Button';
 import Spinner from '../components/spinner';
 import ButtonAppBar from '../components/header';
 import { useRouter } from 'next/router'
-import {responseSubmitDummy} from './api/submit';
+import { responseSubmitDummy } from './api/submit';
 import YesNoQuestion from '../components/questions/binary';
 import DenseAppBar from "../components/footer";
 import LinearDeterminate from "../components/progress";
@@ -56,7 +56,7 @@ const spinnerStyle = {
   transform: 'translate(-50%, -50%)',
 };
 
- const Survey=()=> {
+const Survey = () => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
   const router = useRouter();
   const { survey, isLoading, isError } = useSurvey();
@@ -64,12 +64,12 @@ const spinnerStyle = {
 
 
 
- const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
- const handleClickOpen = () => {
-  setOpen(true);
-};
- const handleClose = () => {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -77,9 +77,9 @@ const spinnerStyle = {
     const error = responseSubmitDummy();
     setRedirect(error);
   }
-   
+
   function useSurvey() {
-    const {data, error} = useSWR('/api/survey', fetcher);
+    const { data, error } = useSWR('/api/survey', fetcher);
     return {
       survey: data,
       isLoading: !error && !data,
@@ -87,68 +87,69 @@ const spinnerStyle = {
     };
   }
 
-function parseSurvey(survey) {
-  const questions = [<Wallet key={-1}/>];
+  function parseSurvey(survey) {
+    const questions = [<Wallet key={-1} />];
 
-  survey.sections.map((section) => section.questions.map((question, i) => {
+    survey.sections.map((section) => section.questions.map((question, i) => {
       switch (question.type) {
         case 'sliderDiscrete':
-        questions.push(<DiscreteSlider key={i} question={question.prompt} label='' list={list}/>);
-        break;
-      case 'slider':
-        questions.push(<Slider key={i} question={question.prompt} label='' />);
-        break;
-      case 'dropDown':
-        questions.push(<DropdownQA key={i} question={question.prompt} list={question.choices} />);
-        break;
-      case 'date':
-        questions.push(<DateQuestion key={i} question={question.prompt} />);
-        break;
-      case 'selectOne':
-        questions.push(<SingleQA key={i} question ={question.prompt} qList={question.choices}/>);
-        break;
-      case 'selectOneOrOther':
-        questions.push(<MultipleQA key={i} question={question.prompt} qList={question.choices}/>);
-        break;
-      case 'number':
-        questions.push(<TextQA key = {i} question ={question.prompt} hint='Answer here'/>);
-        break;
-      case 'rate':
-        questions.push(<RateQA key={i} question ={question.prompt}/>);
-        break;
-      case 'likert':
-        questions.push(<Likert key={i} question={question.prompt}/>);
-        break;
-      case 'trueOrFalse':
-        questions.push(<YesNoQuestion key={i} question={question.prompt}/>);
-        break;
-    }
-  }));
-  questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >Submit</Button>);
-  questions.push(<Dialog
-    open={open}
-    onClose={handleClose}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-  >
-    <DialogTitle id="alert-dialog-title">{"Submission"}</DialogTitle>
-    <DialogContent>
-      <DialogContentText id="alert-dialog-description">
-      Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+          questions.push(<DiscreteSlider key={i} question={question.prompt} label='' list={list} />);
+          break;
+        case 'slider':
+          questions.push(<Slider key={i} question={question.prompt} label='' />);
+          break;
+        case 'dropDown':
+          questions.push(<DropdownQA key={i} question={question.prompt} list={question.choices} />);
+          break;
+        case 'date':
+          questions.push(<DateQuestion key={i} question={question.prompt} />);
+          break;
+        case 'selectOne':
+          questions.push(<SingleQA key={i} question={question.prompt} qList={question.choices} />);
+          break;
+        case 'selectOneOrOther':
+          questions.push(<MultipleQA key={i} question={question.prompt} qList={question.choices} />);
+          break;
+        case 'number':
+          questions.push(<TextQA key={i} question={question.prompt} hint='Answer here' />);
+          break;
+        case 'rate':
+          questions.push(<RateQA key={i} question={question.prompt} />);
+          break;
+        case 'likert':
+          questions.push(<Likert key={i} question={question.prompt} />);
+          break;
+        case 'trueOrFalse':
+          questions.push(<YesNoQuestion key={i} question={question.prompt} />);
+          break;
+      }
+    }));
+    questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen}>
+      Submit</Button>);
+    questions.push(<Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{"Submission"}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
 
       </DialogContentText>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose} color="primary">
-        Cancel
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Cancel
       </Button>
-      <Button onClick={submitBtn} color="primary" autoFocus>
-        Submit
+        <Button onClick={submitBtn} color="primary" autoFocus>
+          Submit
       </Button>
-    </DialogActions>
-  </Dialog>);
-  return questions;
-}
+      </DialogActions>
+    </Dialog>);
+    return questions;
+  }
 
   const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
@@ -164,9 +165,9 @@ function parseSurvey(survey) {
   const numOfpages = Math.ceil(questions.length / pageSize);
   const changePage = (event, value) => {
     setPage(value);
-    setProgress((value-1)/numOfpages*100);
+    setProgress((value - 1) / numOfpages * 100);
   };
-  
+  console.log(survey)
   const questionList = () => (
     <div id="Cards">
       {questions.slice(indexOfFirstPost, indexOfLastPost)}
@@ -184,7 +185,7 @@ function parseSurvey(survey) {
   return (
     <div>
       <ButtonAppBar />
-      <LinearDeterminate progress={progress}/>
+      <LinearDeterminate progress={progress} />
 
       <br />
       <br />

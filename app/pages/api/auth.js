@@ -1,24 +1,22 @@
 export const signup = user => {
-    return fetch(`http://localhost:8000/user/signup`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => {
-            console.log(err)
-            return response.json();
-        });
+  return fetch(`${process.env.REACT_APP_API_URL}/user/signup`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  })
+      .then(response => {
+        return response.json();
+      })
+      .catch(err => {
+        console.log(err)
+        return response.json();
+      });
 };
-
-
 export const signin = (input) => { 
-    return fetch(`http://localhost:8000/user/signin`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/user/signin`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -38,7 +36,7 @@ export const signout = next => {
     if (typeof window !== 'undefined') {
         localStorage.removeItem('jwt');
         next();
-        return fetch(`localhost:8000/user/signout`, {
+        return fetch(`${process.env.REACT_APP_API_URL}/user/signout`, {
             method: 'GET'
         })
             .then(response => {
