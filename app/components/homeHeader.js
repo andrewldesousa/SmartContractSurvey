@@ -13,6 +13,7 @@ import {isAuthenticated, signout} from '../pages/api/auth';
 import { useRouter } from 'next/router';
 
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -39,6 +40,7 @@ export default function ButtonAppBar() {
     setVisible(false);
   }, []);
 
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -54,6 +56,7 @@ export default function ButtonAppBar() {
 
   const {user} = isAuthenticated();
 
+
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default" className={classes.header}>
@@ -64,6 +67,7 @@ export default function ButtonAppBar() {
             </Button>
           </Link>
           { visible || !user ?
+
           <div>
             <Link href="/login">
               <Button variant="contained" size="large" color="primary">Login</Button>
@@ -88,6 +92,7 @@ export default function ButtonAppBar() {
             </Menu>
           </div>
           }
+
         </Toolbar>
       </AppBar>
     </div>

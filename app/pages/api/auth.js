@@ -50,6 +50,7 @@ export const signout = (next) => {
         .then((response) => {
           console.log('signout', response);
           localStorage.removeItem('jwt');
+
         })
         .catch((err) => console.log(err));
   }
