@@ -56,5 +56,6 @@ export default function testApi() {
   return (
     <div>
       <h1>Test Page</h1>
+      <p>{survey.data}</p>
     </div> )
 } 

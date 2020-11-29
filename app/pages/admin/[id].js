@@ -3,6 +3,7 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
+
 import {isAuthenticated} from '../api/auth'
 import AppBar from '../../components/header';
 import {Button} from '@material-ui/core';
@@ -55,10 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AdminProfile(props) {
   const classes = useStyles(useTheme());
-
   const surveyList = props.surveyList;
 
-  console.log(localStorage['name']);
   function renderSurveyList() {
     const output = [];
     for (let i=0; i<surveyList.length; i++) {
@@ -72,6 +71,12 @@ export default function AdminProfile(props) {
           </IconButton>
           <IconButton id={1} className={classes.margin} onClick={() => console.log('t', event.target.tabindex)}>
             <DeleteIcon fontSize="large"/>
+        <div className={classes.buttonContainer}>
+          <IconButton aria-label="link" className={classes.margin}>
+            <LinkIcon fontSize="large" />
+          </IconButton>
+          <IconButton aria-label="delete" className={classes.margin}>
+            <DeleteIcon fontSize="large" />
           </IconButton>
         </div>
       </div>);
@@ -79,12 +84,11 @@ export default function AdminProfile(props) {
     return output;
   }
 
-
-  const auth=
+  return (
     <>
       <AppBar></AppBar>
       <div className={classes.container}>
-        <Typography variant="h2">{'Andrew' + '\'s' + ' Profile'}</Typography>
+        <Typography variant="h2">{props.name + '\'s' + ' Profile'}</Typography>
         <Paper elevation={3} className={classes.surveyListContainer}>
           {renderSurveyList()}
         </Paper>
@@ -100,11 +104,14 @@ export default function AdminProfile(props) {
 }
 
 export async function getServerSideProps(context) {
+  const name = 'Andrew Desousa';
+  const email = 'desousa.andrew11@gmail.com';
   const surveyList = [['Title', 3], ['Tit', 5]];
 
   return {
     props: {
-
+      name: name,
+      email: email,
       surveyList: surveyList,
     },
   };
