@@ -16,6 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { Helmet } from 'react-helmet';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ButtonAppBar from "./homeHeader";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -194,6 +195,8 @@ const Signin = () => {
         }
     };
     return (
+        <React.Fragment>
+            <ButtonAppBar/>
         <div>
             <Helmet>
                 <style>{'body { background-color: #1976d2 ; }'}</style>
@@ -204,6 +207,7 @@ const Signin = () => {
                 {redirectUser()}
             </Layout>
         </div>
+        </React.Fragment>
     );
 };
 

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const useStyles = makeStyles({
     root: {
-        height: "250px",
+        height: "150px",
         width: "300px",
         marginLeft: "550px",
         marginTop: "50px"
@@ -35,26 +35,17 @@ export default function SimpleCard() {
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    Contact Us
+                    My Profile
                 </Typography>
                 <br/>
                 <Typography className={classes.pos} color="textSecondary">
-                    Name - Daniel Obermeier
+                    Username - ...
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    Mobile Number - +49(0)8928925745
+                    Email - ...
                 </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    Email - daniel.obermeier@tum.de
-                </Typography>
-                <center>
-                    <Link href="/">
-                    <Button variant="outlined" color="primary">
-                        Go Back
-                    </Button>
-                </Link>
-                </center>
             </CardContent>
         </Card>
+        
     );
 }
