@@ -7,6 +7,8 @@ import clsx from 'clsx'
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import Alert from '@material-ui/lab/Alert';
+import Link from "next/link";
+import ButtonAppBar from "./homeHeader";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -159,7 +161,7 @@ const Signup = () => {
                             />
                         </FormControl>
                         <div align='center' style={margin1}>
-                            <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-up</Button>
+                           <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-up</Button> 
                         </div>
                     </form>
                 </CardContent>
@@ -181,6 +183,8 @@ const Signup = () => {
         </div>
     );
     return (
+        <React.Fragment>
+            <ButtonAppBar/>
         <div>
             <Helmet>
                 <style>{'body { background-color: #1976d2 ; }'}</style>
@@ -189,6 +193,7 @@ const Signup = () => {
                 {signUpForm()}
             </Layout>
         </div>
+        </React.Fragment>
     );
 };
 
