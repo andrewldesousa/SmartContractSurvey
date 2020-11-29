@@ -4,7 +4,7 @@ import blue from '@material-ui/core/colors/blue';
 import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import '../styles/globals.css';
 import {blueGrey, lightBlue} from '@material-ui/core/colors';
-
+import Head from 'next/head';
 
 const theme = createMuiTheme({
   typography: {
@@ -49,6 +49,9 @@ export default class App extends NextApp {
     const {Component, pageProps} = this.props;
     return (
       <ThemeProvider theme={theme}>
+        <Head>
+          <title>Smart Contract Survey</title>
+        </Head>
         <Component {...pageProps} />
       </ThemeProvider>
     );

@@ -3,6 +3,8 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 
+
+import {isAuthenticated} from '../api/auth'
 import AppBar from '../../components/header';
 import {Button} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -63,6 +65,12 @@ export default function AdminProfile(props) {
         <div className={classes.titleContainer}>
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
+        <div className={classes.buttonContainer} onClick={() => console.log('t', event.target.setAttribute('r','r'))}>
+          <IconButton aria-label="link" className={classes.margin}>
+            <LinkIcon fontSize="large" />
+          </IconButton>
+          <IconButton id={1} className={classes.margin} onClick={() => console.log('t', event.target.tabindex)}>
+            <DeleteIcon fontSize="large"/>
         <div className={classes.buttonContainer}>
           <IconButton aria-label="link" className={classes.margin}>
             <LinkIcon fontSize="large" />
@@ -86,7 +94,13 @@ export default function AdminProfile(props) {
         </Paper>
       </div>
     </>
-  );
+  const unauth = <Signin />
+  if (!isAuthenticated()) {
+    return unauth
+  }
+  else {
+    return auth
+  }
 }
 
 export async function getServerSideProps(context) {
