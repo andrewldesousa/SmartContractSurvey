@@ -116,7 +116,10 @@ const Signin = () => {
                         ...values,
                         redirectToReferrer: true
                     });
-                    console.log(data)
+                    localStorage['name'] = data['user']['name'];
+                    localStorage['email'] = data['user']['email'];
+                    localStorage['user_id'] = data['user']['_id'];
+                    console.log('asf', data);
                 });
             }
         });

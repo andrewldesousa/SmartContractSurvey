@@ -98,6 +98,24 @@ export default function Create() {
       'description': description,
     };
 
+<<<<<<< HEAD
+    function handleChange(key, questionData) {
+      const values = questionData['values'];
+      const questionType = questionData['type'];
+      if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
+        setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
+            .concat(questions.slice(key + 1, questions.length)));
+      } else {
+        setQuestions(questions.slice(0, key).concat([{
+          type: questionType, values: {
+            prompt: values['prompt'],
+            answers: values['answers'],
+          },
+        }]).concat(questions.slice(key + 1, questions.length)));
+      }
+    };
+=======
+>>>>>>> 12c762e976cf92c0cfb14115ccdff795fb864003
 
     const t1 = await isAuthenticated();
 

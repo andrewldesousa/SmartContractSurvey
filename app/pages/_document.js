@@ -8,7 +8,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>Smart Contract Survey</title>
           <link rel="icon" href="/favicon.ico"/>
           <link rel="stylesheet" type="text/css"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
