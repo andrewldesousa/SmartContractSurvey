@@ -81,14 +81,14 @@ export default function Create() {
       const values = questionData['values'];
       const questionType = questionData['type'];
       if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
-        setQuestions(questions.slice(0, key).concat([{ type: questionType, values: { prompt: values['prompt'] } }])
-          .concat(questions.slice(key + 1, questions.length)));
+        setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
+            .concat(questions.slice(key + 1, questions.length)));
       } else {
         setQuestions(questions.slice(0, key).concat([{
           type: questionType, values: {
             prompt: values['prompt'],
             answers: values['answers'],
-          }
+          },
         }]).concat(questions.slice(key + 1, questions.length)));
       }
     };
@@ -126,8 +126,7 @@ export default function Create() {
 
       questionsBody();
       addQuestions(output, t1.token);
-
-      //window.location.href = 'http://localhost:3000/';
+      window.location.href = 'http://localhost:3000/';
     }
 
     function createQuestion(questionType) {
