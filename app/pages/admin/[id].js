@@ -2,12 +2,20 @@ import React from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Link from 'next/link';
+import Signin from '../../components/signin'
+import AppBar from '../../components/header';
+import IconButton from '@material-ui/core/IconButton';
+import LinkIcon from '@material-ui/icons/Link';
+import { isAuthenticated } from '../api/auth';
+
 
 import AppBar from '../../components/header';
 import {Button} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import LinkIcon from '@material-ui/icons/Link';
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,6 +66,7 @@ export default function AdminProfile(props) {
   const surveyList = props.surveyList;
 
   console.log(localStorage['name']);
+
   function renderSurveyList() {
     const output = [];
     for (let i=0; i<surveyList.length; i++) {
@@ -66,6 +75,11 @@ export default function AdminProfile(props) {
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
         <div className={classes.buttonContainer} onClick={() => console.log('t', event.target.setAttribute('r','r'))}>
+          <Link href="/login">
+            <IconButton aria-label="link" className={classes.margin}>
+              <LinkIcon fontSize="large" />
+            </IconButton>
+          </Link>
           <IconButton aria-label="link" className={classes.margin}>
             <LinkIcon fontSize="large" />
           </IconButton>
@@ -78,7 +92,8 @@ export default function AdminProfile(props) {
     return output;
   }
 
-  return (
+  const authVal=
+
     <>
       <AppBar></AppBar>
       <div className={classes.container}>
@@ -88,7 +103,13 @@ export default function AdminProfile(props) {
         </Paper>
       </div>
     </>
-  );
+  const unAuthVal=<Signin/>
+  if (!isAuthenticated()) {
+    return unAuthVal;
+  }
+  else {
+    return authVal;
+  }
 }
 
 export async function getServerSideProps(context) {

@@ -14,6 +14,11 @@ const surveySchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
+        title: {
+            type: String,
+            default:'This a data collection survey powered by blockchains!',
+            required: true
+        },
         status: {
             type: Boolean,
             default: false,

@@ -1,5 +1,5 @@
-export const retrieveQuestionsBySurvey = ( SId) =>{
-  return fetch(`http://localhost:8000/getSurveyQuesitons/${SId}`, {
+export const retrieveQuestionsBySurvey = (SId) =>{
+  return fetch(`${process.env.REACT_APP_API_URL}/getSurveyQuesitons/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -13,7 +13,7 @@ export const retrieveQuestionsBySurvey = ( SId) =>{
 };
 // This function is not yet implemented in full
 export const retrieveSurveyByOwner = (OId, token) => {
-  return fetch(`http://localhost:8000/user/getSurveyByOwner/${OId}`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/user/getSurveyByOwner/${OId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -27,7 +27,7 @@ export const retrieveSurveyByOwner = (OId, token) => {
   });
 }
 export const retrieveSurveyByID = ( SId) =>{
-  return fetch(`http://localhost:8000/getSurvey/${SId}`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/getSurvey/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
@@ -40,7 +40,7 @@ export const retrieveSurveyByID = ( SId) =>{
   });
 }
 export const retrieveResponseCounts = (SId, token) => {
-  return fetch(`http://localhost:8000/getResponceCount/${SId}`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/getResponceCount/${SId}`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

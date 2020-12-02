@@ -61,16 +61,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Create() {
   if (!isAuthenticated()) {
-    return <Signin/>;}
-  else {
+    return <Signin/>;
+  } else {
     const classes = useStyles(useTheme());
     const [questions, setQuestions] = useState([]);
+    const [title, setTitle] = useState('');
+
     const [description, setDescription] = useState('');
     const [open, setOpen] = useState(false);
     const [modalQuestionType, setModalQuestionType] = useState('');
 
     const handleOpen = () => {
       setOpen(true);
+
     };
 
     const handleClose = () => {
@@ -95,11 +98,10 @@ export default function Create() {
 
     async function handleSubmit() {
       const survey = {
+        'title': title,
         'description': description,
       };
-
-
-      const t1 = await isAuthenticated();
+  const t1 = await isAuthenticated();
       const output = {
         'questions': {
         },
@@ -173,6 +175,8 @@ export default function Create() {
         <ButtonAppBar></ButtonAppBar>
         <main className={classes.container}>
           <Paper elevation={3} className={classes.window}>
+            <TextField label="Title" className={classes.description}
+              onChange={(event) => setTitle(event.target.value)} />
             <TextField label="Description" className={classes.description}
               onChange={(event) => setDescription(event.target.value)} />
             <Grid container wrap="wrap" justify="flex-start" spacing={0}>
@@ -208,6 +212,6 @@ export default function Create() {
         </main>
       </>
     );
-
   }
 }
+

@@ -1,5 +1,5 @@
-export const makeSurvey = (data, token)=> {
-  return fetch(`http://localhost:8000/store/createSurvey`, {
+export const addQuestions = (data, token)=>{
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeQuestions`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',
@@ -14,9 +14,10 @@ export const makeSurvey = (data, token)=> {
     console.log(err);
   });
 };
-
-export const addQuestions = (data, token)=> {
-  return fetch(`http://localhost:8000/store/storeQuestions`, {
+// 
+// still coming up
+export const addOneQuestion = (data, token)=>{
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeOneQuestion`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',
@@ -32,8 +33,22 @@ export const addQuestions = (data, token)=> {
 };
 
 export const submit = (data)=>{
-  return fetch(`http://localhost:8000/store/storeResult`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/store/storeResult`, {
     'method': 'PUT',
+    'headers': {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    'body': JSON.stringify(data)
+  }).then( (response) => {
+    return response.json();
+  }).catch((err) => {
+    console.log(err);
+  });
+};
+export const makeSurvey = (data, token)=>{
+  return fetch(`${process.env.REACT_APP_API_URL}/store/createSurvey`, {
+    'method': 'POST',
     'headers': {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

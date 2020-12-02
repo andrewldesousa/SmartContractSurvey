@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import Link from 'next/link';
 import {Typography} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import {retrieveSurveyByID} from './api/retrieve'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,8 +51,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Start() {
+
+export const Start=(props)=> {
   const classes = useStyles(useTheme());
+  
+  const [val, setval] = useState({data:"Please fill out the following survey."})
+
+  const getData = async (sid)=> {
+    retrieveSurveyByID(sid).then(data => {
+      if (data.error) {
+        console.log('Error loding survey data!');
+      } else {
+        setval(data);
+      }
+    })
+  };
+
+  useEffect(()=>{
+    const Id = props.sid;
+    getData(Id);
+  },[props])
 
   return (
     <main className={classes.container}>
@@ -59,9 +78,9 @@ export default function Start() {
         Welcome to the Survey!
       </Typography>
       <Typography variant="subtitle1">
-        This is survey is about X and Y. Fill it out to have a chance to win prize Z!
+        {val.data}
       </Typography>
-      <Link href="/survey">
+      <Link href={'/survey/takeSurvey?sid='+props.sid}>
         <Button variant="contained" color="primary" className={classes.landingPageButton}>Start the survey</Button>
       </Link>
 

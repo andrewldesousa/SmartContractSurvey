@@ -1,5 +1,5 @@
 export const responseSubmit = ()=>{
-  return fetch(`http://localhost:8000/user/submit`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/user/submit`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -13,7 +13,7 @@ export const responseSubmit = ()=>{
 }
 
 export const responseSubmitDummy = ()=>{
-  return fetch(`http://localhost:8000/user/submit`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/user/submit`, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

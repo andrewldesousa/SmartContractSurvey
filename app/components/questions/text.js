@@ -12,18 +12,21 @@ const cardStyle = {
   minHeight: '180px',
 };
 
-export default class TextQA extends React.Component {
-  render() {
+
+
+export default function TextQA(props) {
+  console.log(props.INDEX)
     return (
       <div align='center'>
         <br/>
         <Card variant="outlined" style={cardStyle}>
-          <CardHeader title={this.props.question}/>
+          <CardHeader title={props.question}/>
           <CardContent>
-            <TextField label={this.props.hint} variant="outlined" />
+            <TextField label={props.hint} variant="outlined" value={props.value} 
+            onChange={() => props.handleChange(props.INDEX, event.target.value )}/>
           </CardContent>
         </Card>
       </div>
     );
   }
-}
+
