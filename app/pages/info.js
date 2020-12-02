@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Link from "next/link";
 
 const useStyles = makeStyles({
     root: {
@@ -70,9 +71,17 @@ export default function SimpleCard() {
                     <br/><br/>
                     If you have any further questions, please feel free to contact us. We are happy to answer all your questions!
                     <br/>
+                    <Link href="/contact">
                     <Button variant="outlined" color="primary">
                         Contact Us
                     </Button>
+                    </Link>
+                    &nbsp; &nbsp;
+                <Link href="/">
+                    <Button variant="outlined" color="primary">
+                        Go Back
+                    </Button>
+                </Link>
                 </Typography>
             </CardContent>
         </Card>
