@@ -66,12 +66,14 @@ export default function Create() {
     const classes = useStyles(useTheme());
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState('');
+
     const [description, setDescription] = useState('');
     const [open, setOpen] = useState(false);
     const [modalQuestionType, setModalQuestionType] = useState('');
 
     const handleOpen = () => {
       setOpen(true);
+
     };
 
     const handleClose = () => {
@@ -99,8 +101,7 @@ export default function Create() {
         'title': title,
         'description': description,
       };
-
-      const t1 = await isAuthenticated();
+  const t1 = await isAuthenticated();
       const output = {
         'questions': {
         },
@@ -213,3 +214,4 @@ export default function Create() {
     );
   }
 }
+

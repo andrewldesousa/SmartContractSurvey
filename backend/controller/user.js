@@ -86,7 +86,6 @@ exports.authenticate = (req, res, next) => {
     if (authHeader) {
         const token = authHeader.split(' ')[1];
         jwt.verify(token, process.env.JWT_secret, (err, user) => {
-            console.log(err);
             if (err) {
                 return res.sendStatus(403);
             }
