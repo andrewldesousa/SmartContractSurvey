@@ -3,10 +3,11 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
-
+import Signin from '../../components/signin'
 import AppBar from '../../components/header';
 import IconButton from '@material-ui/core/IconButton';
 import LinkIcon from '@material-ui/icons/Link';
+import { isAuthenticated } from '../api/auth';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,7 +75,7 @@ export default function AdminProfile(props) {
     return output;
   }
 
-  return (
+  const authVal=
     <>
       <AppBar></AppBar>
       <div className={classes.container}>
@@ -84,7 +85,13 @@ export default function AdminProfile(props) {
         </Paper>
       </div>
     </>
-  );
+  const unAuthVal=<Signin/>
+  if (!isAuthenticated()) {
+    return unAuthVal;
+  }
+  else {
+    return authVal;
+  }
 }
 
 export async function getServerSideProps(context) {
