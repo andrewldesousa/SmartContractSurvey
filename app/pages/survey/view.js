@@ -194,7 +194,7 @@ export const View = (prop) => {
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  const numOfpages = Math.ceil(questions.length / pageSize);
+  const numOfpages = Math.ceil((questions.length-1) / pageSize);
   const changePage = (event, value) => {
     setPage(value);
     setProgress((value - 1) / numOfpages * 100);
