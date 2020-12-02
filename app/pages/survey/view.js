@@ -61,16 +61,29 @@ const spinnerStyle = {
 
 
 export const View = (prop) => {
-  const [questionsVal, setQuestions] = useState([{question: 'Enter Walet ID:', type: ADMIN_PROMPT_ONLY_TYPES.WALLET}]);
-  const [isLoading, setLoading] = useState(true)
+  const [questionsVal, setQuestions] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const router = useRouter();
   const getData = (sid)=> {
     retrieveQuestionsBySurvey(sid).then(data => {
       if (data.error) {
         console.log('Error loding survey data!');
       } else {
-        setQuestions(data);
-        setLoading(false)
+        const dataWithAnswer = [];
+        for (let i=0; i<data.length; i++) {
+          dataWithAnswer.push(
+              {
+                '_id': data[i]['_id'],
+                'type': data[i]['type'],
+                'question': data[i]['question'],
+                'answer': '',
+                'options': data[i]['options'],
+              },
+          );
+        }
+
+        setQuestions(dataWithAnswer);
+        setLoading(false);
       }
     })
   };
@@ -93,39 +106,53 @@ export const View = (prop) => {
     setRedirect(error);
   }
 
+  function handleChange(k, answer) {
+    const type = questionsVal[k]['type'];
+    const question = questionsVal[k]['question'];
+    const _id = questionsVal[k]['_id'];
+    console.log(answer)
+    console.log(questionsVal[k])
+    setQuestions(questionsVal.slice(0, k).concat([{type: type, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id}])
+        .concat(questionsVal.slice(k + 1, questionsVal.length)));
+  };
+
+
   function parseSurvey(survey) {
-    const questions = [<Wallet key={-1}/>];
+    //const questions = [<Wallet key={-1}/>];
+    const questions =[]
     survey.map((question,i)=>{
       switch (question.type){
+        case QUESTION_TYPES.WALLET://add this here 
+        break;
         case QUESTION_TYPES.SLIDER_DISCRETE:
-          questions.push(<DiscreteSlider key={i} question={question.question} label='' list={question.options}/>);
+          questions.push(<DiscreteSlider key={i} question={question.question} label='' list={question.options } value={questionsVal[i]['answer']}/>);
           break;
         case QUESTION_TYPES.SLIDER:
-          questions.push(<Slider key={i} question={question.question} label='' />);
+          questions.push(<Slider key={i} question={question.question} label='' value={questionsVal[i]['answer']} />);
           break;
         case QUESTION_TYPES.DROPDOWN:
-          questions.push(<DropdownQA key={i} question={question.question} list={question.options} />);
+          questions.push(<DropdownQA key={i} question={question.question} list={question.options} value={questionsVal[i]['answer']} />);
           break;
         case QUESTION_TYPES.DATE:
           questions.push(<DateQuestion key={i} question={question.question} />);
           break;
         case QUESTION_TYPES.SINGLE_CHOICE:
-          questions.push(<SingleQA key={i} question ={question.question} qList={question.options}/>);
+          questions.push(<SingleQA key={i} question ={question.question} qList={question.options} value={questionsVal[i]['answer']}/>);
           break;
         case QUESTION_TYPES.MULTIPLE_CHOICE:
-          questions.push(<MultipleQA key={i} question={question.question} qList={question.options}/>);
+          questions.push(<MultipleQA key={i} question={question.question} qList={question.options} value={questionsVal[i]['answer']}/>);
           break;
         case QUESTION_TYPES.TEXT:
-          questions.push(<TextQA key = {i} question ={question.question} hint='Answer here'/>);
+          questions.push(<TextQA key = {i} INDEX={i} question ={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange}/>);
           break;
         case QUESTION_TYPES.RATE:
-          questions.push(<RateQA key={i} question ={question.question}/>);
+          questions.push(<RateQA key={i} question ={question.question} value={questionsVal[i]['answer']}/>);
           break;
         case QUESTION_TYPES.LIKERT:
-          questions.push(<Likert key={i} question={question.question}/>);
+          questions.push(<Likert key={i} question={question.question} value={questionsVal[i]['answer']}/>);
           break;
         case QUESTION_TYPES.BINARY:
-          questions.push(<YesNoQuestion key={i} question={question.question}/>);
+          questions.push(<YesNoQuestion key={i} question={question.question} value={questionsVal[i]['answer']}/>);
           break;
       }
     })

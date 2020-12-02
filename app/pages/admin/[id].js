@@ -2,11 +2,10 @@ import React from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Link from 'next/link';
 
 import AppBar from '../../components/header';
-import {Button} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
 import LinkIcon from '@material-ui/icons/Link';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,13 +62,12 @@ export default function AdminProfile(props) {
         <div className={classes.titleContainer}>
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
-        <div className={classes.buttonContainer}>
-          <IconButton aria-label="link" className={classes.margin}>
-            <LinkIcon fontSize="large" />
-          </IconButton>
-          <IconButton aria-label="delete" className={classes.margin}>
-            <DeleteIcon fontSize="large" />
-          </IconButton>
+        <div className={classes.buttonContainer} onClick={() => console.log('t', event.target.setAttribute('r','r'))}>
+          <Link href="/login">
+            <IconButton aria-label="link" className={classes.margin}>
+              <LinkIcon fontSize="large" />
+            </IconButton>
+          </Link>
         </div>
       </div>);
     }
@@ -80,7 +78,7 @@ export default function AdminProfile(props) {
     <>
       <AppBar></AppBar>
       <div className={classes.container}>
-        <Typography variant="h2">{props.name + '\'s' + ' Profile'}</Typography>
+        <Typography variant="h2">{'Andrew' + '\'s' + ' Profile'}</Typography>
         <Paper elevation={3} className={classes.surveyListContainer}>
           {renderSurveyList()}
         </Paper>
@@ -90,14 +88,11 @@ export default function AdminProfile(props) {
 }
 
 export async function getServerSideProps(context) {
-  const name = 'Andrew Desousa';
-  const email = 'desousa.andrew11@gmail.com';
   const surveyList = [['Title', 3], ['Tit', 5]];
 
   return {
     props: {
-      name: name,
-      email: email,
+
       surveyList: surveyList,
     },
   };
