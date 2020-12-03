@@ -66,50 +66,36 @@ export default function ButtonAppBar() {
               <img src="/tum.png" className={classes.logo} />
             </Button>
           </Link>
-          { visible || !user ?
-          <div>
-            <Link href="/login">
-              <Button variant="contained" size="large" color="primary">Login</Button>
-            </Link>
-            <Link href="/register" className={classes.buttonLinks}>
-              <Button variant="contained" size="large" color="primary" className={classes.buttonLinks}>Register</Button>
-            </Link>
-          </div> :
-          <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-               Hello, &nbsp; {user? user.name:''}
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>My Profile</MenuItem>
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-          </div>
-          :
-          <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-  Hello
-</Button>
-<Menu
-  id="simple-menu"
-  anchorEl={anchorEl}
-  keepMounted
-  open={Boolean(anchorEl)}
-  onClose={handleClose}
->
-  <MenuItem onClick={handleClose}>My Profile</MenuItem>
-  <MenuItem onClick={handleClose}>Logout</MenuItem>
-</Menu> 
-          </div>
-}
+          {visible || !user ?
+              <div>
+                <Link href="/login">
+                  <Button variant="contained" size="large" color="primary">Login</Button>
+                </Link>
+                <Link href="/register" className={classes.buttonLinks}>
+                  <Button variant="contained" size="large" color="primary" className={classes.buttonLinks}>Register
+                  </Button>
+                </Link>
+              </div> :
+              <div>
+                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                  Hello, &nbsp; {user ? user.name : ''}
+                </Button>
+                <Menu
+                  id="simple-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>Logout</MenuItem>
+                </Menu>
+              </div>
 
+}
         </Toolbar>
       </AppBar>
     </div>
+
   );
 };
