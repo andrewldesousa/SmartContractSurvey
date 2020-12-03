@@ -4,7 +4,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import ButtonAppBar from '../components/homeHeader';
 import Typography from '@material-ui/core/Typography';
+
 import Link from "next/link";
 
 const useStyles = makeStyles({
@@ -32,6 +34,8 @@ export default function SimpleCard() {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
+        <div>
+        <ButtonAppBar></ButtonAppBar>
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
@@ -77,13 +81,9 @@ export default function SimpleCard() {
                     </Button>
                     </Link>
                     &nbsp; &nbsp;
-                <Link href="/">
-                    <Button variant="outlined" color="primary">
-                        Go Back
-                    </Button>
-                </Link>
                 </Typography>
             </CardContent>
         </Card>
+        </div>
     );
 }

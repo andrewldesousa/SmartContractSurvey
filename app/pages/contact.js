@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from "next/link";
+import ButtonAppBar from "../components/homeHeader";
 
 const useStyles = makeStyles({
     root: {
@@ -32,7 +33,9 @@ export default function SimpleCard() {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-        <Card className={classes.root}>
+        <div>
+        <ButtonAppBar></ButtonAppBar>
+    <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
                     Contact Us
@@ -47,14 +50,8 @@ export default function SimpleCard() {
                 <Typography className={classes.pos} color="textSecondary">
                     Email - daniel.obermeier@tum.de
                 </Typography>
-                <center>
-                    <Link href="/">
-                    <Button variant="outlined" color="primary">
-                        Go Back
-                    </Button>
-                </Link>
-                </center>
             </CardContent>
         </Card>
+        </div>
     );
 }
