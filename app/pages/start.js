@@ -78,7 +78,7 @@ export const Start=(props)=> {
         Welcome to the Survey!
       </Typography>
       <Typography variant="subtitle1">
-        {val.data}
+        {val.description}
       </Typography>
       <Link href={'/survey/takeSurvey?sid='+props.sid}>
         <Button variant="contained" color="primary" className={classes.landingPageButton}>Start the survey</Button>
