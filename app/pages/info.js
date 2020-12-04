@@ -6,12 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from "next/link";
+import NavBar from "../components/NavBar";
 
 const useStyles = makeStyles({
-    root: {
+    card: {
         height: "1500px",
         width: "1000px",
-        marginLeft: "250px",
         marginTop: "50px",
     },
     bullet: {
@@ -25,6 +25,10 @@ const useStyles = makeStyles({
     pos: {
         marginBottom: 12,
     },
+    container: {
+        display: "flex",
+        justifyContent: "center"
+    }
 });
 
 export default function SimpleCard() {
@@ -32,6 +36,9 @@ export default function SimpleCard() {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
+        <>
+            <NavBar showRightSide={true}/>
+            <div className={classes.container}>
         <Card className={classes.root}>
             <CardContent>
                 <Typography variant="h5" component="h2">
@@ -77,13 +84,10 @@ export default function SimpleCard() {
                     </Button>
                     </Link>
                     &nbsp; &nbsp;
-                <Link href="/">
-                    <Button variant="outlined" color="primary">
-                        Go Back
-                    </Button>
-                </Link>
                 </Typography>
             </CardContent>
         </Card>
+            </div>
+        </>
     );
 }

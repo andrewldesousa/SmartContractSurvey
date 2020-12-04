@@ -6,12 +6,12 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Link from "next/link";
+import NavBar from "../components/NavBar";
 
 const useStyles = makeStyles({
-    root: {
+    card: {
         height: "250px",
         width: "300px",
-        marginLeft: "550px",
         marginTop: "50px"
     },
     bullet: {
@@ -25,6 +25,10 @@ const useStyles = makeStyles({
     pos: {
         marginBottom: 12,
     },
+    container: {
+        display: "flex",
+        justifyContent: "center"
+    }
 });
 
 export default function SimpleCard() {
@@ -32,10 +36,13 @@ export default function SimpleCard() {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-        <Card className={classes.root}>
+        <>
+            <NavBar showRightSide={true}/>
+            <div className={classes.container}>
+        <Card className={classes.card}>
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    Contact Us
+                  <center>  Contact Us </center>
                 </Typography>
                 <br/>
                 <Typography className={classes.pos} color="textSecondary">
@@ -47,14 +54,9 @@ export default function SimpleCard() {
                 <Typography className={classes.pos} color="textSecondary">
                     Email - daniel.obermeier@tum.de
                 </Typography>
-                <center>
-                    <Link href="/">
-                    <Button variant="outlined" color="primary">
-                        Go Back
-                    </Button>
-                </Link>
-                </center>
             </CardContent>
         </Card>
+            </div>
+            </>
     );
 }
