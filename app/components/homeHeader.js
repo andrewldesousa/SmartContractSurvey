@@ -89,7 +89,7 @@ export default function ButtonAppBar() {
               <MenuItem onClick={handleClose}>My Profile</MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
-          </div>}
+          </div>} 
         </Toolbar>
       </AppBar>
     </div>
