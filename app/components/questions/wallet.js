@@ -22,6 +22,8 @@ export default class Wallet extends React.Component {
                     <CardContent>
                         <div style={{width:'520px'}}>
                         <TextField
+                            value={this.props.value}
+                            onChange={() => this.props.handleChange(this.props.INDEX, event.target.value )}
                             label="Wallet ID"
                             helperText="This helps us get you paid"
                             style={{ margin: 8 }}

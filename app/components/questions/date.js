@@ -24,7 +24,17 @@ export default class DateQuestion extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <PickDate/>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                margin="normal"
+                id="date-picker-dialog"
+                label="Date picker dialog"
+                format="dd/MM/yyyy"
+                value={this.props.value ? moment(this.props.value).format('YYYY-MM-DD') : new Date('2000-01-01T00:00:00')}// selectedDate
+                onChange={(date, dateString) => this.props.handleChange(this.props.INDEX, dateString) }
+                KeyboardButtonProps={{ariaLabel: 'change date'}}
+              />
+            </MuiPickersUtilsProvider>
           </CardContent>
         </Card>
       </div>
@@ -44,8 +54,9 @@ function PickDate(props) {
         id="date-picker-dialog"
         label="Date picker dialog"
         format="MM/dd/yyyy"
-        value={selectedDate}
-        onChange={handleDateChange}
+        value={props.value ? props.value : new Date('2000-01-01T00:00:00')} // selectedDate
+        // onChange={handleDateChange}
+        onChange={(event, newValue) => props.handleChange(props.INDEX, newValue)}
         KeyboardButtonProps={{ariaLabel: 'change date'}}
       />
     </MuiPickersUtilsProvider>
