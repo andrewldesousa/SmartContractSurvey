@@ -7,14 +7,14 @@ export const addQuestions = (data, token)=>{
       'Authorization': `Bearer ${token}`,
     },
     'body': JSON.stringify(data),
-  }).then( (response) => {
+  }).then((response) => {
     console.log(response);
     return response.json();
   }).catch((err) => {
     console.log(err);
   });
 };
-// 
+
 // still coming up
 export const addOneQuestion = (data, token)=>{
   return fetch(`${process.env.REACT_APP_API_URL}/store/storeOneQuestion`, {
@@ -37,9 +37,9 @@ export const submit = (data)=>{
     'method': 'PUT',
     'headers': {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    'body': JSON.stringify(data)
+    'body': JSON.stringify(data),
   }).then( (response) => {
     return response.json();
   }).catch((err) => {
@@ -47,11 +47,12 @@ export const submit = (data)=>{
   });
 };
 export const makeSurvey = (data, token)=>{
-  return fetch(`${process.env.REACT_APP_API_URL}/store/createSurvey`, {
+  return fetch(`https://localhost:8000/store/createSurvey`, {
     'method': 'POST',
     'headers': {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
     'body': JSON.stringify(data),
   }).then( (response) => {

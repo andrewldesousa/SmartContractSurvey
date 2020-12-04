@@ -3,7 +3,7 @@ import Link from 'next/link';
 import {Typography} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import ButtonAppBar from '../components/homeHeader';
+import NavBar from '../components/NavBar';
 import Paper from '@material-ui/core/Paper';
 
 
@@ -47,7 +47,7 @@ export default function Start() {
 
   return (
     <>
-      <ButtonAppBar></ButtonAppBar>
+      <NavBar showRightSide={true}/>
       <main className={classes.container}>
         <Typography variant="h1">Create forms with ease</Typography>
         <div className={classes.paperContainer}>
