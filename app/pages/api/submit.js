@@ -24,7 +24,6 @@ export const responseSubmitDummy = ()=>{
   }).catch((err) => {
     console.log(err);
   });
-}
 };
 /*
  *This funciton is where the api call to the backend will be added

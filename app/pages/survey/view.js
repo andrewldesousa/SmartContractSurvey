@@ -16,7 +16,7 @@ import Wallet from '../../components/questions/wallet';
 import Likert from '../../components/questions/likert';
 import Button from '@material-ui/core/Button';
 import Spinner from '../../components/spinner';
-import ButtonAppBar from '../../components/header';
+import NavBar from '../../components/NavBar';
 import { useRouter } from 'next/router'
 import { responseSubmitDummy } from '../api/submit';
 import YesNoQuestion from '../../components/questions/binary';
@@ -28,40 +28,45 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import {makeStyles, useTheme} from "@material-ui/core/styles";
 
-const paginationStyle = {
-  textAlign: 'center',
-  padding: '1.5rem',
-  margin: '0 auto',
-  display: 'flex',
-  justifyContent: 'center',
-  color: 'inherit',
-  width: '70%',
-  transitionDuration: 'color 0.15s ease',
-};
+const useStyles = makeStyles((theme) => ({
+    paginationStyle: {
+        textAlign: 'center',
+        padding: '1.5rem',
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'center',
+        color: 'inherit',
+        width: '70%',
+        transitionDuration: 'color 0.15s ease',
+    },
+    submitStyle: {
+        paddingTop: '10px',
+        marginTop: '20px',
+        display: 'flex',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        width: '100px',
+    },
+   spinnerStyle: {
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+    },
+    flexContainer: {
+        display: "flex",
+        justifyContent: "center"
+    }
 
-const submitStyle = {
-  textAlign: 'center',
-  paddingTop: '10px',
-  marginTop: '20px',
-  marginLeft: '660px',
-  display: 'flex',
-  justifyContent: 'center',
-  color: 'white',
-  width: '100px',
-  transitionDuration: 'color 0.15s ease',
-};
-
-const spinnerStyle = {
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-};
+}));
 
 
 export const View = (prop) => {
-  const [questionsVal, setQuestions] = useState([]);
+    const classes = useStyles(useTheme());
+    const [questionsVal, setQuestions] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
   const getData = (sid)=> {
@@ -110,8 +115,6 @@ export const View = (prop) => {
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
-    console.log(answer)
-    console.log(questionsVal[k])
     setQuestions(questionsVal.slice(0, k).concat([{type: type, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id}])
         .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
@@ -156,8 +159,8 @@ export const View = (prop) => {
           break;
       }
     })
-    questions.push(<Button variant="contained" style={submitStyle} color="primary" onClick={handleClickOpen} >
-      Submit</Button>);
+    questions.push(<div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
+      Submit</Button></div>);
     questions.push(<Dialog
       open={open}
       onClose={handleClose}
@@ -168,7 +171,6 @@ export const View = (prop) => {
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
         Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
-  
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -188,9 +190,8 @@ export const View = (prop) => {
   const [redirect, setRedirect] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
 
-  if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
+  if (isLoading) return <div className={classes.spinnerStyle}> <Spinner /></div>;
   const questions = parseSurvey(questionsVal)
-  console.log(questions)
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
@@ -203,7 +204,7 @@ export const View = (prop) => {
   const questionList = () => (
     <div id="Cards">
       {questions.slice(indexOfFirstPost, indexOfLastPost)}
-      <Pagination count={numOfpages} page={page} shape="rounded" style={paginationStyle} onChange={changePage} />
+      <Pagination count={numOfpages} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
       <br />
     </div>
   ) 
@@ -216,13 +217,12 @@ export const View = (prop) => {
 
   return ( 
     <div>
-      <ButtonAppBar />
+      <NavBar />
       <LinearDeterminate progress={progress} />
       <br />
       <br />
       {questionList()}
       {redirectUser()}
-      <DenseAppBar />
     </div>
     )
 }

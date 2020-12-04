@@ -10,13 +10,13 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import ButtonAppBar from '../../components/header';
+import NavBar from '../../components/NavBar';
 import PromptAndChoices from '../../components/questions/create/promptAndChoices';
 import PromptOnly from '../../components/questions/create/promptOnly';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
+import Signin from '../../components/signin';
 import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
-import Signin from '../../components/signin';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,7 +73,6 @@ export default function Create() {
 
     const handleOpen = () => {
       setOpen(true);
-
     };
 
     const handleClose = () => {
@@ -101,12 +100,16 @@ export default function Create() {
         'title': title,
         'description': description,
       };
-  const t1 = await isAuthenticated();
+
+      const t1 = await isAuthenticated();
+
       const output = {
         'questions': {
         },
       };
+
       const surveyResponse = await makeSurvey(survey, t1.token);
+
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
           if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
@@ -172,7 +175,7 @@ export default function Create() {
 
     return (
       <>
-        <ButtonAppBar></ButtonAppBar>
+        <NavBar showRightSide={true}/>
         <main className={classes.container}>
           <Paper elevation={3} className={classes.window}>
             <TextField label="Title" className={classes.description}

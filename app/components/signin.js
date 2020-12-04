@@ -16,7 +16,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { Helmet } from 'react-helmet';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import ButtonAppBar from "./homeHeader";
+import NavBar from "./NavBar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -120,7 +120,6 @@ const Signin = () => {
                     localStorage['name'] = data['user']['name'];
                     localStorage['email'] = data['user']['email'];
                     localStorage['user_id'] = data['user']['_id'];
-                    console.log('asf', data);
                 });
             }
         });
@@ -196,7 +195,7 @@ const Signin = () => {
     };
     return (
         <React.Fragment>
-            <ButtonAppBar/>
+            <NavBar/>
         <div>
             <Helmet>
                 <style>{'body { background-color: #1976d2 ; }'}</style>
