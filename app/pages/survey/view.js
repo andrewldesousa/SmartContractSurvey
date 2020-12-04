@@ -115,8 +115,6 @@ export const View = (prop) => {
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
-    console.log(answer)
-    console.log(questionsVal[k])
     setQuestions(questionsVal.slice(0, k).concat([{type: type, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id}])
         .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
@@ -194,7 +192,6 @@ export const View = (prop) => {
 
   if (isLoading) return <div className={classes.spinnerStyle}> <Spinner /></div>;
   const questions = parseSurvey(questionsVal)
-  console.log(questions)
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;

@@ -120,7 +120,6 @@ const Signin = () => {
                     localStorage['name'] = data['user']['name'];
                     localStorage['email'] = data['user']['email'];
                     localStorage['user_id'] = data['user']['_id'];
-                    console.log('asf', data);
                 });
             }
         });

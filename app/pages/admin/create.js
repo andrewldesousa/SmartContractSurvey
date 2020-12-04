@@ -110,7 +110,6 @@ export default function Create() {
 
       const surveyResponse = await makeSurvey(survey, t1.token);
 
-      console.log(surveyResponse);
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
           if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {

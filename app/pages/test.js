@@ -12,10 +12,6 @@ export default function testApi() {
   const questions = retrieveQuestionsBySurvey('5f75097100494a44ac63e912')
   // GETTING ALL SURVEYS OF AN INDIVIDUAL USER 
   const surveyList = retrieveSurveyByOwner('5f486252efbd4a0b0012ae7a',token)
-  console.log(dataCount)
-  console.log(survey)
-  console.log(questions)
-  console.log(surveyList) 
   // SUBMITTING ALL RESPONSES FORMAT FOR ALL JSON OBJECTS TO BE HELD  
   const dataToSubmit = {
     'responses': {
@@ -24,8 +20,7 @@ export default function testApi() {
     }
   }
   const submitRes = submit(dataToSubmit, '5f75097100494a44ac63e912')
-  console.log(submitRes)
-  // ADDING QUESTIONS IN BULK TO A SURVEY 
+  // ADDING QUESTIONS IN BULK TO A SURVEY
   const questionsToAdd = {
     'questions': {
       'q1': {
@@ -36,12 +31,10 @@ export default function testApi() {
     }
   }
   const addQuestionRes = addQuestions(questionsToAdd, token)
-  console.log(addQuestionRes)
-  // ADDING A NEW SURVEY 
+  // ADDING A NEW SURVEY
   const newSurvey={
     'description': 'Test #1 for api' 
   }
-  console.log(makeSurvey(newSurvey, token))
   // ADDING A SINGLE QUESTION
   const singleQuestion={ 
     'question': {
@@ -51,7 +44,6 @@ export default function testApi() {
       'options': ['A','B']
     }
   }
-  console.log(addOneQuestion(singleQuestion, token))
 
   return (
     <div>

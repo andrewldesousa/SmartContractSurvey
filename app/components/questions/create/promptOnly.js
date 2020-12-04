@@ -32,7 +32,6 @@ export default function PromptOnly(props) {
       console.log(output[i])
       console.log(output[i] !== output[i].toLowerCase())
       if (output[i] !== output[i].toLowerCase()) {
-        alert('asd')
         output[i] = output[i].toLowerCase();
         output = output.splice(i, i, ' ');
         break;
