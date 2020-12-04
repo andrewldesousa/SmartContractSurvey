@@ -89,25 +89,7 @@ export default function ButtonAppBar() {
               <MenuItem onClick={handleClose}>My Profile</MenuItem>
               <MenuItem onClick={handleClose}>Logout</MenuItem>
             </Menu>
-          </div>
-          :
-          <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-  Hello
-</Button>
-<Menu
-  id="simple-menu"
-  anchorEl={anchorEl}
-  keepMounted
-  open={Boolean(anchorEl)}
-  onClose={handleClose}
->
-  <MenuItem onClick={handleClose}>My Profile</MenuItem>
-  <MenuItem onClick={handleClose}>Logout</MenuItem>
-</Menu> 
-          </div>
-}
-
+          </div>}
         </Toolbar>
       </AppBar>
     </div>
