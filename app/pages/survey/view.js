@@ -3,7 +3,7 @@ import {retrieveQuestionsBySurvey} from '../api/retrieve';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
 import Pagination from '@material-ui/lab/Pagination';
-
+import {submit} from '../api/store'
 import TextQA from '../../components/questions/text';
 import RateQA from '../../components/questions/rate';
 import SingleQA from '../../components/questions/singleChoice';
@@ -111,6 +111,23 @@ export const View = (prop) => {
     setRedirect(error);
   }
 
+  function submitSurvey() {
+    let cleanRes = {
+      'responses': { }
+    }
+    for (let k=0; k< questionsVal.length; ++k) {
+      if (questionsVal[k].answer!='') {
+        cleanRes.responses[`Q${k}`]= {
+          'question_id': questionsVal[k]._id,
+          'answer': questionsVal[k].answer
+        }
+      }
+    }
+    console.log(cleanRes)
+    const error = submit(cleanRes)
+    setRedirect(error);
+  }
+
   function handleChange(k, answer) {
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
@@ -178,7 +195,7 @@ export const View = (prop) => {
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={submitBtn} color="primary" autoFocus>
+        <Button onClick={submitSurvey} color="primary" autoFocus>
           Submit
         </Button>
       </DialogActions>
@@ -199,7 +216,7 @@ export const View = (prop) => {
   const numOfpages = Math.ceil((questions.length-1) / pageSize);
   const changePage = (event, value) => {
     setPage(value);
-    setProgress((value - 1) / numOfpages * 100);
+    setProgress((value ) / numOfpages * 100);
   };
 
   const questionList = () => (
