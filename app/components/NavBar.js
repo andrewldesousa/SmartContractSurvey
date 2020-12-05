@@ -95,7 +95,7 @@ export default function NavBar(props) {
               onClose={handleAncorElClose}
             >
               <Link href={'/admin/'+ user._id}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem>My Dashboard</MenuItem>
               </Link>
               <MenuItem onClick={() => clickSignout()}>Logout</MenuItem>
             </Menu>

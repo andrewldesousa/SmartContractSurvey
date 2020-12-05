@@ -28,6 +28,7 @@ export default class Wallet extends React.Component {
                             helperText="This helps us get you paid"
                             style={{ margin: 8 }}
                             fullWidth
+                            required
                         />
                         </div>
                     </CardContent>

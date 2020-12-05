@@ -87,7 +87,7 @@ export default function ButtonAppBar() {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                  <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My Dashboard</MenuItem>
                   <MenuItem onClick={handleClose}>Logout</MenuItem>
                 </Menu>
               </div>

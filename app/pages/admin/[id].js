@@ -85,7 +85,7 @@ export default function AdminProfile(props) {
       <>
         <NavBar showRightSide={true}/>
         <div className={classes.container}>
-          <Typography variant="h2">{user.name + '\'s' + ' Profile'}</Typography>
+          <Typography variant="h2">{user.name + '\'s' + ' Dashboard'}</Typography>
           <Paper elevation={3} className={classes.surveyListContainer}>
             {renderSurveyList()}
           </Paper>

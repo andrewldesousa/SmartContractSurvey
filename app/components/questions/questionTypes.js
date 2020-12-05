@@ -10,6 +10,7 @@ const QUESTION_TYPES = {
   SINGLE_CHOICE: 'singleChoice',
   MULTIPLE_CHOICE: 'multipleChoice',
   DROPDOWN: 'dropdown',
+  NUMERIC: 'numeric'
 };
 
 const ADMIN_PROMPT_ONLY_TYPES = {
@@ -21,6 +22,7 @@ const ADMIN_PROMPT_ONLY_TYPES = {
   SLIDER: 'slider',
   SLIDERDISCRETE: 'sliderDiscrete',
   WALLET: 'wallet',
+  NUMERIC: 'numeric'
 };
 
 export {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES};

@@ -31,7 +31,7 @@ const cardStyle = {
   padding: '1.5rem',
   display: 'flex',
   color: 'inherit',
-  //display: 'block',
+  display: 'block',
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',

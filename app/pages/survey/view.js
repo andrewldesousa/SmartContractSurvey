@@ -3,7 +3,7 @@ import {retrieveQuestionsBySurvey} from '../api/retrieve';
 import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
 
 import Pagination from '@material-ui/lab/Pagination';
-import {submit} from '../api/store'
+import {submit} from '../api/store';
 import TextQA from '../../components/questions/text';
 import RateQA from '../../components/questions/rate';
 import SingleQA from '../../components/questions/singleChoice';
@@ -20,7 +20,6 @@ import NavBar from '../../components/NavBar';
 import {useRouter} from 'next/router';
 import {responseSubmitDummy} from '../api/submit';
 import YesNoQuestion from '../../components/questions/binary';
-import DenseAppBar from '../../components/footer';
 import LinearDeterminate from '../../components/progress';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -29,6 +28,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
+import NumericQA from "../../components/questions/numbers";
 
 const useStyles = makeStyles((theme) => ({
   paginationStyle: {
@@ -112,20 +112,29 @@ export const View = (prop) => {
   }
 
   function submitSurvey() {
-    let cleanRes = {
+    const cleanRes = {
       'responses': { }
-    }
+    };
+    let flag=true
     for (let k=0; k< questionsVal.length; ++k) {
-      if (questionsVal[k].answer!='') {
+      if (questionsVal[k].answer!='')  {
         cleanRes.responses[`Q${k}`]= {
           'question_id': questionsVal[k]._id,
-          'answer': questionsVal[k].answer
-        }
+          'answer': questionsVal[k].answer,
+        };
+      }
+      else {
+        flag = false
+        handleClose()
+        alert(`Fill value for ${questionsVal[k].question}`)
+        break;
       }
     }
-    console.log(cleanRes)
-    const error = submit(cleanRes)
-    setRedirect(error);
+    console.log(cleanRes);
+    if(flag){
+      const error = submit(cleanRes);
+      setRedirect(error);
+    }
   }
 
   function handleChange(k, answer) {
@@ -135,7 +144,6 @@ export const View = (prop) => {
     setQuestions(questionsVal.slice(0, k).concat([{type: type, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id}])
         .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
-
 
   function parseSurvey(survey) {
     // const questions = [<Wallet key={-1}/>];
@@ -175,6 +183,9 @@ export const View = (prop) => {
         case QUESTION_TYPES.BINARY:
           questions.push(<YesNoQuestion key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
           break;
+        case QUESTION_TYPES.NUMERIC:
+          questions.push(<NumericQA key = {i} INDEX={i} question ={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+      break;
       }
     });
     questions.push(<div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
