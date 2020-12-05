@@ -34,6 +34,8 @@ export default class SliderQA extends React.Component {
                 {this.props.label}
               </Typography>
               <Slider
+                value={this.props.value ? this.props.value : this.props.min} // or if strings have to be stored parseInt(this.props.value)
+                onChange={(event, newValue) => this.props.handleChange(this.props.INDEX, newValue)} // for strings could be used newValue + ''
                 defaultValue={this.props.min}
                 getAriaValueText={valuetext}
                 valueLabelDisplay="auto"

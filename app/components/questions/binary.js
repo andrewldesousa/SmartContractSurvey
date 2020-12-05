@@ -31,7 +31,7 @@ const cardStyle = {
   padding: '1.5rem',
   display: 'flex',
   color: 'inherit',
-  display: 'block',
+  //display: 'block',
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
@@ -52,7 +52,20 @@ export default class YesNoQuestion extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Choose />
+            <Choose value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
+            {/* <div display='inline-block'>
+              <Typography component="div">
+                <Grid component="label" container alignItems="center" spacing={1}>
+                  <Grid item>NO</Grid>
+                  <Grid item>
+                    <Switch color='primary' checked={this.props.value ? this.props.value : false}
+                            onChange={(event, newValue) => this.props.handleChange(this.props.INDEX, newValue )}
+                    />
+                  </Grid>
+                  <Grid item>YES</Grid>
+                </Grid>
+              </Typography>
+            </div>*/}
           </CardContent>
         </Card>
       </div>
@@ -95,7 +108,7 @@ const AntSwitch = withStyles((theme) => ({
 }))(Switch);
 
 
-const Choose = function YesNo() {
+const Choose = function YesNo(props) {
   const handleChange = (event) => {
     setState({...state, checked: event.target.checked});
   };
@@ -108,7 +121,9 @@ const Choose = function YesNo() {
         <Grid component="label" container alignItems="center" spacing={1}>
           <Grid item>NO</Grid>
           <Grid item>
-            <Switch color='primary' checked={state.checked} onChange={handleChange} />
+            <Switch color='primary' checked={props.value ? props.value : false}
+                    onChange={(event, newValue) => props.handleChange(props.INDEX, newValue )}
+            />
           </Grid>
           <Grid item>YES</Grid>
         </Grid>
