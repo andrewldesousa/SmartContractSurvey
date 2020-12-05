@@ -67,21 +67,37 @@ exports.getSurveyQuesitons = (req, res, next) => {
 
 
 exports.getResponceCount = (req, res) => {
-    Question.find({ 'survey_id': req.survey._id }, { '_id': 1 }, function (err, data) {
+    console.log("survey_id")
+    console.log(req.body)
+    Question.find({ 'survey_id': req.body.survey_id}, { '_id': 1 , 'question' : 1}, function (err, data) {
         if (err) console.log(err)
         if (!data) {
             return res.status(400).json({ err });
         }
+       
     }).then(function (data) {
+        console.log(data)
         var dataList=[]
+        var titleList=[]
         for (i in data){
             dataList.push(data[i]['_id'])
+            titleList.push(data[i]['question'])
         }
-        //console.log(dataList)
+        console.log("Hello")
+        console.log(titleList)
+        console.log(data)
         Response.aggregate(
             [
                 { $match: { 'question_id': {$in:dataList} } },
-                { $group: { _id: {Qid : '$question_id', answer:'$answer'}, count: { $sum: 1 } } }
+                { 
+                    $lookup: { 
+                        from: 'questions', 
+                        localField: 'question_id', 
+                        foreignField: '_id', 
+                        as: 'question' 
+                    } 
+                },
+                { $group: { _id: {Qid : '$question_id' ,Question : '$question.question', answer:'$answer'}, count: { $sum: 1 } } }
             ],
             function (err1, data1) {
                 
@@ -101,12 +117,13 @@ exports.getResponceCount = (req, res) => {
 
 exports.getResponceCountOld = (req, res) => {
 
-    Question.find({ 'survey_id': req.survey._id }, { '_id': 1 }, function (err, data) {
+    Question.find({ 'survey_id': req.survey_id }, { '_id': 1 }, function (err, data) {
         if (err) console.log(err)
         if (!data) {
             return res.status(400).json({ err });
         }
     }).then(function (data) {
+        console.log(data)
         var collect = {}
         for (var iter = 0; iter < data.length; ++iter) {
             var temp = data[iter]['_id']
