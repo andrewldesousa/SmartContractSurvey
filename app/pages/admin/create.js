@@ -17,6 +17,9 @@ import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/question
 import Signin from '../../components/signin';
 import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,11 +55,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: '20rem',
+    marginTop: '15rem',
     marginLeft: '30rem',
     marginRight: '30rem',
-    height: '10rem',
+    minHeight: "220px",
+    width: "40%"
   },
+  MenuItem: {
+    marginTop: "30px",
+  },
+  button: {
+    marginTop: "20px"
+  }
 }));
 
 export default function Create() {
@@ -109,7 +119,7 @@ export default function Create() {
       };
 
       const surveyResponse = await makeSurvey(survey, t1.token);
-
+      console.log(surveyResponse)
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
           if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
@@ -201,15 +211,21 @@ export default function Create() {
             onClose={handleClose}
           >
             <Paper className={classes.modal}>
-              <Typography variant="h3">What type of question do you want to create?</Typography>
+              <Typography variant="h3"> <center>What type of question do you want to create? </center></Typography>
+              <FormControl>
+              <InputLabel id="demo-simple-select-error-label">Question Type</InputLabel>
               <Select
+                  id="demo-simple-select-readonly"
+                  labelId="demo-simple-select-error-label"
                 onChange={(event) => {
                   setModalQuestionType(event.target.value);
                 }}>
                 {Object.keys(QUESTION_TYPES).map((key, index) => (
-                  <MenuItem key={index} value={QUESTION_TYPES[key]}>{key}</MenuItem>))}
+                  <MenuItem className={classes.MenuItem} key={index} value={QUESTION_TYPES[key]}>{key}</MenuItem>))}
               </Select>
-              <Button onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
+                <FormHelperText>Choose a question Type</FormHelperText>
+              </FormControl>
+              <Button className={classes.button} color="primary" variant="contained" onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
             </Paper>
           </Modal>
         </main>

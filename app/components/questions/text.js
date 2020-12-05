@@ -6,7 +6,7 @@ const cardStyle = {
   padding: '1.5rem',
   display: 'flex',
   color: 'inherit',
-  //display: 'block',
+  display: 'block',
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
@@ -22,7 +22,7 @@ export default function TextQA(props) {
         <CardHeader title={props.question}/>
         <CardContent>
           <TextField label={props.hint} variant="outlined" value={props.value}
-            onChange={() => props.handleChange(props.INDEX, event.target.value )}/>
+            onChange={() => props.handleChange(props.INDEX, event.target.value )} required/>
         </CardContent>
       </Card>
     </div>
