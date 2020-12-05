@@ -20,7 +20,7 @@ export default class DropdownQA extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Drop_down list={this.props.list} label={this.props.label} />
+            <Drop_down list={this.props.list} label={this.props.label} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
           </CardContent>
         </Card>
       </div>
@@ -29,39 +29,39 @@ export default class DropdownQA extends React.Component {
 }
 
 function Drop_down(props) {
-    const [state, setState] = React.useState({
-        name: '',
+  const [state, setState] = React.useState({
+    name: '',
+  });
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value,
     });
-    const handleChange = (event) => {
-        const name = event.target.name;
-        setState({
-            ...state,
-            [name]: event.target.value,
-        });
-    };
-    const FormStyle = {
-        margin: 1,
-        padding: 1.5,
-        minWidth: 180,
-    }
-    return (
-        <div>
-            <TextField
-                select
-                style={FormStyle}
-                label={props.label}
-                value={state.age}
-                onChange={handleChange}
-                SelectProps={{
-                    native: true,
-                }}
-                variant="outlined"
-            >
-                <option value="" />
-                {props.list.map(listitem => (
-                    <option value={listitem}>{listitem}</option>
-                ))}
-            </TextField>
-        </div>
-    )
+  };
+  const FormStyle = {
+    margin: 1,
+    padding: 1.5,
+    minWidth: 180,
+  };
+  return (
+    <div>
+      <TextField
+        select
+        style={FormStyle}
+        label={props.label}
+        value={props.value ? props.value : ''}
+        onChange={(event) => props.handleChange(props.INDEX, event.target.value)}
+        SelectProps={{
+          native: true,
+        }}
+        variant="outlined"
+      >
+        <option value="" />
+        {props.list.map((listitem) => (
+          <option key={listitem} value={listitem}>{listitem}</option>
+        ))}
+      </TextField>
+    </div>
+  );
 }
