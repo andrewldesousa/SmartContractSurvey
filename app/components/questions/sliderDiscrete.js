@@ -1,7 +1,6 @@
 import React from 'react';
 import {Card, CardContent, CardHeader, Slider, FormLabel} from '@material-ui/core';
 
-
 const cardStyle = {
   textAlign: 'left',
   padding: '1.5rem',
@@ -26,7 +25,7 @@ export default class DiscreteSlider extends React.Component {
           <CardHeader title={this.props.question} />
           <CardContent>
             <FormLabel>{this.props.label}</FormLabel>
-            <GenSlider list={this.props.list} />
+            <GenSlider list={this.props.list} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
           </CardContent>
         </Card>
       </div>
@@ -44,12 +43,13 @@ const GenSlider = function MakeSlider(props) {
     <span display='inline-block'>
       <div style={sliderStyle}>
         <Slider
+          value={props.value ? props.value : 0} // or if strings have to be stored parseInt(this.props.value)
+          onChange={(event, newValue) => props.handleChange(props.INDEX, newValue)} // for strings could be used newValue + ''
           valueLabelFormat={props.list[value]}
-          onChange={handleChange}
           step={1}
           marks
           min={0}
-          max={props.list.length - 1}
+          max={props.list && props.length > 0 ? props.list.length - 1 : 20} // test with other values until a nonempty option list, otherwise 0
           valueLabelDisplay="auto"
           aria-labelledby="non-linear-slider"
         />

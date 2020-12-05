@@ -138,7 +138,7 @@ export const View = (prop) => {
           questions.push(<DropdownQA key={i} INDEX={i} question={question.question} list={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.DATE:
-          questions.push(<DateQuestion key={i} INDEX={i} question={question.question} handleChange={handleChange} />);
+          questions.push(<DateQuestion key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.SINGLE_CHOICE:
           questions.push(<SingleQA key={i} INDEX={i} question ={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange}/>);

@@ -3,6 +3,7 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import {Card, CardContent, CardHeader} from '@material-ui/core';
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
+import moment from 'moment';
 
 
 const cardStyle = {
@@ -24,17 +25,18 @@ export default class DateQuestion extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <PickDate value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
+            {/*<MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
                 id="date-picker-dialog"
                 label="Date picker dialog"
                 format="dd/MM/yyyy"
-                value={this.props.value ? moment(this.props.value).format('YYYY-MM-DD') : new Date('2000-01-01T00:00:00')}// selectedDate
+                value={this.props.value ? moment(this.props.value).format('DD/MM/YYYY') : new Date('2000-01-01T00:00:00')}// selectedDate
                 onChange={(date, dateString) => this.props.handleChange(this.props.INDEX, dateString) }
                 KeyboardButtonProps={{ariaLabel: 'change date'}}
               />
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider>*/}
           </CardContent>
         </Card>
       </div>
@@ -47,6 +49,12 @@ function PickDate(props) {
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
+
+  function parsePropsValue(value) {
+    return value ? moment(value).format('MM/DD/YYYY') : new Date('2000-01-01T00:00:00');
+  }
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
@@ -54,7 +62,7 @@ function PickDate(props) {
         id="date-picker-dialog"
         label="Date picker dialog"
         format="MM/dd/yyyy"
-        value={props.value ? props.value : new Date('2000-01-01T00:00:00')} // selectedDate
+        value={parsePropsValue(props.value)} // selectedDate
         // onChange={handleDateChange}
         onChange={(event, newValue) => props.handleChange(props.INDEX, newValue)}
         KeyboardButtonProps={{ariaLabel: 'change date'}}
