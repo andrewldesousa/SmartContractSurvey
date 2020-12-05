@@ -7,8 +7,7 @@ import clsx from 'clsx'
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import Alert from '@material-ui/lab/Alert';
-import Link from "next/link";
-import ButtonAppBar from "./homeHeader";
+import NavBar from "./NavBar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -184,7 +183,7 @@ const Signup = () => {
     );
     return (
         <React.Fragment>
-            <ButtonAppBar/>
+            <NavBar/>
         <div>
             <Helmet>
                 <style>{'body { background-color: #1976d2 ; }'}</style>

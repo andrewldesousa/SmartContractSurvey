@@ -26,18 +26,19 @@ export default function PromptOnly(props) {
   const value = props.prompt;
 
   function parseTitle(questionType) {
-    let output = questionType.slice(0, 1).toUpperCase() + questionType.slice(1, questionType.length);
+    /* let output = questionType.slice(0, 1).toUpperCase() + questionType.slice(1, questionType.length);
 
     for(let i=1; i<output.length; i++) {
       console.log(output[i])
       console.log(output[i] !== output[i].toLowerCase())
       if (output[i] !== output[i].toLowerCase()) {
-        alert('asd')
         output[i] = output[i].toLowerCase();
         output = output.splice(i, i, ' ');
         break;
       }
-    }
+    }*/
+
+    const output = questionType.charAt(0).toUpperCase() + questionType.substring(1).toLowerCase();
 
     return output;
   }

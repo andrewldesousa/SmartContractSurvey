@@ -41,7 +41,7 @@ export default class RateQA extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Rate key={this.props.key}/>
+            <Rate key={this.props.key} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
           </CardContent>
         </Card>
       </div>
@@ -57,11 +57,12 @@ const Rate= function HoverRating(props) {
     <span display='inline-block'>
       <Rating
         name={props.key}
-        value={value}
+        value={props.value ? props.value : 0}
         precision={0.5}
         size="large"
         onChange={(event, newValue) => {
-          setValue(newValue);
+          //setValue(newValue);
+          props.handleChange(props.INDEX, newValue)
         }}
         onChangeActive={(event, newHover) => {
           setHover(newHover);

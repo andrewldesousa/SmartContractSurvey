@@ -35,7 +35,7 @@ export default class Likert extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Rate />
+            <Rate value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
           </CardContent>
         </Card>
       </div>
@@ -52,7 +52,7 @@ const Rate = function HoverRating(props) {
 
   return (
     <FormControl component="fieldset">
-      <RadioGroup row value={value} onChange={handleChange}>
+      <RadioGroup row value={props.value} onChange={(event) => props.handleChange(props.INDEX, event.target.value)}>
         <FormControlLabel
           value="1"
           control={<Radio color="primary" />}
