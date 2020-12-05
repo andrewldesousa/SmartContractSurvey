@@ -67,6 +67,8 @@ exports.getSurveyQuesitons = (req, res, next) => {
 
 
 exports.getResponceCount = (req, res) => {
+    console.log("survey_id")
+    console.log(req.body)
     Question.find({ 'survey_id': req.body.survey_id}, { '_id': 1 , 'question' : 1}, function (err, data) {
         if (err) console.log(err)
         if (!data) {
@@ -74,6 +76,7 @@ exports.getResponceCount = (req, res) => {
         }
        
     }).then(function (data) {
+        console.log(data)
         var dataList=[]
         var titleList=[]
         for (i in data){
@@ -82,6 +85,7 @@ exports.getResponceCount = (req, res) => {
         }
         console.log("Hello")
         console.log(titleList)
+        console.log(data)
         Response.aggregate(
             [
                 { $match: { 'question_id': {$in:dataList} } },
