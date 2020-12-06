@@ -41,10 +41,13 @@ export default class SingleQA extends React.Component {
 
 
 function QList(props) {
+  const separator = '|#~§^separator!+-=#|';
+  const emptyWord = '-+~##~§^empty!+-=#/#';
 
-  function readPropertyValue(propsValue, index) {
+  function readPropertyValue(propsList, propsValue, index) {
     if (propsValue) {
-      return propsValue.charAt(index) === '1';
+      const values = propsValue.split(separator, propsList.length);
+      return values[index] !== emptyWord;
     } else {
       return false;
     }
@@ -56,17 +59,19 @@ function QList(props) {
     if (!propsValue) {
       for (let i = 0; i < propsList.length; i++) {
         if (i === index) {
-          result = result + (newValue ? '1' : '0');
+          result = result + (newValue ? newValue : '') + separator;
         } else {
-          result = result + '0';
+          result = result + emptyWord + separator;
         }
       }
     } else {
+      const values = propsValue.split(separator, propsList.length);
+
       for (let i = 0; i < propsList.length; i++) {
         if (i === index) {
-          result = result + (newValue ? '1' : '0');
+          result = result + (newValue ? newValue : '') + separator;
         } else {
-          result = result + propsValue.charAt(i);
+          result = result + values[i] + separator;
         }
       }
     }
@@ -82,9 +87,9 @@ function QList(props) {
           <FormLabel component='legend'>{props.label}</FormLabel>
           {props.list.map((listitem, index) => (
             <FormControlLabel value={listitem}
-              control={<Checkbox color="primary" checked={readPropertyValue(props.value, index)}
+              control={<Checkbox color="primary" checked={readPropertyValue(props.list, props.value, index)}
                 onChange={(event) =>
-                  props.handleChange(props.INDEX, setPropertyValue(props.list, props.value, index, event.target.checked))}
+                  props.handleChange(props.INDEX, setPropertyValue(props.list, listitem, index, event.target.checked))}
                 name={listitem}/>}
               label={listitem} labelPlacement='end'/>
           ))}

@@ -55,8 +55,8 @@ const Visualization = withRouter((props)=> {
     };
     useEffect(()=>{
       const Id = props.router.query.sid;
+      console.log(Id);
       getData(Id);
-      console.log(vis);
     },[props])
 
 
@@ -80,10 +80,6 @@ const Visualization = withRouter((props)=> {
     function parseVis(vis) {
       const charts = [];
       const chartsconfig = new Hashmap();
-
-      const separator = '|#~§^separator!+-=#|';
-      const emptyWord = '-+~##~§^empty!+-=#/#';
-
       vis.map((row) => {
         const arrays = chartsconfig.get(row._id.Qid);
         if (arrays) {
