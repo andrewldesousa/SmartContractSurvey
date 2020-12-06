@@ -28,7 +28,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import NumericQA from "../../components/questions/numbers";
+import NumericQA from '../../components/questions/numbers';
 
 const useStyles = makeStyles((theme) => ({
   paginationStyle: {
@@ -113,25 +113,38 @@ export const View = (prop) => {
 
   function submitSurvey() {
     const cleanRes = {
-      'responses': { }
+      'responses': { },
     };
-    let flag=true
+    let flag=true;
     for (let k=0; k< questionsVal.length; ++k) {
-      if (questionsVal[k].answer!='')  {
-        cleanRes.responses[`Q${k}`]= {
-          'question_id': questionsVal[k]._id,
-          'answer': questionsVal[k].answer,
-        };
-      }
-      else {
-        flag = false
-        handleClose()
-        alert(`Fill value for ${questionsVal[k].question}`)
-        break;
+      if (!questionsVal[k].answer) {
+        if (questionsVal[k].type === QUESTION_TYPES.BINARY) {
+          cleanRes.responses[`Q${k}`]= {
+            'question_id': questionsVal[k]._id,
+            'answer': false,
+          };
+        } else {
+          flag = false;
+          handleClose();
+          alert(`Fill value for ${questionsVal[k].question}`);
+          break;
+        }
+      } else {
+        if (questionsVal[k].answer!='') {
+          cleanRes.responses[`Q${k}`]= {
+            'question_id': questionsVal[k]._id,
+            'answer': questionsVal[k].answer,
+          };
+        } else {
+          flag = false;
+          handleClose();
+          alert(`Fill value for ${questionsVal[k].question}`);
+          break;
+        }
       }
     }
     console.log(cleanRes);
-    if(flag){
+    if (flag) {
       const error = submit(cleanRes);
       setRedirect(error);
     }
@@ -185,7 +198,7 @@ export const View = (prop) => {
           break;
         case QUESTION_TYPES.NUMERIC:
           questions.push(<NumericQA key = {i} INDEX={i} question ={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange}/>);
-      break;
+          break;
       }
     });
     questions.push(<div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >

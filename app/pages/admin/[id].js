@@ -9,6 +9,8 @@ import {isAuthenticated} from '../api/auth';
 import NavBar from '../../components/NavBar';
 import LinkIcon from '@material-ui/icons/Link';
 import Signin from '../../components/signin';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+
 
 
 const useStyles = makeStyles((theme) => ({
