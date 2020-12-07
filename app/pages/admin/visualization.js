@@ -11,18 +11,16 @@ import {isAuthenticated} from '../api/auth';
 import {retrieveResponseCounts} from '../api/retrieve';
 import Signin from '../../components/signin';
 
-function requestToAPI (sid){
-    //console.log(props.router.query.sid);
-    //  let survey_id = useParams();
-    const url = 'http://localhost:8000/getResponceCount';
-    return fetch(url, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ survey_id : sid })
-    }).then((res) => res.json());
+function requestToAPI (sid) {
+  const url = 'http://localhost:8000/getResponceCount';
+  return fetch(url, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ survey_id : sid })
+  }).then((res) => res.json());
 }
 const spinnerStyle = {
   position: 'absolute',

@@ -42,6 +42,14 @@ const Chart = (props) => {
       ],
     },
     options: {
+      layout: {
+        padding: {
+          left: 150,
+          right: 150,
+          top: 100,
+          bottom: 100,
+        },
+      },
       scales: {
         yAxes: [
           {
@@ -82,7 +90,7 @@ const Chart = (props) => {
   };
 
   return (
-    <div>
+    <div >
       <canvas ref={chartContainer} />
     </div>
   );
