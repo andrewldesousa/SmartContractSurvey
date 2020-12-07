@@ -1,15 +1,15 @@
 /* eslint-disable quote-props */
 import React from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
 import IconButton from '@material-ui/core/IconButton';
-import {isAuthenticated} from '../api/auth';
+import { isAuthenticated } from '../api/auth';
 import NavBar from '../../components/NavBar';
 import LinkIcon from '@material-ui/icons/Link';
 import Signin from '../../components/signin';
-
+import { copyButton } from '../../components/copyButton'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,21 +57,21 @@ const useStyles = makeStyles((theme) => ({
 export default function AdminProfile(props) {
   const classes = useStyles(useTheme());
   const surveyList = props.surveyList;
-  const {user} = isAuthenticated();
+  const { user } = isAuthenticated();
 
   function renderSurveyList() {
     const output = [];
-    for (let i=0; i<surveyList.length; i++) {
+    for (let i = 0; i < surveyList.length; i++) {
       output.push(<div className={classes.surveyListItem}>
         <div className={classes.titleContainer}>
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
         <div className={classes.buttonContainer}>
-          <Link href="/">
-            <IconButton aria-label="link" className={classes.margin}>
-              <LinkIcon fontSize="large" />
-            </IconButton>
-          </Link>
+          <IconButton aria-label="link" className={classes.margin}>
+            {
+              copyButton(`${i}`) // Just replace 'i' with the link to be copied 
+            }
+          </IconButton>
         </div>
       </div>);
     }
@@ -79,11 +79,11 @@ export default function AdminProfile(props) {
   }
 
   if (!isAuthenticated()) {
-    return <Signin/>;
+    return <Signin />;
   } else {
     return (
       <>
-        <NavBar showRightSide={true}/>
+        <NavBar showRightSide={true} />
         <div className={classes.container}>
           <Typography variant="h2">{user.name + '\'s' + ' Dashboard'}</Typography>
           <Paper elevation={3} className={classes.surveyListContainer}>
