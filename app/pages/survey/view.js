@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
-import {retrieveQuestionsBySurvey} from '../api/retrieve';
-import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
+import React, { useState, useEffect } from 'react';
+import { retrieveQuestionsBySurvey } from '../api/retrieve';
+import { QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES } from '../../components/questions/questionTypes';
 
 import Pagination from '@material-ui/lab/Pagination';
-import {submit} from '../api/store';
+import { submit } from '../api/store';
 import TextQA from '../../components/questions/text';
 import RateQA from '../../components/questions/rate';
 import SingleQA from '../../components/questions/singleChoice';
@@ -17,8 +17,8 @@ import Likert from '../../components/questions/likert';
 import Button from '@material-ui/core/Button';
 import Spinner from '../../components/spinner';
 import NavBar from '../../components/NavBar';
-import {useRouter} from 'next/router';
-import {responseSubmitDummy} from '../api/submit';
+import { useRouter } from 'next/router';
+import { responseSubmitDummy } from '../api/submit';
 import YesNoQuestion from '../../components/questions/binary';
 import LinearDeterminate from '../../components/progress';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -27,7 +27,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NumericQA from "../../components/questions/numbers";
 
 const useStyles = makeStyles((theme) => ({
@@ -69,21 +69,21 @@ export const View = (prop) => {
   const [questionsVal, setQuestions] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
-  const getData = (sid)=> {
+  const getData = (sid) => {
     retrieveQuestionsBySurvey(sid).then((data) => {
       if (data.error) {
         console.log('Error loding survey data!');
       } else {
         const dataWithAnswer = [];
-        for (let i=0; i<data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           dataWithAnswer.push(
-              {
-                '_id': data[i]['_id'],
-                'type': data[i]['type'],
-                'question': data[i]['question'],
-                'answer': '',
-                'options': data[i]['options'],
-              },
+            {
+              '_id': data[i]['_id'],
+              'type': data[i]['type'],
+              'question': data[i]['question'],
+              'answer': '',
+              'options': data[i]['options'],
+            },
           );
         }
 
@@ -92,7 +92,7 @@ export const View = (prop) => {
       }
     });
   };
-  useEffect(()=>{
+  useEffect(() => {
     const Id = prop.sid;
     getData(Id);
   }, [prop]);
@@ -113,14 +113,27 @@ export const View = (prop) => {
 
   function submitSurvey() {
     const cleanRes = {
-      'responses': { }
+      'responses': {}
     };
-    let flag=true
-    for (let k=0; k< questionsVal.length; ++k) {
-      if (questionsVal[k].answer!='')  {
-        cleanRes.responses[`Q${k}`]= {
-          'question_id': questionsVal[k]._id,
-          'answer': questionsVal[k].answer,
+    let flag = true
+    for (let k = 0; k < questionsVal.length; ++k) {
+      if (questionsVal[k].answer != '') {
+        if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
+          const list = questionsVal[k].answer.split("");
+          for (let i=0; i<list.length; ++i) {
+            if (list[i]==1) {
+              cleanRes.responses[`Q${questionsVal.length+(1+i)}`] = {
+                'question_id': questionsVal[k]._id,
+                'answer': questionsVal[k].options[i],
+              }
+            }
+          }
+        }
+        else {
+          cleanRes.responses[`Q${k}`] = {
+            'question_id': questionsVal[k]._id,
+            'answer': questionsVal[k].answer,
+          }
         };
       }
       else {
@@ -131,7 +144,8 @@ export const View = (prop) => {
       }
     }
     console.log(cleanRes);
-    if(flag){
+    if (flag) {
+      console.log(cleanRes)
       const error = submit(cleanRes);
       setRedirect(error);
     }
@@ -141,20 +155,21 @@ export const View = (prop) => {
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
-    setQuestions(questionsVal.slice(0, k).concat([{type: type, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id}])
-        .concat(questionsVal.slice(k + 1, questionsVal.length)));
+    const options = questionsVal[k]['options']
+    setQuestions(questionsVal.slice(0, k).concat([{ type: type, options: options, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id }])
+      .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
 
   function parseSurvey(survey) {
     // const questions = [<Wallet key={-1}/>];
-    const questions =[];
-    survey.map((question, i)=>{
+    const questions = [];
+    survey.map((question, i) => {
       switch (question.type) {
         case QUESTION_TYPES.WALLET:
-          questions.push(<Wallet key={i} INDEX={i} question={question.question} label='' list={question.options } value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<Wallet key={i} INDEX={i} question={question.question} label='' list={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.SLIDER_DISCRETE:
-          questions.push(<DiscreteSlider key={i} INDEX={i} question={question.question} label='' list={question.options } value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<DiscreteSlider key={i} INDEX={i} question={question.question} label='' list={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.SLIDER:
           questions.push(<Slider key={i} INDEX={i} question={question.question} label='' value={questionsVal[i]['answer']} handleChange={handleChange} />);
@@ -166,26 +181,26 @@ export const View = (prop) => {
           questions.push(<DateQuestion key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.SINGLE_CHOICE:
-          questions.push(<SingleQA key={i} INDEX={i} question ={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<SingleQA key={i} INDEX={i} question={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.MULTIPLE_CHOICE:
-          questions.push(<MultipleQA key={i} INDEX={i} question={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<MultipleQA key={i} INDEX={i} question={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.TEXT:
-          questions.push(<TextQA key = {i} INDEX={i} question ={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<TextQA key={i} INDEX={i} question={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.RATE:
-          questions.push(<RateQA key={i} INDEX={i} question ={question.question} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<RateQA key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.LIKERT:
-          questions.push(<Likert key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<Likert key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.BINARY:
-          questions.push(<YesNoQuestion key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange}/>);
+          questions.push(<YesNoQuestion key={i} INDEX={i} question={question.question} value={questionsVal[i]['answer']} handleChange={handleChange} />);
           break;
         case QUESTION_TYPES.NUMERIC:
-          questions.push(<NumericQA key = {i} INDEX={i} question ={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange}/>);
-      break;
+          questions.push(<NumericQA key={i} INDEX={i} question={question.question} hint='Answer here' value={questionsVal[i]['answer']} handleChange={handleChange} />);
+          break;
       }
     });
     questions.push(<div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
@@ -199,7 +214,7 @@ export const View = (prop) => {
       <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-        Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+          Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -224,10 +239,10 @@ export const View = (prop) => {
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  const numOfpages = Math.ceil((questions.length-1) / pageSize);
+  const numOfpages = Math.ceil((questions.length - 1) / pageSize);
   const changePage = (event, value) => {
     setPage(value);
-    setProgress((value ) / numOfpages * 100);
+    setProgress((value) / numOfpages * 100);
   };
 
   const questionList = () => (
