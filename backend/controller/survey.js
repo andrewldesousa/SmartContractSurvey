@@ -92,7 +92,7 @@ exports.getResponceCount = (req, res) => {
                         as: 'question' 
                     } 
                 },
-                { $group: { _id: {Qid : '$question_id' ,Question : '$question.question', answer:'$answer'}, count: { $sum: 1 } } }
+                { $group: { _id: {Qid : '$question_id' ,Question : '$question.question', Type : '$question.type', answer:'$answer'}, count: { $sum: 1 } } }
             ],
             function (err1, data1) {
                 
