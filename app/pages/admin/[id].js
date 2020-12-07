@@ -69,7 +69,7 @@ export default function AdminProfile(props) {
         <div className={classes.buttonContainer}>
           <IconButton aria-label="link" className={classes.margin}>
             {
-              copyButton(`${i}`) // Just replace 'i' with the link to be copied 
+              copyButton(`http://localhost:3000/survey/Land?sid=${i}`) // Just replace 'i' with the survey id 
             }
           </IconButton>
         </div>
