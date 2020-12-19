@@ -6,6 +6,8 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import {Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
+import IconButton from '@material-ui/core/IconButton';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,11 +22,27 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'scroll',
   },
 
-  form: {
-    height: '100%',
+  
+  cancelContainer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    height: '2rem',
+  },
+  cardContent: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
+    padding: 0,
   },
+  form: {
+    height: '12rem',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
 }));
 
 
@@ -60,8 +78,14 @@ export default function PromptAndChoices(props) {
   return (
     <Card variant="outlined" className={classes.paper}>
       <form className={classes.form}>
+        <div className={classes.cancelContainer}>
+          <IconButton onClick={() => props.deleteQuestion(props.index)}>
+            <CancelIcon />
+          </IconButton>
+        </div>
         <Typography variant="h3">{parseTitle(props.type)} Question</Typography>
         <FormControl>
+          
           <InputLabel InputLabelProps={{shrink: true}}>Question</InputLabel>
           <Input value={prompt}
             onChange={() => props.handleChange(props.index,

@@ -1,12 +1,13 @@
 import React from 'react';
-import {Card, CardContent, CardHeader, withStyles} from '@material-ui/core';
+import {Card, CardContent, CardHeader, withStyles, Button} from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
 import {Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
-
+import CancelIcon from '@material-ui/icons/Cancel';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,6 +19,25 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  cancelContainer: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'flex-end',
+    height: '2rem',
+  },
+  cardContent: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 0,
+  },
+  form: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
 }));
 
 
@@ -45,8 +65,14 @@ export default function PromptOnly(props) {
 
   return (
     <Card variant="outlined" className={classes.paper}>
-      <CardContent>
-        <form>
+      <CardContent className={classes.cardContent}>
+        <form className={classes.form}>
+          <div className={classes.cancelContainer}>
+            <IconButton onClick={() => props.deleteQuestion(props.index)}>
+              <CancelIcon />
+            </IconButton>
+          </div>
+
           <Typography variant="h3">{parseTitle(props.type)} Question</Typography>
           <FormControl>
             <InputLabel>Question</InputLabel>

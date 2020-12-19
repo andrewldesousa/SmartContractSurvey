@@ -89,6 +89,11 @@ export default function Create() {
       setOpen(false);
     };
 
+
+    function deleteQuestion(key) {
+      setQuestions(questions.slice(0, key).concat(questions.slice(key + 1, questions.length)));
+    };
+
     function handleChange(key, questionData) {
       const values = questionData['values'];
       const questionType = questionData['type'];
@@ -174,10 +179,10 @@ export default function Create() {
         const values = questions[i]['values'];
         if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
           output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
-            prompt={values['prompt']} handleChange={handleChange} /></Grid>);
+            prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
         } else {
           output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
-            values={values} handleChange={handleChange} /></Grid>);
+            values={values} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
         }
       }
       return output;
