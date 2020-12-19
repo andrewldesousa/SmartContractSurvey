@@ -1,15 +1,18 @@
 /* eslint-disable quote-props */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Link from 'next/link';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import { isAuthenticated } from '../api/auth';
 import NavBar from '../../components/NavBar';
 import LinkIcon from '@material-ui/icons/Link';
 import Signin from '../../components/signin';
 import { copyButton } from '../../components/copyButton'
+import {retrieveSurveyByOwner} from '../api/retrieve'
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,31 +55,72 @@ const useStyles = makeStyles((theme) => ({
   buttonContainer: {
     paddingRight: '2rem',
   },
+  copyText: {
+    fontSize: 0,
+    display: 'none',
+  },
+  newSurveyButton: {
+    marginTop: '2rem',
+  },
 }));
 
 export default function AdminProfile(props) {
   const classes = useStyles(useTheme());
-  const surveyList = props.surveyList;
-  const { user } = isAuthenticated();
+
+  const [surveyList, setSurveyList] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const {user} = isAuthenticated();
+  const token = isAuthenticated().token;
+
+  async function fetchData(u, t) {
+    const data = await retrieveSurveyByOwner(u._id, t);
+    const output = [];
+    console.log(data);
+    for (let i=0; i<data.length; i++) {
+      output.push([data[i].title, data[i]._id]);
+    }
+    setSurveyList(output);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    fetchData(user, token);
+  }, []);
+
 
   function renderSurveyList() {
     const output = [];
+
     for (let i = 0; i < surveyList.length; i++) {
       output.push(<div className={classes.surveyListItem}>
         <div className={classes.titleContainer}>
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
+        <textarea id={`${i}-link`}
+          className={classes.copyText}>{'http://localhost:3000/survey/Land?sid=' + surveyList[i][1]}</textarea>
+
         <div className={classes.buttonContainer}>
-          <IconButton aria-label="link" className={classes.margin}>
-            {
-              copyButton(`http://localhost:3000/survey/Land?sid=${i}`) // Just replace 'i' with the survey id 
-            }
+          <IconButton onClick={() => {
+            const copyText = document.getElementById(`${i}-link`);
+            console.log(copyText);
+            copyText.select();
+            document.execCommand('copy');
+          }}>
+            <LinkIcon></LinkIcon>
           </IconButton>
+          <Link href={`visualization?sid=${surveyList[i][1]}`}>
+            <IconButton>
+              <BarChartIcon/>
+            </IconButton>
+          </Link>
+          
         </div>
       </div>);
     }
     return output;
   }
+
+  if (isLoading) return (<p>Loading...</p>);
 
   if (!isAuthenticated()) {
     return <Signin />;
@@ -89,6 +133,8 @@ export default function AdminProfile(props) {
           <Paper elevation={3} className={classes.surveyListContainer}>
             {renderSurveyList()}
           </Paper>
+
+          <Link href="create"><Button variant="outlined" className={classes.newSurveyButton}>Create New Survey</Button></Link>
         </div>
       </>
     );
@@ -96,10 +142,8 @@ export default function AdminProfile(props) {
 }
 
 export async function getServerSideProps(context) {
-  const surveyList = [['Title', 3], ['Tit', 5]];
   return {
     props: {
-      surveyList: surveyList,
     },
   };
 }

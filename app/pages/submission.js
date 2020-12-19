@@ -30,7 +30,7 @@ export default function Submission() {
       <div className={classes.flex}>
       <Confetti
           width={"1500%"}
-          height={"1000%"}
+          height={"700%"}
           numberOfPieces={1000}
           recycle
           gravity={0.1}
