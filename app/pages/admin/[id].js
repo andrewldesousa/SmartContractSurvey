@@ -97,14 +97,15 @@ export default function AdminProfile(props) {
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
         <textarea id={`${i}-link`}
-          className={classes.copyText}>{'http://localhost:3000/survey/Land?sid=' + surveyList[i][1]}</textarea>
+          className={classes.copyText}>{'http://localhost:3000/survey/Land?sid=' + surveyList[i][1]}
+        </textarea>
 
         <div className={classes.buttonContainer}>
           <IconButton onClick={() => {
             const copyText = document.getElementById(`${i}-link`);
-            console.log(copyText);
             copyText.select();
-            document.execCommand('copy');
+            console.log(copyText.value);
+            navigator.clipboard.writeText(copyText.value);
           }}>
             <LinkIcon></LinkIcon>
           </IconButton>
@@ -113,7 +114,6 @@ export default function AdminProfile(props) {
               <BarChartIcon/>
             </IconButton>
           </Link>
-          
         </div>
       </div>);
     }
