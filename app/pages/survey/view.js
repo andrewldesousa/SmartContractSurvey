@@ -113,9 +113,10 @@ export const View = (prop) => {
 
   function submitSurvey() {
     const cleanRes = {
-      'responses': {}
+      'responses': {},
     };
-    let flag = true
+
+    let flag = true;
     for (let k = 0; k < questionsVal.length; ++k) {
       if (questionsVal[k].answer != '') {
         if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
@@ -143,7 +144,7 @@ export const View = (prop) => {
         break;
       }
     }
-    console.log(cleanRes);
+    console.log('here', cleanRes);
     if (flag) {
       console.log(cleanRes)
       const error = submit(cleanRes);
@@ -155,7 +156,7 @@ export const View = (prop) => {
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
-    const options = questionsVal[k]['options']
+    const options = questionsVal[k]['options'];
     setQuestions(questionsVal.slice(0, k).concat([{ type: type, options: options, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id }])
       .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
@@ -203,9 +204,17 @@ export const View = (prop) => {
           break;
       }
     });
-    questions.push(<div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
-      Submit</Button></div>);
-    questions.push(<Dialog
+    return questions;
+  }
+
+  function renderSubmitSection() {
+    if (page > numOfpages) {
+      return;
+    }
+    return (<div>
+      <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
+      Submit</Button></div>
+      <Dialog
       open={open}
       onClose={handleClose}
       aria-labelledby="alert-dialog-title"
@@ -225,8 +234,9 @@ export const View = (prop) => {
           Submit
         </Button>
       </DialogActions>
-    </Dialog>);
-    return questions;
+    </Dialog>
+    </div>
+    )
   }
 
   const [pageSize, setPageSize] = React.useState(5);
@@ -240,6 +250,7 @@ export const View = (prop) => {
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
   const numOfpages = Math.ceil((questions.length - 1) / pageSize);
+  
   const changePage = (event, value) => {
     setPage(value);
     setProgress((value) / numOfpages * 100);
@@ -266,7 +277,9 @@ export const View = (prop) => {
       <br />
       <br />
       {questionList()}
+      {renderSubmitSection()}
       {redirectUser()}
+      
     </div>
   );
 };
