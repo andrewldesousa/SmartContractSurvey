@@ -11,14 +11,18 @@ To run this app, you will need a recent version of Node.js and MongoDB. This rep
 
 ### Development
 For the frontend run these commands...
-`cd app
-npm install
-npm run start`
+```
+cd app\n
+npm install\n
+npm run start
+```
 
 For the backend, run these commands... 
-`cd backend
+```
+cd backend
 npm install
-node app.js`
+node app.js
+```
 
 ### Production
 
