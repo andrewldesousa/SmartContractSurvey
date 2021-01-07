@@ -5,15 +5,13 @@ SmartContractSurvey is a project for
 
 
 ## Running the  Application
-To run this app, you will need a recent version of Node.js and MongoDB. This repository include both the front end and the backend for the application. Before running the application, MongoDB should be running on your PC. 
-
-
+To run this app, you will need a recent version of Node.js and MongoDB. This repository include both the front end and the backend for the application. Before running the application, MongoDB should be running on your PC. If you haven't installed the dependencies, you must run `npm install` while being in the same directory as package.json. Note: both the frontend and the backend have independent `package.json` files.
 
 ### Development
 For the frontend run these commands...
 ```
-cd app\n
-npm install\n
+cd app
+npm install
 npm run start
 ```
 
