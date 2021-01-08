@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export const View = (prop) => {
+export default function View(prop) {
   const classes = useStyles(useTheme());
   const [questionsVal, setQuestions] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -264,12 +264,18 @@ export const View = (prop) => {
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  const numOfpages = Math.ceil((questions.length - 1) / pageSize);
+  var numOfpages = Math.ceil((questions.length - 1) / pageSize);
 
+  if(numOfpages == 0)
+  {
+    numOfpages = 1
+  }
   const changePage = (event, value) => {
     setPage(value);
     setProgress((value) / numOfpages * 100);
   };
+
+
 
   const questionList = () => (
       <div id="Cards">
