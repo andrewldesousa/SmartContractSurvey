@@ -61,11 +61,6 @@ exports.getSurveyQuesitons = (req, res, next) => {
     })
 }
 
-
-
-
-
-
 exports.getResponceCount = (req, res) => {
     console.log("survey_id")
     console.log(req.body)

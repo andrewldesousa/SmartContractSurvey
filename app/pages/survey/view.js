@@ -153,6 +153,7 @@ export const View = (prop) => {
   }
 
   function handleChange(k, answer) {
+    console.log(answer)
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
@@ -249,8 +250,13 @@ export const View = (prop) => {
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  const numOfpages = Math.ceil((questions.length - 1) / pageSize);
-  
+  var numOfpages = Math.ceil((questions.length - 1) / pageSize);
+  console.log(numOfpages)
+  if(numOfpages == 0)
+  {
+    numOfpages = 1;
+  }
+
   const changePage = (event, value) => {
     setPage(value);
     setProgress((value) / numOfpages * 100);
