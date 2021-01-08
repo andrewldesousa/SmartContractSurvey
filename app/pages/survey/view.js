@@ -75,18 +75,23 @@ export const View = (prop) => {
         console.log('Error loding survey data!');
       } else {
         const dataWithAnswer = [];
+        let ans=''
         for (let i = 0; i < data.length; i++) {
-          dataWithAnswer.push(
-            {
-              '_id': data[i]['_id'],
-              'type': data[i]['type'],
-              'question': data[i]['question'],
-              'answer': '',
-              'options': data[i]['options'],
-            },
+          if (data[i]['type']==QUESTION_TYPES.BINARY) {
+            ans = false
+          }
+          else if (data[i]['type']==QUESTION_TYPES.SLIDER) {
+            ans='0'
+          }
+          dataWithAnswer.push({
+                '_id': data[i]['_id'],
+                'type': data[i]['type'],
+                'question': data[i]['question'],
+                'answer': ans,
+                'options': data[i]['options'],
+              },
           );
         }
-
         setQuestions(dataWithAnswer);
         setLoading(false);
       }
@@ -118,7 +123,7 @@ export const View = (prop) => {
 
     let flag = true;
     for (let k = 0; k < questionsVal.length; ++k) {
-      if (questionsVal[k].answer != '') {
+      if (questionsVal[k].answer != '' || questionsVal[k].type == QUESTION_TYPES.BINARY) {
         if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
           const list = questionsVal[k].answer.split("");
           for (let i=0; i<list.length; ++i) {
@@ -130,6 +135,16 @@ export const View = (prop) => {
             }
           }
         }
+        /*else if (questionsVal[k].type == QUESTION_TYPES.BINARY ) {
+          let temp = false
+          if(questionsVal[k].answer) {
+            temp = true
+          }
+          cleanRes.responses[`Q${k}`] = {
+            'question_id': questionsVal[k]._id,
+            'answer': temp,
+          }
+        }*/
         else {
           cleanRes.responses[`Q${k}`] = {
             'question_id': questionsVal[k]._id,
@@ -153,13 +168,12 @@ export const View = (prop) => {
   }
 
   function handleChange(k, answer) {
-    console.log(answer)
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
     const options = questionsVal[k]['options'];
     setQuestions(questionsVal.slice(0, k).concat([{ type: type, options: options, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id }])
-      .concat(questionsVal.slice(k + 1, questionsVal.length)));
+        .concat(questionsVal.slice(k + 1, questionsVal.length)));
   };
 
   function parseSurvey(survey) {
@@ -213,30 +227,30 @@ export const View = (prop) => {
       return;
     }
     return (<div>
-      <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
-      Submit</Button></div>
-      <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={submitSurvey} color="primary" autoFocus>
-          Submit
-        </Button>
-      </DialogActions>
-    </Dialog>
-    </div>
+          <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
+            Submit</Button></div>
+          <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={submitSurvey} color="primary" autoFocus>
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
     )
   }
 
@@ -250,12 +264,7 @@ export const View = (prop) => {
 
   const indexOfLastPost = page * pageSize;
   const indexOfFirstPost = indexOfLastPost - pageSize;
-  var numOfpages = Math.ceil((questions.length - 1) / pageSize);
-  console.log(numOfpages)
-  if(numOfpages == 0)
-  {
-    numOfpages = 1;
-  }
+  const numOfpages = Math.ceil((questions.length - 1) / pageSize);
 
   const changePage = (event, value) => {
     setPage(value);
@@ -263,11 +272,11 @@ export const View = (prop) => {
   };
 
   const questionList = () => (
-    <div id="Cards">
-      {questions.slice(indexOfFirstPost, indexOfLastPost)}
-      <Pagination count={numOfpages} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
-      <br />
-    </div>
+      <div id="Cards">
+        {questions.slice(indexOfFirstPost, indexOfLastPost)}
+        <Pagination count={numOfpages} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
+        <br />
+      </div>
   );
 
   const redirectUser = () => {
@@ -277,15 +286,15 @@ export const View = (prop) => {
   };
 
   return (
-    <div>
-      <NavBar />
-      <LinearDeterminate progress={progress} />
-      <br />
-      <br />
-      {questionList()}
-      {renderSubmitSection()}
-      {redirectUser()}
-      
-    </div>
+      <div>
+        <NavBar />
+        <LinearDeterminate progress={progress} />
+        <br />
+        <br />
+        {questionList()}
+        {renderSubmitSection()}
+        {redirectUser()}
+
+      </div>
   );
 };
