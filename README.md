@@ -1,10 +1,32 @@
 # SmartContractSurvey
-
-Our tool is a survey based on a Smart Contract on the Ethereum Blockchain. After participants have filled out the survey, the Smart Contract automatically determines the winner and sends the reward.
-
+SmartContractSurvey is a project for 
 
 
-### Contributing
-- Files should be named in camel case (i.e. multipleChoice.js)
-- Pass eslint checks. You should probably install some kind of eslint plugin/extension
-- Branches require 1 approval before they can be merged to master
+
+
+## Running the  Application
+To run this app, you will need a recent version of Node.js and MongoDB. This repository include both the front end and the backend for the application. Before running the application, MongoDB should be running on your PC. If you haven't installed the dependencies, you must run `npm install` while being in the same directory as package.json. Note: both the frontend and the backend have independent `package.json` files.
+
+### Development
+For the frontend run these commands...
+```
+cd app
+npm install
+npm run start
+```
+
+For the backend, run these commands... 
+```
+cd backend
+npm install
+node app.js
+```
+
+### Production
+
+
+## Project Contributors
+* Andrew Desousa (desousa.andrew11@gmail.com)
+* Maddy
+* Navid
+* Abhishek
