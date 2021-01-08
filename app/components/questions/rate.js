@@ -61,7 +61,7 @@ const Rate= function HoverRating(props) {
         precision={0.5}
         size="large"
         onChange={(event, newValue) => {
-          //setValue(newValue);
+          setValue(newValue);
           props.handleChange(props.INDEX, newValue)
         }}
         onChangeActive={(event, newHover) => {
