@@ -153,6 +153,7 @@ export const View = (prop) => {
   }
 
   function handleChange(k, answer) {
+    console.log(answer)
     const type = questionsVal[k]['type'];
     const question = questionsVal[k]['question'];
     const _id = questionsVal[k]['_id'];
