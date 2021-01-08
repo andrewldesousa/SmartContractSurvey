@@ -5,6 +5,7 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {retrieveSurveyByID} from './api/retrieve'
+import land from "./survey/Land";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,11 +53,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export const Start=(props)=> {
+export default function Start(props) {
   const classes = useStyles(useTheme());
-  
   const [val, setval] = useState({data:"Please fill out the following survey."})
-
   const getData = async (sid)=> {
     retrieveSurveyByID(sid).then(data => {
       if (data.error) {
@@ -114,3 +113,4 @@ export const Start=(props)=> {
     </main>
   );
 }
+
