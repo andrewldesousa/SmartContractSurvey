@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { retrieveQuestionsBySurvey } from '../api/retrieve';
 import { QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES } from '../../components/questions/questionTypes';
-
+import moment from 'moment';
 import Pagination from '@material-ui/lab/Pagination';
 import { submit } from '../api/store';
 import TextQA from '../../components/questions/text';
@@ -82,6 +82,18 @@ export default function View(prop) {
           }
           else if (data[i]['type']==QUESTION_TYPES.SLIDER) {
             ans='0'
+          }
+          else if (data[i]['type']==QUESTION_TYPES.SLIDER_DISCRETE) {
+            ans='0'
+          }
+          else if (data[i]['type']==QUESTION_TYPES.SLIDER) {
+            ans='0'
+          }
+          else if (data[i]['type']==QUESTION_TYPES.DATE) {
+            ans=moment(new Date()).format('MM/DD/YYYY') 
+          }
+          else {
+            ans = ''
           }
           dataWithAnswer.push({
                 '_id': data[i]['_id'],
