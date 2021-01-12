@@ -42,6 +42,13 @@ const Chart = (props) => {
       ],
     },
     options: {
+      // events: [],
+      legend: {
+        labels: {
+          fontSize: 40,
+          boxWidth: 0,
+        },
+      },
       layout: {
         padding: {
           left: 150,
