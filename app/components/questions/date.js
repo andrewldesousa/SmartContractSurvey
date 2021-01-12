@@ -45,14 +45,14 @@ export default class DateQuestion extends React.Component {
 }
 
 function PickDate(props) {
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2000-01-01T00:00:00'));
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
 
   function parsePropsValue(value) {
-    return value ? moment(value).format('MM/DD/YYYY') : new Date('2000-01-01T00:00:00');
+    return value ? moment(value).format('MM/DD/YYYY') : new Date();
   }
 
   return (
