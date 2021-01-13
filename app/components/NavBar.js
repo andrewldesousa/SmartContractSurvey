@@ -10,6 +10,7 @@ import Popover from '@material-ui/core/Popover';
 import {isAuthenticated, signout} from '../pages/api/auth';
 import {Typography} from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import {useRouter} from 'next/router';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +37,7 @@ export default function NavBar(props) {
   const [authenticated, setAuthenticated] = useState(user ? true : false);
   const showRightSide = props.showRightSide;
   const open = Boolean(anchorEl);
-
+  const router = useRouter();
   const handleAncorElClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -48,7 +49,12 @@ export default function NavBar(props) {
   function clickSignout() {
     signout();
     setAuthenticated(false);
+    redirectUser();
   }
+
+  const redirectUser = () => {
+    router.push('/login');
+  };
 
   function renderRightSide() {
     if (!showRightSide) {

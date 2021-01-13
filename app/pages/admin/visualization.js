@@ -1,18 +1,19 @@
-import React,{useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Hashmap from 'hashmap';
 import ReactDOM from 'react-dom';
 import useSWR from 'swr';
 import Spinner from '../../components/spinner';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import {withRouter} from 'next/router';
 import {useParams} from 'react-router-dom';
 import Chart from '../../components/chart.js';
 import {isAuthenticated} from '../api/auth';
 import {retrieveResponseCounts} from '../api/retrieve';
 import Signin from '../../components/signin';
-import { QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES } from '../../components/questions/questionTypes';
+import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/questions/questionTypes';
+import NavBar from '../../components/NavBar';
 
-function requestToAPI (sid) {
+function requestToAPI(sid) {
   const url = 'http://localhost:8000/getResponceCount';
   return fetch(url, {
     method: 'post',
@@ -20,7 +21,7 @@ function requestToAPI (sid) {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ survey_id : sid })
+    body: JSON.stringify({survey_id: sid}),
   }).then((res) => res.json());
 }
 const spinnerStyle = {
@@ -32,31 +33,31 @@ const spinnerStyle = {
 
 const Visualization = withRouter((props)=> {
   if (!isAuthenticated()) {
-    console.log("not authenticated");
+    console.log('not authenticated');
     return <Signin/>;
   } else {
-    console.log("authenticated");
+    console.log('authenticated');
     requestToAPI(props);
-    //const dataJson = retrieveResponseCounts(surveyId);
-    //console.log(dataJson);
+    // const dataJson = retrieveResponseCounts(surveyId);
+    // console.log(dataJson);
     const router = useRouter();
     const [vis, setVis] = useState();
     const [isLoading, setLoad] = useState(true);
     const getData = async (sid)=> {
-      requestToAPI(sid).then(data => {
+      requestToAPI(sid).then((data) => {
         if (data.error) {
           console.log('Error loding survey data!');
         } else {
           setVis(data);
           setLoad(false);
         }
-      })
+      });
     };
     useEffect(()=>{
       const Id = props.router.query.sid;
       console.log(Id);
       getData(Id);
-    },[props])
+    }, [props]);
 
 
     // function useVis() {
@@ -108,8 +109,8 @@ const Visualization = withRouter((props)=> {
           QUESTION_TYPES.SINGLE_CHOICE || QUESTION_TYPES.SLIDER_DISCRETE)) {
           const Oldlabels = value.get('labels');
           const Olddata = value.get('data');
-          let Newlabels = [];
-          var Newdata = [0,0,0,0,0,0,0,0];
+          const Newlabels = [];
+          const Newdata = [0, 0, 0, 0, 0, 0, 0, 0];
           for (let i=0; i<Oldlabels.length; i++) { // making the labels integer
             Oldlabels[i] = parseInt(Oldlabels[i], 10);
           }
@@ -140,7 +141,7 @@ const Visualization = withRouter((props)=> {
               console.log(Oldlabels[i]);
               switch (true) {
                 case ((Oldlabels[i]>=minLabel) && (Oldlabels[i] < (minLabel + dataBinningGroupLength))):
-                  console.log("Hellot is 23");
+                  console.log('Hellot is 23');
                   Newdata[0] += Olddata[i];
                   break;
 
@@ -178,7 +179,7 @@ const Visualization = withRouter((props)=> {
                   break;
               }
             }
-            console.log("newData");
+            console.log('newData');
             console.log(Newdata);
             value.set('labels', Newlabels);
             value.set('data', Newdata);
@@ -194,14 +195,16 @@ const Visualization = withRouter((props)=> {
     }
 
     if (isLoading) return <div style={spinnerStyle}><Spinner /></div>;
-    //if (isError) return <p>{isError}</p>;
+    // if (isError) return <p>{isError}</p>;
     const charts = parseVis(vis);
 
     return (
-      <div>
-        {charts}
-      </div>
-
+      <>
+        <NavBar showRightSide={true} />
+        <div>
+          {charts}
+        </div>
+      </>
     );
   }
 });
