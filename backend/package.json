@@ -1,10 +1,14 @@
 {
   "name": "back",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.3"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "build": "SET Node_ENV=production& node app.js"
   },
   "keywords": [],
   "author": "",
