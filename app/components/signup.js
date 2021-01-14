@@ -20,6 +20,7 @@ import {Helmet} from 'react-helmet';
 import Alert from '@material-ui/lab/Alert';
 import NavBar from './NavBar';
 import {useRouter} from 'next/router';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,6 +188,7 @@ const Signup = () => {
         </CardContent>
         <cardFooter>{showError()}</cardFooter>
         <cardFooter>{showSuccess()}</cardFooter>
+        <center>  <p> Already have an account? <Link href={'/login'}> Sign In </Link> </p> </center>
       </Card>
     </div>
   );
