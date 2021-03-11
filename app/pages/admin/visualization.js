@@ -33,10 +33,8 @@ const spinnerStyle = {
 
 const Visualization = withRouter((props)=> {
   if (!isAuthenticated()) {
-    console.log('not authenticated');
     return <Signin/>;
   } else {
-    console.log('authenticated');
     requestToAPI(props);
     // const dataJson = retrieveResponseCounts(surveyId);
     // console.log(dataJson);

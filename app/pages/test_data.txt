@@ -1,7 +1,4 @@
-import {retrieveQuestionsBySurvey, retrieveResponseCounts} from './api/retrieve';
-import {retrieveSurveyByID, retrieveSurveyByOwner} from './api/retrieve';
-import React from 'react';
-import {submit, addQuestions, makeSurvey, addOneQuestion} from './api/store';
+
 export default function testApi() {
   const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjQ4NjI1MmVmYmQ0YTBiMDAxMmFlN2EiLCJpYXQiOjE2MDE0OTI4MjB9.Hi5ekO8E5ElYTd1esAh1qOXPNzGBNMQIyZl-yaNoFWU'
   // Retrival OF THE REQUESTS FREQUENCIES OF THE SURVEY BY SURVEY_ID
