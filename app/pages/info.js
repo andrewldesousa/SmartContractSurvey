@@ -1,5 +1,4 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -8,44 +7,19 @@ import Typography from '@material-ui/core/Typography';
 import Link from 'next/link';
 import NavBar from '../components/NavBar';
 
-const useStyles = makeStyles({
-  card: {
-    height: '1500px',
-    width: '1000px',
-    marginTop: '50px',
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-});
 
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
+export default function Info() {
   return (
     <>
       <NavBar showRightSide={true}/>
-      <div className={classes.container}>
-        <Card className={classes.root}>
+      <div>
+        <Card>
           <CardContent>
             <Typography variant="h5" component="h2">
-              <center> <u> Lottery Explanation </u></center>
+              <center><u>Information</u></center>
             </Typography>
             <br/>
-            <Typography className={classes.pos} color="textSecondary">
+            <Typography>
                     Thank you very much for your interest in our survey tool! <br/>
                     In the following we explain everything you need to know about our survey tool. To structure this explanation, we answer four simple questions: <br/>
                     Why are we doing this? <br/>
@@ -80,10 +54,10 @@ export default function SimpleCard() {
               <br/>
               <Link href="/contact">
                 <Button variant="outlined" color="primary">
-                        Contact Us
+                  Contact Us
                 </Button>
               </Link>
-                    &nbsp; &nbsp;
+              &nbsp; &nbsp;
             </Typography>
           </CardContent>
         </Card>

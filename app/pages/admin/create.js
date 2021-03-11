@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -9,6 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
 
 import NavBar from '../../components/NavBar';
 import PromptAndChoices from '../../components/questions/create/promptAndChoices';
@@ -17,9 +21,7 @@ import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/question
 import Signin from '../../components/signin';
 import {makeSurvey, addQuestions} from '../api/store';
 import {isAuthenticated} from '../api/auth';
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,6 +75,7 @@ export default function Create() {
   if (!isAuthenticated()) {
     return <Signin/>;
   } else {
+    
     const classes = useStyles(useTheme());
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState('');

@@ -1,14 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
+
 import {Typography} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import NavBar from '../components/NavBar';
 import Paper from '@material-ui/core/Paper';
-
-
 import InfoIcon from '@material-ui/icons/Info';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+
+import NavBar from '../components/NavBar';
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     marginTop: '8rem',
   },
-  paperContainer: {
+  paperSectionContainer: {
     display: 'flex',
     flexDirection: 'row',
   },
@@ -38,7 +39,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: '1rem',
   },
+
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  }
 }));
 
 
@@ -50,29 +57,33 @@ export default function Start() {
       <NavBar showRightSide={true}/>
       <main className={classes.container}>
         <Typography variant="h1">Create forms with ease</Typography>
-        <div className={classes.paperContainer}>
+        <div className={classes.paperSectionContainer}>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
             <Typography variant="h3">Information</Typography>
             <InfoIcon style={{fontSize: 170}}></InfoIcon>
-            <div className={classes.paperBody}>
-              <Typography>
-                If you would like more information, click the link below.
+            <div>
+              <Typography className={classes.paperBody}>
+                If you would like more information regarding our application, visit our information page.
               </Typography>
-              <Link href="/info">
-                <Button variant="contained" size="large" color="primary">Info</Button>
-              </Link>
+              <div className={classes.buttonContainer}>
+                <Link href="/info">
+                  <Button variant="contained" size="large" color="primary">Information</Button>
+                </Link>
+              </div>
             </div>
           </Paper>
           <Paper elevation={0} variant="outlined" className={classes.paper}>
             <Typography variant="h3">Contact</Typography>
             <ContactSupportIcon style={{fontSize: 170}}></ContactSupportIcon>
-            <div className={classes.paperBody}>
-              <Typography>
-                Contact us for any guidance or help.
+            <div>
+              <Typography className={classes.paperBody}>
+                For user specific questions, guidance, or any help, you can visit find our contact information on the contact page.
               </Typography>
-              <Link href="/contact">
-                <Button variant="contained" size="large" color="primary">Contact</Button>
-              </Link>
+              <div className={classes.buttonContainer}>
+                <Link href="/contact">
+                  <Button variant="contained" size="large" color="primary">Contact</Button>
+                </Link>
+              </div>
             </div>
           </Paper>
         </div>

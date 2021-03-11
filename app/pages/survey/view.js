@@ -64,11 +64,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function View(prop) {
+export default function Survey(prop) {
   const classes = useStyles(useTheme());
   const [questionsVal, setQuestions] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
+
   const getData = (sid) => {
     retrieveQuestionsBySurvey(sid).then((data) => {
       if (data.error) {
@@ -109,6 +110,7 @@ export default function View(prop) {
       }
     });
   };
+  
   useEffect(() => {
     const Id = prop.sid;
     getData(Id);
@@ -304,15 +306,14 @@ export default function View(prop) {
   };
 
   return (
-      <div>
-        <NavBar />
-        <LinearDeterminate progress={progress} />
-        <br />
-        <br />
-        {questionList()}
-        {renderSubmitSection()}
-        {redirectUser()}
-
-      </div>
+    <div>
+      <NavBar />
+      <LinearDeterminate progress={progress} />
+      <br />
+      <br />
+      {questionList()}
+      {renderSubmitSection()}
+      {redirectUser()}
+    </div>
   );
 };
