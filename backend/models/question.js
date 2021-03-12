@@ -21,6 +21,11 @@ const questionSchema = new mongoose.Schema(
             type: Array,
             required: true,
             default:[]
+        },
+        section:{
+            type: Number,
+            default:0,
+            required:true
         }
     },
     {timestamps: true}

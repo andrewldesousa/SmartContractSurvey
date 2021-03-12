@@ -5,7 +5,7 @@ const { authenticate, authorize, requireSignin } = require('../controller/user')
 
 router.post('/getResponse', requireSignin, getResponse)//redundant  
 
-router.get('/getSurveyQuesitons/:Sid', getSurveyQuesitons)
+router.get('/getSurveyQuesitons/:Sid', getSurveyQuesitons) 
 router.post('/getResponceCount', getResponceCount)
 router.get('/getSurvey/:Sid', getSurvey)
 
