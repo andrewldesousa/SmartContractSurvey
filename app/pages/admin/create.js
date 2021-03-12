@@ -52,15 +52,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    overflowY: 'scroll'
   },
   leftPaneSection: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+
   },
   rightPane: {
     width: '100%',
-    padding: '8rem',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  rightPaneTop: {
+    height: '15rem',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    border: '1px grey solid',
+    padding: '2rem'
   },
   paper: {
     minHeight: '100%',
@@ -85,8 +96,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionListContainer: {
     marginTop: '1rem',
-    minHeight: '100%',
-    maxHeight: '100%',
+    height: '20rem',
     width: '100%',
     overflowY: 'scroll',
   },
@@ -225,20 +235,19 @@ export default function Create() {
     }
 
     function renderQuestions() {
-      console.log('here')
-      if (sections.length == 0) { return; }
-      if (questions.length-1 > selectedSection || questions.length == 0) { return; }
 
-      
-      
+      console.log(sections)
+      if (questions.length == 0) return;
+
+      console.log('he')
       let questionsForSection = questions[selectedSection];
       let output = [];
       for (let i = 0; i < questionsForSection.length; i++) {
         const questionType = questionsForSection[i]['type'];
         const values = questionsForSection[i]['values'];
         if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-          output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
-            prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
+          output = output.concat(<Paper><Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
+            prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid></Paper>);
         } else {
           output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
             values={values} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
@@ -249,6 +258,21 @@ export default function Create() {
                               <AddCircleIcon fontSize="large" />
                             </IconButton>);
       return output;
+    }
+
+    function renderRightPane() {
+      if (selectedSection == -1) return;
+      return (
+        <>
+          <br></br>
+          <Typography variant="h3">Section {selectedSection}</Typography>
+          <br></br>
+          <TextField label="Section Title"  className={classes.textField}/>
+          <br></br>
+          <br></br>
+          <TextField label="Section Description" variant="outlined" className={classes.textField}/>
+        </>
+      );
     }
 
     return (
@@ -281,7 +305,10 @@ export default function Create() {
                   <div>
                     <IconButton onClick={() => {
                       let newSections = sections.concat([{title: 'New Section', description: ''}])
-                      let newQuestions = questions.concat([])
+                      console.log('s', questions)
+                      var newQuestions = questions
+                      newQuestions.push([])
+                      console.log('t', newQuestions)
                       setSections(newSections)
                       setQuestions(newQuestions);
                       setSelectedSection(newSections.length-1);
@@ -297,7 +324,12 @@ export default function Create() {
           </div>
 
           <div className={classes.rightPane}>
-            {renderQuestions()}
+            <div className={classes.rightPaneTop}>
+              {renderRightPane()}
+            </div>
+            <div>
+              {renderQuestions()}
+            </div>
           </div>
           
           <Modal
@@ -305,7 +337,7 @@ export default function Create() {
             onClose={handleClose}
           >
             <Paper className={classes.modal}>
-              <Typography variant="h3"> <center>What type of question do you want to create? </center></Typography>
+              <Typography variant="h3"><center>What type of question do you want to create?</center></Typography>
               <FormControl>
               <InputLabel id="demo-simple-select-error-label">Question Type</InputLabel>
               <Select

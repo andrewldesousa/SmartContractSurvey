@@ -24,12 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   surveyListContainer: {
     marginTop: '3rem',
+    height: '35rem',
     width: '40rem',
     overflowY: 'scroll',
   },
   surveyListItem: {
     display: 'flex',
-    height: '4rem',
+    height: '100%',
     width: '100%',
     alignItems: 'center',
     '&:hover': {
