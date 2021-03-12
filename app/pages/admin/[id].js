@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   surveyListContainer: {
     marginTop: '3rem',
-    height: '35rem',
     width: '40rem',
     overflowY: 'scroll',
   },
@@ -87,6 +86,10 @@ export default function AdminProfile(props) {
   }, []);
 
 
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
   function renderSurveyList() {
     const output = [];
 
@@ -103,7 +106,6 @@ export default function AdminProfile(props) {
           <IconButton onClick={() => {
             const copyText = document.getElementById(`${i}-link`);
             copyText.select();
-            console.log(copyText.value);
             navigator.clipboard.writeText(copyText.value);
           }}>
             <LinkIcon></LinkIcon>

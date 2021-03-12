@@ -26,15 +26,13 @@ import {isAuthenticated} from '../api/auth';
 const useStyles = makeStyles((theme) => ({
   container: {
     height: '93vh',
+    flexGrow:1,
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'start',
     backgroundColor: theme.palette.primary.light,
   },
-  description: {
-    margin: '2rem',
-    width: '80%',
+  textField: {
+    width: '100%',
   },
   addQuestionIconContainer: {
     display: 'flex',
@@ -45,13 +43,29 @@ const useStyles = makeStyles((theme) => ({
   circleIcon: {
     display: 'box',
   },
-  window: {
-    width: '90vw',
-    height: '75vh',
-    padding: '1rem',
-    overflowY: 'scroll',
-    marginBottom: '1rem',
+  leftPane: {
+    width: '60%',
+    paddingTop: '4rem',
+    border: '1px grey solid',
+    backgroundColor: 'white',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
+  leftPaneSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  rightPane: {
+    width: '100%',
+    padding: '8rem',
+  },
+  paper: {
+    minHeight: '100%',
+  },
+
   modal: {
     display: 'flex',
     flexDirection: 'column',
@@ -68,6 +82,28 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     marginTop: "20px"
+  },
+  sectionListContainer: {
+    marginTop: '1rem',
+    minHeight: '100%',
+    maxHeight: '100%',
+    width: '100%',
+    overflowY: 'scroll',
+  },
+  sectionListItem: {
+    display: 'flex',
+    height: '4rem',
+    width: '100%',
+    alignItems: 'center',
+    '&:hover': {
+      backgroundColor: theme.palette.primary.light,
+      cursor: 'pointer',
+    },
+  },
+  createSurveyButton: {
+    display: 'flex',
+    height: '3rem',
+    width: '15rem',
   }
 }));
 
@@ -75,12 +111,12 @@ export default function Create() {
   if (!isAuthenticated()) {
     return <Signin/>;
   } else {
-    
     const classes = useStyles(useTheme());
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState('');
-
     const [description, setDescription] = useState('');
+    const [sections, setSections] = useState([]);
+    const [selectedSection, setSelectedSection] = useState(-1);
     const [open, setOpen] = useState(false);
     const [modalQuestionType, setModalQuestionType] = useState('');
 
@@ -127,7 +163,6 @@ export default function Create() {
       };
 
       const surveyResponse = await makeSurvey(survey, t1.token);
-      console.log(surveyResponse)
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
           if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
@@ -175,11 +210,32 @@ export default function Create() {
       setOpen(false);
     }
 
+    function renderSectionList() {
+      const output = [];
+  
+      for (let i = 0; i < sections.length; i++) {
+        output.push(
+          <div className={classes.sectionListItem} onClick={() => {
+            setSelectedSection(i);
+          }}>
+            <Typography variant="h3">{sections[i].title}</Typography>
+          </div>);
+      }
+      return output;
+    }
+
     function renderQuestions() {
+      console.log('here')
+      if (sections.length == 0) { return; }
+      if (questions.length-1 > selectedSection || questions.length == 0) { return; }
+
+      
+      
+      let questionsForSection = questions[selectedSection];
       let output = [];
-      for (let i = 0; i < questions.length; i++) {
-        const questionType = questions[i]['type'];
-        const values = questions[i]['values'];
+      for (let i = 0; i < questionsForSection.length; i++) {
+        const questionType = questionsForSection[i]['type'];
+        const values = questionsForSection[i]['values'];
         if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
           output = output.concat(<Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
             prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
@@ -188,6 +244,10 @@ export default function Create() {
             values={values} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
         }
       }
+
+      output = output.concat(<IconButton onClick={handleOpen}>
+                              <AddCircleIcon fontSize="large" />
+                            </IconButton>);
       return output;
     }
 
@@ -195,25 +255,51 @@ export default function Create() {
       <>
         <NavBar showRightSide={true}/>
         <main className={classes.container}>
-          <Paper elevation={3} className={classes.window}>
-            <TextField label="Title" className={classes.description}
-              onChange={(event) => setTitle(event.target.value)} />
-            <TextField label="Description" className={classes.description}
-              onChange={(event) => setDescription(event.target.value)} />
-            <Grid container wrap="wrap" justify="flex-start" spacing={0}>
-              {renderQuestions(questions)}
-              <Grid item xs={3} className={classes.addQuestionIconContainer}>
+          <div className={classes.leftPane}>
+              <div className={classes.leftPaneSection}>
+                <Typography variant="h3">Define the survey you'd like to create</Typography>
+                <br></br>
+                <TextField label="Survey Title" className={classes.textField}
+                  onChange={(event) => setTitle(event.target.value)} />
+                <br></br>
+                <br></br>
+                <TextField label="Survey Description" multiline rows={6} variant="outlined" className={classes.textField}
+                  onChange={(event) => setDescription(event.target.value)} />
+              </div>
+
+              <br></br>
+              <br></br>
+
+
+              <div className={classes.leftPaneSection}>
                 <div>
-                  <IconButton onClick={handleOpen}>
-                    <AddCircleIcon fontSize="large" />
-                  </IconButton>
+                  <Typography variant="h3">Define the sections of the survey</Typography>
                 </div>
-              </Grid>
-            </Grid>
-          </Paper>
+                <Paper elevation={3} className={classes.sectionListContainer}>
+                  {renderSectionList()}
 
-          <Button onClick={handleSubmit} variant="contained">Create Survey</Button>
+                  <div>
+                    <IconButton onClick={() => {
+                      let newSections = sections.concat([{title: 'New Section', description: ''}])
+                      let newQuestions = questions.concat([])
+                      setSections(newSections)
+                      setQuestions(newQuestions);
+                      setSelectedSection(newSections.length-1);
+                    }}>
+                      <AddCircleIcon fontSize="large" />
+                    </IconButton>
+                  </div>
+                </Paper>
+                <br></br>
+                <br></br>
+                <Button onClick={handleSubmit} variant="contained" color="primary" className={classes.createSurveyButton}>Create Survey</Button>
+              </div>
+          </div>
 
+          <div className={classes.rightPane}>
+            {renderQuestions()}
+          </div>
+          
           <Modal
             open={open}
             onClose={handleClose}
