@@ -40,13 +40,14 @@ export const retrieveSurveyByID = ( SId) =>{
   });
 }
 export const retrieveResponseCounts = (SId, token) => {
-  return fetch(`${process.env.REACT_APP_API_URL}/getResponceCount/${SId}`, {
+  return fetch(`${process.env.REACT_APP_API_URL}/getResponceCount`, {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
       // 'Authorization': `Bearer ${token}`
-    }
+    },
+    body: JSON.stringify({survey_id: Sid}),
   }).then( (response) => {
     return response.json();
   }).catch((err) => {
