@@ -23,6 +23,11 @@ const surveySchema = new mongoose.Schema(
             type: Boolean,
             default: false,
             required:true
+        },
+        sections:{
+            type: Array,
+            default:[],//desciption, title  
+            required:true
         }
     },
     {timestamps: true}

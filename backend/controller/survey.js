@@ -42,10 +42,10 @@ exports.getSurvey = (req, res, next) => {
         }
         const temp = {
             "description":data[0].description,
-            "title":data[0].title
+            "title":data[0].title,
+            "sections":data[0].sections
         }
         res.json(temp)
-        //next()
     })
 }
 
@@ -55,8 +55,16 @@ exports.getSurveyQuesitons = (req, res, next) => {
         if (!data) {
             return res.status(400).json({ err });
         }
-        console.log(data)
-        res.json(data)
+        var sectionedData=[]
+        for (var i=0;i<data.length;++i){
+            if(sectionedData[data[i].section]==null){
+                console.log('flag')
+                sectionedData[data[i].section]=[data[i]];    
+            }
+            else
+                sectionedData[data[i].section][sectionedData[data[i].section].length]=data[i]
+        }
+        res.json(sectionedData)
         next()
     })
 }
@@ -78,9 +86,6 @@ exports.getResponceCount = (req, res) => {
             dataList.push(data[i]['_id'])
             titleList.push(data[i]['question'])
         }
-        console.log("Hello")
-        console.log(titleList)
-        console.log(data)
         Response.aggregate(
             [
                 { $match: { 'question_id': {$in:dataList} } },
@@ -101,7 +106,6 @@ exports.getResponceCount = (req, res) => {
                     return res.status(400).json({ err1 });
                 }
                 else{
-                    //console.log(data1)
                     res.json(data1)
                 }
             }
@@ -111,7 +115,6 @@ exports.getResponceCount = (req, res) => {
 
 
 exports.getResponceCountOld = (req, res) => {
-
     Question.find({ 'survey_id': req.survey_id }, { '_id': 1 }, function (err, data) {
         if (err) console.log(err)
         if (!data) {
