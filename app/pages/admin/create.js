@@ -26,7 +26,6 @@ import {isAuthenticated} from '../api/auth';
 const useStyles = makeStyles((theme) => ({
   container: {
     height: '93vh',
-    flexGrow:1,
     display: 'flex',
     justifyContent: 'start',
     backgroundColor: theme.palette.primary.light,
@@ -34,10 +33,17 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     width: '100%',
   },
+  questionContainer: {
+    width: '70%',
+  },
+  questionSectionContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+
   addQuestionIconContainer: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     height: '12rem',
   },
   circleIcon: {
@@ -46,35 +52,32 @@ const useStyles = makeStyles((theme) => ({
   leftPane: {
     width: '60%',
     paddingTop: '4rem',
-    border: '1px grey solid',
     backgroundColor: 'white',
-
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    overflowY: 'scroll'
+    overflowY: 'scroll',
+
+    border: '1px grey solid'
   },
   leftPaneSection: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-
   },
   rightPane: {
     width: '100%',
     display: 'flex',
+    overflowY: 'scroll',
     flexDirection: 'column',
   },
   rightPaneTop: {
-    height: '15rem',
+    height: '14rem',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: 'white',
     border: '1px grey solid',
     padding: '2rem'
-  },
-  paper: {
-    minHeight: '100%',
   },
 
   modal: {
@@ -102,6 +105,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionListItem: {
     display: 'flex',
+    justifyContent: 'center',
     height: '4rem',
     width: '100%',
     alignItems: 'center',
@@ -117,11 +121,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 export default function Create() {
   if (!isAuthenticated()) {
     return <Signin/>;
   } else {
     const classes = useStyles(useTheme());
+
     const [questions, setQuestions] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -130,17 +136,19 @@ export default function Create() {
     const [open, setOpen] = useState(false);
     const [modalQuestionType, setModalQuestionType] = useState('');
 
-    const handleOpen = () => {
+    
+    const openModal = () => {
       setOpen(true);
     };
 
-    const handleClose = () => {
+    const closeModal = () => {
       setOpen(false);
     };
 
-
     function deleteQuestion(key) {
-      setQuestions(questions.slice(0, key).concat(questions.slice(key + 1, questions.length)));
+      var updatedQuestionState = questions 
+      updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].splice(key, 1)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
+      setQuestions(updatedQuestionState);
     };
 
     function handleChange(key, questionData) {
@@ -201,22 +209,28 @@ export default function Create() {
       if (questionType === '') {
         return;
       }
+
+      let  questionData = null
       if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-        setQuestions(questions.concat({
+        questionData = {
           type: questionType,
           values: {
             prompt: '',
           },
-        }));
+        };
       } else {
-        setQuestions(questions.concat({
+        questionData = {
           type: questionType,
           values: {
             prompt: '',
             answers: [''],
-          },
-        }));
+          }
+        };
       }
+
+      var updatedQuestionState = questions 
+      updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].push(questionData)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
+      setQuestions(updatedQuestionState);
       setOpen(false);
     }
 
@@ -234,33 +248,31 @@ export default function Create() {
       return output;
     }
 
-    function renderQuestions() {
-
-      console.log(sections)
+    function renderQuestionsSection() {
       if (questions.length == 0) return;
 
-      console.log('he')
       let questionsForSection = questions[selectedSection];
       let output = [];
       for (let i = 0; i < questionsForSection.length; i++) {
         const questionType = questionsForSection[i]['type'];
         const values = questionsForSection[i]['values'];
         if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
-          output = output.concat(<Paper><Grid item xs={3}><PromptOnly key={i} index={i} type={questionType}
-            prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid></Paper>);
+          output = output.concat(<div className={classes.questionContainer}>
+              <PromptOnly key={i} index={i} type={questionType}
+                prompt={values['prompt']} handleChange={handleChange} deleteQuestion={deleteQuestion}/></div>);
         } else {
-          output = output.concat(<Grid item xs={3}><PromptAndChoices key={i} index={i} type={questionType}
-            values={values} handleChange={handleChange} deleteQuestion={deleteQuestion}/></Grid>);
+          output = output.concat(<div className={classes.questionContainer}><PromptAndChoices key={i} index={i} type={questionType}
+            values={values} handleChange={handleChange} deleteQuestion={deleteQuestion}/></div>);
         }
       }
 
-      output = output.concat(<IconButton onClick={handleOpen}>
+      output = output.concat(<IconButton onClick={openModal} >
                               <AddCircleIcon fontSize="large" />
                             </IconButton>);
       return output;
     }
 
-    function renderRightPane() {
+    function renderSectionTitle() {
       if (selectedSection == -1) return;
       return (
         <>
@@ -294,7 +306,6 @@ export default function Create() {
               <br></br>
               <br></br>
 
-
               <div className={classes.leftPaneSection}>
                 <div>
                   <Typography variant="h3">Define the sections of the survey</Typography>
@@ -305,10 +316,8 @@ export default function Create() {
                   <div>
                     <IconButton onClick={() => {
                       let newSections = sections.concat([{title: 'New Section', description: ''}])
-                      console.log('s', questions)
                       var newQuestions = questions
                       newQuestions.push([])
-                      console.log('t', newQuestions)
                       setSections(newSections)
                       setQuestions(newQuestions);
                       setSelectedSection(newSections.length-1);
@@ -325,24 +334,21 @@ export default function Create() {
 
           <div className={classes.rightPane}>
             <div className={classes.rightPaneTop}>
-              {renderRightPane()}
+              {renderSectionTitle()}
             </div>
-            <div>
-              {renderQuestions()}
+            <div className={classes.questionSectionContainer}>
+              {renderQuestionsSection()}
             </div>
           </div>
           
           <Modal
             open={open}
-            onClose={handleClose}
-          >
+            onClose={closeModal}>
             <Paper className={classes.modal}>
               <Typography variant="h3"><center>What type of question do you want to create?</center></Typography>
               <FormControl>
-              <InputLabel id="demo-simple-select-error-label">Question Type</InputLabel>
+              <InputLabel>Question Type</InputLabel>
               <Select
-                  id="demo-simple-select-readonly"
-                  labelId="demo-simple-select-error-label"
                 onChange={(event) => {
                   setModalQuestionType(event.target.value);
                 }}>
