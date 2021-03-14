@@ -154,17 +154,26 @@ export default function Create() {
     function handleChange(key, questionData) {
       const values = questionData['values'];
       const questionType = questionData['type'];
+      
+      questionData = null;
       if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
-        setQuestions(questions.slice(0, key).concat([{type: questionType, values: {prompt: values['prompt']}}])
-            .concat(questions.slice(key + 1, questions.length)));
+        questionData = {
+          type: questionType, values: {
+            prompt: values['prompt'],
+          }
+        };
       } else {
-        setQuestions(questions.slice(0, key).concat([{
+        questionData = {
           type: questionType, values: {
             prompt: values['prompt'],
             answers: values['answers'],
-          },
-        }]).concat(questions.slice(key + 1, questions.length)));
+          }
+        };
       }
+
+      var updatedQuestionState = questions 
+      updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].splice(key, 1)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
+      setQuestions(updatedQuestionState);
     };
 
     async function handleSubmit() {
