@@ -14,7 +14,7 @@ import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/question
 import NavBar from '../../components/NavBar';
 
 function requestToAPI(sid) {
-  const url = 'http://localhost:8000/getResponceCount';
+  const url = process.env.REACT_CLIENT_URL + '/getResponceCount';
   return fetch(url, {
     method: 'post',
     headers: {

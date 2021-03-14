@@ -100,7 +100,7 @@ export default function AdminProfile(props) {
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
         <textarea id={`${i}-link`}
-          className={classes.copyText}>{'http://localhost:3000/survey/land?sid=' + surveyList[i][1]}
+          className={classes.copyText}>{process.env.REACT_CLIENT_URL + '/survey/land?sid=' + surveyList[i][1]}
         </textarea>
 
         <div className={classes.buttonContainer}>

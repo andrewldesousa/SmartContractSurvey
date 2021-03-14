@@ -7,7 +7,6 @@ import Paper from '@material-ui/core/Paper';
 import {IconButton, Typography} from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import InputLabel from "@material-ui/core/InputLabel";
@@ -146,16 +145,30 @@ export default function Create() {
     };
 
     function deleteQuestion(key) {
-      var updatedQuestionState = questions 
-      updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].splice(key, 1)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
-      setQuestions(updatedQuestionState);
+      var newQuestionsState = [];
+      for(var i=0; i<questions.length; i++) {
+        if (i !== selectedSection) {
+          newQuestionsState.push(questions[i]);
+        } 
+        else {
+          var selectedSectionQuestions = [];
+          for(var j=0; j<questions[i].length; j++) {
+            if(j === key) {
+              continue;
+            } else {
+              selectedSectionQuestions.push(questions[i][j]);
+            }
+          }
+          newQuestionsState.push(selectedSectionQuestions);
+        }
+      }
+      setQuestions(newQuestionsState);
     };
 
     function handleChange(key, questionData) {
       const values = questionData['values'];
       const questionType = questionData['type'];
       
-      questionData = null;
       if (ADMIN_PROMPT_ONLY_TYPES[questionData['type'].toUpperCase()]) {
         questionData = {
           type: questionType, values: {
@@ -171,8 +184,8 @@ export default function Create() {
         };
       }
 
-      var updatedQuestionState = questions 
-      updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].splice(key, 1)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
+      var updatedQuestionState = Array.from(questions);
+      updatedQuestionState[selectedSection][key] = questionData;
       setQuestions(updatedQuestionState);
     };
 
@@ -211,7 +224,7 @@ export default function Create() {
 
       questionsBody();
       addQuestions(output, t1.token);
-      window.location.href = 'http://localhost:3000/';
+      window.location.href = process.env.REACT_APP_API_URL;
     }
 
     function createQuestion(questionType) {
@@ -239,6 +252,7 @@ export default function Create() {
 
       var updatedQuestionState = questions 
       updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].push(questionData)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
+      
       setQuestions(updatedQuestionState);
       setOpen(false);
     }
@@ -265,6 +279,7 @@ export default function Create() {
       for (let i = 0; i < questionsForSection.length; i++) {
         const questionType = questionsForSection[i]['type'];
         const values = questionsForSection[i]['values'];
+
         if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
           output = output.concat(<div className={classes.questionContainer}>
               <PromptOnly key={i} index={i} type={questionType}
@@ -288,10 +303,18 @@ export default function Create() {
           <br></br>
           <Typography variant="h3">Section {selectedSection}</Typography>
           <br></br>
-          <TextField label="Section Title"  className={classes.textField}/>
+          <TextField label="Section Title" className={classes.textField} onChange={(event) => {
+              var sectionsUpdated = Array.from(sections);
+              sectionsUpdated[selectedSection]['title'] = event.target.value;
+              setSections(sectionsUpdated);
+            }} value={sections[selectedSection]['title']}/>
           <br></br>
           <br></br>
-          <TextField label="Section Description" variant="outlined" className={classes.textField}/>
+          <TextField label="Section Description" variant="outlined" className={classes.textField} onChange={(event) => {
+              var sectionsUpdated = Array.from(sections);
+              sectionsUpdated[selectedSection]['description'] = event.target.value;
+              setSections(sectionsUpdated);
+            }} value={sections[selectedSection]['description']}/>
         </>
       );
     }
@@ -326,8 +349,8 @@ export default function Create() {
                     <IconButton onClick={() => {
                       let newSections = sections.concat([{title: 'New Section', description: ''}])
                       var newQuestions = questions
-                      newQuestions.push([])
-                      setSections(newSections)
+                      newQuestions.push([]);
+                      setSections(newSections);
                       setQuestions(newQuestions);
                       setSelectedSection(newSections.length-1);
                     }}>
