@@ -117,6 +117,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     height: '3rem',
     width: '15rem',
+  },
+  centerDiv: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '1rem',
   }
 }));
 
@@ -255,7 +260,6 @@ export default function Create() {
 
       var updatedQuestionState = questions 
       updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].push(questionData)).concat(updatedQuestionState.slice(selectedSection+1, updatedQuestionState.length));
-      
       setQuestions(updatedQuestionState);
       setOpen(false);
     }
@@ -293,9 +297,9 @@ export default function Create() {
         }
       }
 
-      output = output.concat(<IconButton onClick={openModal} >
+      output = output.concat(<div className={classes.centerDiv}><IconButton onClick={openModal} >
                               <AddCircleIcon fontSize="large" />
-                            </IconButton>);
+                            </IconButton></div>);
       return output;
     }
 
@@ -348,7 +352,7 @@ export default function Create() {
                 <Paper elevation={3} className={classes.sectionListContainer}>
                   {renderSectionList()}
 
-                  <div>
+                  <div className={classes.centerDiv}>
                     <IconButton onClick={() => {
                       let newSections = sections.concat([{title: 'New Section', description: ''}])
                       var newQuestions = questions

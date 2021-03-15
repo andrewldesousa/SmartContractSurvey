@@ -11,6 +11,7 @@ export default function testApi() {
   const surveyList = retrieveSurveyByOwner('5f486252efbd4a0b0012ae7a',token)
   // SUBMITTING ALL RESPONSES FORMAT FOR ALL JSON OBJECTS TO BE HELD  
   const dataToSubmit = {
+    'wallet_id': 21321312321,
     'responses': {
       'Q1': {'question_id': '5f8617eb1e34e23a3807fe48', 'answer': '#1 TEST NAME'},
       'Q2': {'question_id': '5f8617eb1e34e23a3807fe47', 'answer': '75'}

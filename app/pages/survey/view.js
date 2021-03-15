@@ -173,9 +173,8 @@ export default function Survey(prop) {
         break;
       }
     }
-    console.log('here', cleanRes);
+
     if (flag) {
-      console.log(cleanRes)
       const error = submit(cleanRes);
       setRedirect(error);
     }
