@@ -205,19 +205,25 @@ export default function Create() {
       const surveyResponse = await makeSurvey(survey, t1.token);
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
-          if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
-            output['questions'][`q${i}`] = {
-              'survey_id': surveyResponse['_id'],
-              'question': questions[i]['values']['prompt'],
-              'type': questions[i]['type'],
-            };
-          } else {
-            output['questions'][`q${i}`] = {
-              'survey_id': surveyResponse['_id'],
-              'question': questions[i]['values']['prompt'],
-              'options': questions[i]['values']['answers'],
-              'type': questions[i]['type'],
-            };
+          questions.push([]);
+          for (let j=0; j <questions[i].length; j++) {
+            if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
+              output['questions'][i].push({
+                'survey_id': surveyResponse['_id'],
+                'question': questions[i]['values']['prompt'],
+                'options': [],
+                'type': questions[i]['type'],
+                'section_id': i
+              });
+            } else {
+              output['questions'][i].push({
+                'survey_id': surveyResponse['_id'],
+                'question': questions[i]['values']['prompt'],
+                'options': questions[i]['values']['answers'],
+                'type': questions[i]['type'],
+                'section_id': i
+              });
+            }
           }
         }
       };
