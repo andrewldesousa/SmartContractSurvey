@@ -77,7 +77,7 @@ const cardStyle = {
   'transitionDuration': 'color 0.15s ease',
   'position': 'fixed',
   'marginLeft': '37%',
-  'marginTop': '10%',
+  'marginTop': '7.5%',
 };
 
 const margin1 = {
@@ -126,7 +126,6 @@ const Signup = () => {
           error: '',
           success: true,
         });
-
         redirectUser();
       }
     });

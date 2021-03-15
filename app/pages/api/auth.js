@@ -2,7 +2,7 @@ export const signup = user => {
   return fetch(`${process.env.REACT_APP_API_URL}/user/signup`, {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
+      'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(user)
@@ -16,20 +16,20 @@ export const signup = user => {
       });
 };
 export const signin = (input) => { 
-    return fetch(`${process.env.REACT_APP_API_URL}/user/signin`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(input)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => {
-            console.log(err);
-        });
+  return fetch(`${process.env.REACT_APP_API_URL}/user/signin`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(input)
+  })
+      .then(response => {
+        return response.json();
+      })
+      .catch(err => {
+        console.log(err);
+      });
 };
 
 export const signout = (next) => {
@@ -48,7 +48,6 @@ export const signout = (next) => {
         .then((response) => {
           console.log('signout', response);
           localStorage.removeItem('jwt');
-
         })
         .catch((err) => console.log(err));
   }
@@ -63,12 +62,12 @@ export const authenticate = (data, next) => {
 
 
 export const isAuthenticated = () => {
-    if (typeof window == 'undefined') {
-      return false;
-    }
-    if (localStorage.getItem('jwt')) {
-      return JSON.parse(localStorage.getItem('jwt'));
-    } else {
-      return false;
-    }
-  };
+  if (typeof window == 'undefined') {
+    return false;
+  }
+  if (localStorage.getItem('jwt')) {
+    return JSON.parse(localStorage.getItem('jwt'));
+  } else {
+    return false;
+  }
+};
