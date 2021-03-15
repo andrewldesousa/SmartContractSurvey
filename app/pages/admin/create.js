@@ -197,18 +197,15 @@ export default function Create() {
 
       const t1 = await isAuthenticated();
 
-      const output = {
-        'questions': {
-        },
-      };
+      const output = [];
 
       const surveyResponse = await makeSurvey(survey, t1.token);
       const questionsBody = () => {
         for (let i = 0; i < questions.length; i++) {
-          questions.push([]);
+          output.push([]);
           for (let j=0; j <questions[i].length; j++) {
             if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
-              output['questions'][i].push({
+              output[i].push({
                 'survey_id': surveyResponse['_id'],
                 'question': questions[i]['values']['prompt'],
                 'options': [],
@@ -216,7 +213,7 @@ export default function Create() {
                 'section_id': i
               });
             } else {
-              output['questions'][i].push({
+              output[i].push({
                 'survey_id': surveyResponse['_id'],
                 'question': questions[i]['values']['prompt'],
                 'options': questions[i]['values']['answers'],
@@ -230,7 +227,7 @@ export default function Create() {
 
       questionsBody();
       addQuestions(output, t1.token);
-      window.location.href = process.env.REACT_APP_API_URL;
+      window.location.href = process.env.REACT_CLIENT_URL;
     }
 
     function createQuestion(questionType) {
