@@ -73,11 +73,14 @@ const cardStyle = {
   'transitionDuration': 'color 0.15s ease',
   'position': 'fixed',
   'marginLeft': '37%',
-  'marginTop': '12%',
+  'marginTop': '7.5%',
 };
 
 const margin1={
   paddingTop: '0.75rem',
+};
+const margin2={
+  paddingTop: '1.25rem',
 };
 
 const Signin = () => {
@@ -167,14 +170,15 @@ const Signin = () => {
             <div align='center'style={margin1}>
               <Button onClick={clickSubmit} type="submit" variant="contained" color="primary">Sign-in</Button>
             </div>
+            <div align='center'style={margin2}>
+            <Button variant="outlined" color="primary" href={'/register'}>
+          Create an Account
+        </Button>
+        </div>
           </form>
         </CardContent>
         <cardFooter>{showError()}</cardFooter>
-        <br></br>
-        <br></br>
-        <center>  <Button variant="outlined" color="primary" href={'/register'}>
-          Create an Account
-        </Button>
+        <center>  
         </center>
       </Card>
     </div>
