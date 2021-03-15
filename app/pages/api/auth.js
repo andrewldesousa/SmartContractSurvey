@@ -37,7 +37,7 @@ export const signout = (next) => {
     // localStorage.removeItem('jwt');
     // next();
     const {token} = JSON.parse(localStorage.getItem('jwt'));
-    return fetch(`http://localhost:8000/user/signout`, {
+    return fetch(process.env.REACT_APP_API_URL + `/user/signout`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

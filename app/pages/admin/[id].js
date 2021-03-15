@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
   surveyListContainer: {
     marginTop: '3rem',
-    height: '40rem',
+    height: '35rem',
     width: '40rem',
     overflowY: 'scroll',
   },
   surveyListItem: {
     display: 'flex',
-    height: '4rem',
+    height: '100%',
     width: '100%',
     alignItems: 'center',
     '&:hover': {
@@ -75,7 +75,6 @@ export default function AdminProfile(props) {
   async function fetchData(u, t) {
     const data = await retrieveSurveyByOwner(u._id, t);
     const output = [];
-    console.log(data);
     for (let i=0; i<data.length; i++) {
       output.push([data[i].title, data[i]._id]);
     }
@@ -88,6 +87,10 @@ export default function AdminProfile(props) {
   }, []);
 
 
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
   function renderSurveyList() {
     const output = [];
 
@@ -97,14 +100,13 @@ export default function AdminProfile(props) {
           <Typography variant="h3">{surveyList[i][0]}</Typography>
         </div>
         <textarea id={`${i}-link`}
-          className={classes.copyText}>{'http://localhost:3000/survey/Land?sid=' + surveyList[i][1]}
+          className={classes.copyText}>{process.env.REACT_CLIENT_URL + '/survey/land?sid=' + surveyList[i][1]}
         </textarea>
 
         <div className={classes.buttonContainer}>
           <IconButton onClick={() => {
             const copyText = document.getElementById(`${i}-link`);
             copyText.select();
-            console.log(copyText.value);
             navigator.clipboard.writeText(copyText.value);
           }}>
             <LinkIcon></LinkIcon>
@@ -130,6 +132,12 @@ export default function AdminProfile(props) {
         <NavBar showRightSide={true} />
         <div className={classes.container}>
           <Typography variant="h2">{user.name + '\'s' + ' Dashboard'}</Typography>
+          <br></br>
+          <Typography variant="p">
+            Your created surveys are listed below. You may access the data visuals and referral links for each survey.
+          </Typography>
+
+
           <Paper elevation={3} className={classes.surveyListContainer}>
             {renderSurveyList()}
           </Paper>

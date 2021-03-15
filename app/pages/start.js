@@ -5,7 +5,7 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {retrieveSurveyByID} from './api/retrieve'
-import land from "./survey/Land";
+import Land from "./survey/land";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
   instructionSectionHeader: {
     textAlign: 'center',
     marginBottom: 50,
+  },
+  instructionSection: {
+    width: '100%',  
   },
   instructionItem: {
     maxWidth: 400,
@@ -102,13 +105,13 @@ export default function Start(props) {
           <Typography variant="body1">We will get back to the winners of the prize after several weeks.
            Good luck!</Typography>
         </Grid>
-        <Grid key={3} item className={classes.instructionItem1}>
+        {/* <Grid key={3} item className={classes.instructionItem1}>
           <img src="/information.svg" alt="ROI" className={classes.instructionIcon} />
           <Typography variant="h3" className={classes.instructionHeader}>Info Booth</Typography>
           <Typography variant="body1">This blockchain survey is authentic and doesn't scam unlike the other surveys out there.
           Once you will all the answers, we will check the authenticity of the survey. Make sure to submit the response when you are done with the survey. This can allow us to store the data in our mongoDB database for further references and to get statistical data about what answers have been provided for each type of question in the survey.
           Danke Schon!</Typography>
-        </Grid>
+        </Grid> */}
       </Grid>
     </main>
   );

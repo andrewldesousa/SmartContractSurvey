@@ -38,6 +38,7 @@ export default function NavBar(props) {
   const showRightSide = props.showRightSide;
   const open = Boolean(anchorEl);
   const router = useRouter();
+
   const handleAncorElClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -113,7 +114,7 @@ export default function NavBar(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default" className={classes.header}>
+      <AppBar position="static" color="inherit">
         <Toolbar className={classes.toolbar}>
           <Link href="/">
             <Button size="large" >
