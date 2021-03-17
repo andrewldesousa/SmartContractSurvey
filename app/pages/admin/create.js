@@ -206,23 +206,24 @@ export default function Create() {
 
       const surveyResponse = await makeSurvey(survey, t1.token);
       const questionsBody = () => {
+        
         for (let i = 0; i < questions.length; i++) {
           output.push([]);
           for (let j = 0; j < questions[i].length; j++) {
-            if (ADMIN_PROMPT_ONLY_TYPES[questions[i]['type']]) {
+            if (ADMIN_PROMPT_ONLY_TYPES[questions[i][j]['type']]) {
               output[i].push({
                 'survey_id': surveyResponse['_id'],
-                'question': questions[i]['values']['prompt'],
+                'question': questions[i][j]['values']['prompt'],
                 'options': [],
-                'type': questions[i]['type'],
+                'type': questions[i][j]['type'],
                 'section_id': i
               });
             } else {
               output[i].push({
                 'survey_id': surveyResponse['_id'],
-                'question': questions[i]['values']['prompt'],
-                'options': questions[i]['values']['answers'],
-                'type': questions[i]['type'],
+                'question': questions[i][j]['values']['prompt'],
+                'options': questions[i][j]['values']['answers'],
+                'type': questions[i][j]['type'],
                 'section_id': i
               });
             }
@@ -237,10 +238,9 @@ export default function Create() {
         }
       }
       questionsBody();
-      console.log(output)
       addQuestions(output, t1.token);
       addOneQuestion(wallet, t1.token)
-      //window.location.href = process.env.REACT_CLIENT_URL;
+      window.location.href = process.env.REACT_CLIENT_URL;
     }
 
     function createQuestion(questionType) {
