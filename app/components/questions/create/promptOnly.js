@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, CardContent, CardHeader, withStyles, Button} from '@material-ui/core';
+import {Card, CardContent, CardHeader, withStyles, Button, TextField} from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  margin: {
+    margin: '1rem',
   }
 }));
 
@@ -74,9 +77,8 @@ export default function PromptOnly(props) {
           </div>
 
           <Typography variant="h3">{parseTitle(props.type)} Question</Typography>
-          <FormControl>
-            <InputLabel>Question</InputLabel>
-            <Input value={value}
+          <FormControl className={classes.margin}>
+            <TextField value={value} label='Question' placeholder='Enter the quesiton' required
               onChange={() => props.handleChange(props.index,
                   {type: props.type, values: {prompt: event.target.value}})}/>
           </FormControl>

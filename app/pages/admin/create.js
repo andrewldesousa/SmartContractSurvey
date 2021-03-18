@@ -122,6 +122,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     marginTop: '1rem',
+  },
+  form: {
+    margin: '1rem',
+    width: '40%'
   }
 }));
 
@@ -393,7 +397,7 @@ export default function Create() {
             onClose={closeModal}>
             <Paper className={classes.modal}>
               <Typography variant="h3"><center>What type of question do you want to create?</center></Typography>
-              <FormControl>
+              <FormControl className={classes.form}>
                 <InputLabel>Question Type</InputLabel>
                 <Select
                   onChange={(event) => {
@@ -404,7 +408,8 @@ export default function Create() {
                 </Select>
                 <FormHelperText>Choose a question Type</FormHelperText>
               </FormControl>
-              <Button className={classes.button} color="primary" variant="contained" onClick={() => createQuestion(modalQuestionType)}>Create question</Button>
+              <Button color="primary" variant="contained" onClick={() => createQuestion(modalQuestionType)}>
+                Create question</Button>
             </Paper>
           </Modal>
         </main>
