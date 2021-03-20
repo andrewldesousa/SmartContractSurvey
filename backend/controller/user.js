@@ -11,18 +11,25 @@ exports.test = (req,res)=>{
 
 exports.signup = (req,res)=>{
     const user = new User(req.body)
-    console.log("req.body",req.body)
     user.save((err,user)=> {
         if(err){
+            if (err.code==11000){
             return res.status(400).json({
-                err:errorHandler(err)
-            })
+                error:"Email is already linked to a user!"
+            })}
+            else{
+                return res.status(400).json({
+                    error:"User creation failed try again later!"
+                })
+            }
         }
-        user.salt = undefined
-        user.hashed_password = undefined
-        res.json({
-            user
-        })
+        else{
+            user.salt = undefined
+            user.hashed_password = undefined
+            res.json({
+                user
+            })
+         }
     }) 
 }
 
@@ -32,10 +39,10 @@ exports.signin=(req,res)=>{
     User.findOne({email},(err,user)=>{
         if (err || !user){
             return res.status(400).json({
-                error:"Please check the email or signup!"
+                error:"Please check the email or Create an account!"
             })
         }
-        //authenticating the user pass
+        //authenticating the user password
         if (!user.authenticate(password)){
             return res.status(401).json({
                 error:"Incorrect password entered!"

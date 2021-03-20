@@ -14,7 +14,7 @@ import {QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES} from '../../components/question
 import NavBar from '../../components/NavBar';
 
 function requestToAPI(sid) {
-  const url = process.env.REACT_CLIENT_URL + '/getResponceCount';
+  const url = `${process.env.REACT_APP_API_URL}/getResponceCount`;
   return fetch(url, {
     method: 'post',
     headers: {
@@ -41,11 +41,13 @@ const Visualization = withRouter((props)=> {
     const router = useRouter();
     const [vis, setVis] = useState();
     const [isLoading, setLoad] = useState(true);
-    const getData = async (sid)=> {
+    const getData = (sid)=> {
+      console.log(sid)
       requestToAPI(sid).then((data) => {
         if (data.error) {
           console.log('Error loding survey data!');
         } else {
+          console.log(data)
           setVis(data);
           setLoad(false);
         }
@@ -53,7 +55,7 @@ const Visualization = withRouter((props)=> {
     };
     useEffect(()=>{
       const Id = props.router.query.sid;
-      console.log(Id);
+      //console.log(Id);
       getData(Id);
     }, [props]);
 

@@ -14,8 +14,7 @@ export const addQuestions = (data, token)=>{
     console.log(err);
   });
 };
-// 
-// still coming up
+
 export const addOneQuestion = (data, token)=>{
   return fetch(`${process.env.REACT_APP_API_URL}/store/storeOneQuestion`, {
     'method': 'POST',

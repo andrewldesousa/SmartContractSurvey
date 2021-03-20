@@ -57,12 +57,17 @@ exports.getSurveyQuesitons = (req, res, next) => {
         }
         var sectionedData=[]
         for (var i=0;i<data.length;++i){
-            if(sectionedData[data[i].section]==null){
-                console.log('flag')
+            if(sectionedData[data[i].section]==null)
                 sectionedData[data[i].section]=[data[i]];    
+            else{
+                if(data[i].type!='wallet')
+                    sectionedData[data[i].section][sectionedData[data[i].section].length]=data[i]
+                else{
+                    sectionedData[0][0]=data[i]
+                    sectionedData[data[i].section][sectionedData[data[i].section].length] = sectionedData[0][0]
+
+                }
             }
-            else
-                sectionedData[data[i].section][sectionedData[data[i].section].length]=data[i]
         }
         res.json(sectionedData)
         next()

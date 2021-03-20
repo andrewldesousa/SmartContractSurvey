@@ -1,10 +1,10 @@
 import React from 'react';
-import {Button, Card, CardContent, CardHeader, withStyles} from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, TextField, Box } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
-import {Typography} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -12,9 +12,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    height: '12rem',
-    margin: '1rem',
+    color: '#212121',
+    height: '13.5rem',
 
+    margin: '1rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'scroll',
   },
 
-  
   cancelContainer: {
     display: 'flex',
     width: '100%',
@@ -37,12 +37,27 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   form: {
+    padding: '0.75rem',
     height: '12rem',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'left',
+  },
+  margin: {
+    margin: '1rem'
+  },
+  Button: {
+    width: '30%',
+    margin: '1rem',
+    alignItems: 'center'
+  },
+  Input: {
+    margin: '0.5px',
+    display: 'flex',
     alignItems: 'center',
-  }
+    flexWrap: 'wrap',
+}
 }));
 
 
@@ -68,9 +83,17 @@ export default function PromptAndChoices(props) {
   function renderAnswers() {
     let output = [];
     for (let i = 0; i < answers.length; i++) {
-      output = output.concat(<Input value={answers[i]}
-        onChange={() => props.handleChange(props.index,
-            {type: props.type, values: {prompt: prompt, answers: answers.slice(0,i).concat([event.target.value]).concat(answers.slice(i+1, answers.length))}})}/>);
+      output = output.concat(<FormControl>
+        <div className={classes.Input}><p style={{'margin-right':'0.5em'}}>{i+1}.</p><Input value={answers[i]} required
+          variant="outlined" placeholder={'Enter option value'}onChange={() => props.handleChange(props.index,
+              {
+                type: props.type, values: { 
+                  prompt: prompt,
+                  answers: answers.slice(0, i).concat([event.target.value]).concat(answers.slice(i+1, answers.length))}
+              })}/>
+        </div>
+      </FormControl> 
+     );
     }
     return output;
   }
@@ -83,18 +106,19 @@ export default function PromptAndChoices(props) {
             <CancelIcon />
           </IconButton>
         </div>
-        <Typography variant="h3">{parseTitle(props.type)} Question</Typography>
-        <FormControl>
-          
-          <InputLabel InputLabelProps={{shrink: true}}>Question</InputLabel>
-          <Input value={prompt}
+        <Typography className={classes.margin} variant="h3">{parseTitle(props.type)} Question</Typography>
+        <FormControl className={classes.margin}>
+          <TextField fullWidth={true} value={prompt} placeholder='Enter Question' variant='filled'
             onChange={() => props.handleChange(props.index,
-                {type: props.type, values: {prompt: event.target.value, answers: answers}})}/>
-          {renderAnswers()}
-          <Button onClick={() => props.handleChange(props.index,
-              {type: props.type, values: {prompt: prompt, answers: answers.concat([''])}})}>
-              Add Answer</Button>
-        </FormControl>
+                { type: props.type, values: { prompt: event.target.value, answers: answers } })} 
+            label='Question' required/>
+        
+        {renderAnswers()}
+        <Button variant='contained' color='primary' className={classes.margin} onClick={() => props.handleChange(
+            props.index,
+            { type: props.type, values: { prompt: prompt, answers: answers.concat(['']) } })}>
+            Add Answer</Button>
+            </FormControl>
       </form>
     </Card>
   );
