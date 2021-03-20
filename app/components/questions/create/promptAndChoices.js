@@ -13,7 +13,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 const useStyles = makeStyles((theme) => ({
   paper: {
     color: '#212121',
-    height: '220px',
+    height: '13.5rem',
 
     margin: '1rem',
     display: 'flex',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   form: {
-    margin: '0.5rem',
+    padding: '0.75rem',
     height: '12rem',
     width: '100%',
     display: 'flex',
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   Input: {
-    padding: '0.75px',
+    margin: '0.5px',
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
@@ -107,7 +107,7 @@ export default function PromptAndChoices(props) {
           </IconButton>
         </div>
         <Typography className={classes.margin} variant="h3">{parseTitle(props.type)} Question</Typography>
-        <FormControl>
+        <FormControl className={classes.margin}>
           <TextField fullWidth={true} value={prompt} placeholder='Enter Question' variant='filled'
             onChange={() => props.handleChange(props.index,
                 { type: props.type, values: { prompt: event.target.value, answers: answers } })} 
