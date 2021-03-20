@@ -62,10 +62,9 @@ exports.getSurveyQuesitons = (req, res, next) => {
             else{
                 if(data[i].type!='wallet')
                     sectionedData[data[i].section][sectionedData[data[i].section].length]=data[i]
-                else{
-                    sectionedData[0][0]=data[i]
+                else{                  
                     sectionedData[data[i].section][sectionedData[data[i].section].length] = sectionedData[0][0]
-
+                    sectionedData[0][0]=data[i]
                 }
             }
         }
