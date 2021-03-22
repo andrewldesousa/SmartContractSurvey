@@ -29,7 +29,6 @@ exports.storeQuestions = (req, res) => {
                 if (err)
                     return errorHandler(err);
             })
-            console.log(req.body[element][inner_element])
         }
     }
     res.json(req.body)

@@ -228,7 +228,7 @@ export default function Create() {
                 'question': questions[i][j]['values']['prompt'],
                 'options': questions[i][j]['values']['answers'],
                 'type': questions[i][j]['type'],
-                'section_id': i
+                'section': i
               });
             }
           }
@@ -242,6 +242,8 @@ export default function Create() {
         }
       }
       questionsBody();
+      console.log(output)
+
       addQuestions(output, t1.token);
       addOneQuestion(wallet, t1.token)
       window.location.href = process.env.REACT_CLIENT_URL;
