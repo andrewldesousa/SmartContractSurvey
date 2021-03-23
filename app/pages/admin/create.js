@@ -201,7 +201,7 @@ export default function Create() {
       const survey = {
         'title': title,
         'description': description,
-        'sections': [], // [{'title':<1st title>,'description':<1st description>}...]
+        'sections': sections, // ['title':<1st title>,'description':<1st description>}...]
       };
 
       const t1 = await isAuthenticated();

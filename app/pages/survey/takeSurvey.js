@@ -12,7 +12,7 @@ import React from 'react';
 import {withRouter} from 'next/router'
 import View from './view'
 
-const takeSurvey=withRouter((props)=> {
+const takeSurvey = withRouter((props)=> {
   return <View sid={props.router.query.sid} />
 })
 export default takeSurvey;

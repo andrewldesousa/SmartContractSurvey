@@ -29,6 +29,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import NumericQA from "../../components/questions/numbers";
+import { Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paginationStyle: {
@@ -66,48 +67,55 @@ const useStyles = makeStyles((theme) => ({
 export default function Survey(prop) {
   const classes = useStyles(useTheme());
   const [questionsVal, setQuestions] = useState([]);
+  const [sectionsVal, setSections] = useState([]);
+  const [walletVal, setWallet] = useState('');
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
 
   const getData = (sid) => {
-
     retrieveQuestionsBySurvey(sid).then((data) => {
       if (data.error) {
         console.log('Error loding survey data!');
       } else {
         const dataWithAnswer = [];
+        const sections = [];
         let ans=''
         for (let i = 0; i < data.length; i++) {
+
           dataWithAnswer.push([]);
-          for (let j = 0; j < data[i].length; j++) {
-            if (data[i][j]['type']==QUESTION_TYPES.BINARY) {
+          sections.push([data[i]['title'], data[i]['description']])
+
+          for (let j = 0; j < data[i]['questions'].length; j++) {
+
+            if (data[i]['questions'][j]['type']==QUESTION_TYPES.BINARY) {
               ans = false
             }
-            else if (data[i][j]['type']==QUESTION_TYPES.SLIDER) {
+            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER) {
               ans='0'
             }
-            else if (data[i][j]['type']==QUESTION_TYPES.SLIDER_DISCRETE) {
+            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER_DISCRETE) {
               ans='0'
             }
-            else if (data[i][j]['type']==QUESTION_TYPES.SLIDER) {
+            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER) {
               ans='0'
             }
-            else if (data[i][j]['type']==QUESTION_TYPES.DATE) {
+            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.DATE) {
               ans=moment(new Date()).format('MM/DD/YYYY') 
             }
             else {
               ans = ''
             }
             dataWithAnswer[i].push({
-                  '_id': data[i][j]['_id'],
-                  'type': data[i][j]['type'],
-                  'question': data[i][j]['question'],
+                  '_id': data[i]['questions'][j]['_id'],
+                  'type': data[i]['questions'][j]['type'],
+                  'question': data[i]['questions'][j]['question'],
                   'answer': ans,
-                  'options': data[i][j]['options'],
-                });
+                  'options': data[i]['questions'][j]['options'],
+            });
           }
         }
 
+        setSections(sections);
         setQuestions(dataWithAnswer);
         setLoading(false);
       }
@@ -128,43 +136,47 @@ export default function Survey(prop) {
     setOpen(false);
   };
 
-  function submitBtn() {
-    const error = responseSubmitDummy();
-    setRedirect(error);
-  }
-
   function submitSurvey() {
     const cleanRes = {
       'responses': {},
     };
 
     let flag = true;
-    for (let k = 0; k < questionsVal.length; ++k) {
-      if (questionsVal[k].answer != '' || questionsVal[k].type == QUESTION_TYPES.BINARY) {
-        if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
-          const list = questionsVal[k].answer.split("");
-          for (let i=0; i<list.length; ++i) {
-            if (list[i]==1) {
-              cleanRes.responses[`Q${questionsVal.length+(1+i)}`] = {
-                'question_id': questionsVal[k]._id,
-                'answer': questionsVal[k].options[i],
+    var u = 0;
+    for (let i = 0; i < questionsVal.length; i++) {
+      for (let j = 0; j < questionsVal[i].length; ++j) {
+        u += 1;
+        if (questionsVal[i][j].answer != '' || questionsVal[i][j].type == QUESTION_TYPES.BINARY) {
+          if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
+            const list = questionsVal[i][j].answer.split("");
+            for (let k=0; k<list.length; ++k) {
+              if (list[i]==1) {
+                cleanRes.responses[`Q${u}`] = {
+                  'question_id': questionsVal[i][j]._id,
+                  'answer': questionsVal[i][j].options[k],
+                }
               }
             }
           }
+          else {
+            cleanRes.responses[`Q${u}`] = {
+              'question_id': questionsVal[i][j]._id,
+              'answer': questionsVal[i][j].answer,
+            }
+          };
         }
         else {
-          cleanRes.responses[`Q${k}`] = {
-            'question_id': questionsVal[k]._id,
-            'answer': questionsVal[k].answer,
-          }
-        };
+          flag = false
+          handleClose();
+          alert(`Fill value for ${questionsVal[i][j].question}`)
+          break;
+        }
       }
-      else {
-        flag = false
-        handleClose()
-        alert(`Fill value for ${questionsVal[k].question}`)
-        break;
-      }
+    }
+
+    cleanRes.responses[`W1`] = {
+      'question_id': '',
+      'answer': walletVal,
     }
 
     if (flag) {
@@ -183,21 +195,23 @@ export default function Survey(prop) {
   };
 
   function parseSurvey(survey) {
-    // const questions = [<Wallet key={-1}/>];
 
-    
     const questions = [];
     var global_index = 0;
     var page_index = 0;
+
     survey.map((section, j) => {
-      
       questions.push([]);
 
-
-      
-
-
+      if (page_index == 0) {
+        questions[page_index].push(<Wallet key={-1} question={'What is your wallet id?'} 
+                                    label='' handleChange={() => setWallet(event.target.value)} value={walletVal}/>);
+      }
+ 
+      questions[page_index].push(<Typography key={-1} variant="h2">{sectionsVal[questions.length-1][0]}</Typography>);
+      questions[page_index].push(<Typography key={-1} variant="h3">{sectionsVal[questions.length-1][1]}</Typography>);
       for(var i=0; i<section.length; i++) {
+        
         if (i%5 == 0 && i>0) {
           questions.push([]);
           page_index +=1;
@@ -205,9 +219,6 @@ export default function Survey(prop) {
         
         const question = section[i];
         switch (question.type) {
-          case QUESTION_TYPES.WALLET:
-            questions[page_index].push(<Wallet key={global_index} INDEX={global_index} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
-            break;
           case QUESTION_TYPES.SLIDER_DISCRETE:
             questions[page_index].push(<DiscreteSlider key={global_index} INDEX={global_index} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
             break;
@@ -249,43 +260,38 @@ export default function Survey(prop) {
     page_index += 1;
     });
 
-    console.log(questions)
+
+    if (questions.length > 0) {
+      questions[questions.length-1].push(<div>
+        <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
+          Submit</Button></div>
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={submitSurvey} color="primary" autoFocus>
+              Submit
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>);
+    }
+
     return questions;
   }
 
-  function renderSubmitSection() {
-    if (page > numOfpages) {
-      return;
-    }
-    return (<div>
-          <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
-            Submit</Button></div>
-          <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Are you sure you want to submit ? You will initiate a blockchain transaction and participate in lottery.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={submitSurvey} color="primary" autoFocus>
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-    )
-  }
-
-  const [pageSize, setPageSize] = React.useState(5);
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -293,20 +299,10 @@ export default function Survey(prop) {
   if (isLoading) return <div className={classes.spinnerStyle}> <Spinner /></div>;
   const questions = parseSurvey(questionsVal);
 
-  const indexOfLastPost = page * pageSize;
-  const indexOfFirstPost = indexOfLastPost - pageSize;
-  var numOfpages = Math.ceil((questions.length - 1) / pageSize);
-
-  if(numOfpages == 0)
-  {
-    numOfpages = 1
-  }
   const changePage = (event, value) => {
     setPage(value);
     setProgress((value) / numOfpages * 100);
   };
-
-
 
   const questionList = () => (
       <div id="Cards">
@@ -329,7 +325,6 @@ export default function Survey(prop) {
       <br />
       <br />
       {questionList()}
-      {renderSubmitSection()}
       {redirectUser()}
     </div>
   );
