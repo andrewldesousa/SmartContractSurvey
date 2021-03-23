@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -9,9 +8,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 import NavBar from '../../components/NavBar';
 import PromptAndChoices from '../../components/questions/create/promptAndChoices';
@@ -202,6 +201,7 @@ export default function Create() {
       const survey = {
         'title': title,
         'description': description,
+        'sections': [], // [{'title':<1st title>,'description':<1st description>}...]
       };
 
       const t1 = await isAuthenticated();
@@ -210,7 +210,6 @@ export default function Create() {
 
       const surveyResponse = await makeSurvey(survey, t1.token);
       const questionsBody = () => {
-        
         for (let i = 0; i < questions.length; i++) {
           output.push([]);
           for (let j = 0; j < questions[i].length; j++) {
@@ -243,17 +242,14 @@ export default function Create() {
       }
       questionsBody();
       console.log(output)
-
       addQuestions(output, t1.token);
       addOneQuestion(wallet, t1.token)
       window.location.href = process.env.REACT_CLIENT_URL;
     }
-
     function createQuestion(questionType) {
       if (questionType === '') {
         return;
       }
-
       let questionData = null
       if (ADMIN_PROMPT_ONLY_TYPES[questionType.toUpperCase()]) {
         questionData = {
@@ -271,7 +267,6 @@ export default function Create() {
           }
         };
       }
-
       var updatedQuestionState = questions
       updatedQuestionState.slice(0, selectedSection).concat(updatedQuestionState[selectedSection].push(questionData)).concat(updatedQuestionState.slice(selectedSection + 1, updatedQuestionState.length));
       setQuestions(updatedQuestionState);
