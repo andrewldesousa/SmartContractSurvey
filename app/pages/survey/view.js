@@ -222,7 +222,6 @@ export default function Survey(prop) {
           newQuestionVal[a].push(questionsVal[a][b])
       }
     }
-    console.log("THIS IS IT:",answer)
     setQuestions(newQuestionVal)
   };
 
@@ -316,7 +315,6 @@ export default function Survey(prop) {
         </Dialog>
       </div>);
     }
-    console.log(questions)
     return questions;
   }
 
