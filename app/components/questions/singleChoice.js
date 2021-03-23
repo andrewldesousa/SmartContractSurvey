@@ -20,7 +20,7 @@ export default class SingleQA extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <QList list={this.props.qList} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
+            <QList list={this.props.qList} SECTION_INDEX={this.props.SECTION_INDEX} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
           </CardContent>
         </Card>
       </div>
@@ -32,7 +32,7 @@ function QList(props) {
   return (
     <div>
       <FormControl component="fieldset">
-        <RadioGroup value={props.value} onChange={(event) => props.handleChange(props.INDEX, event.target.value)}>
+        <RadioGroup value={props.value} onChange={(event) => props.handleChange(props.SECTION_INDEX,props.INDEX, event.target.value)}>
           {props.list.map(listitem => (
             <FormControlLabel value={listitem} control={<Radio color="primary" />} label={listitem}/>
           ))}

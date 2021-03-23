@@ -29,7 +29,7 @@ export default class SingleQA extends React.Component {
           <Card variant="outlined" style={cardStyle}>
             <CardHeader title={this.props.question}/>
             <CardContent>
-              <QList list={this.props.qList} label={this.props.label} value={this.props.value}
+              <QList list={this.props.qList} SECTION_INDEX={this.props.SECTION_INDEX} label={this.props.label} value={this.props.value}
                      INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
             </CardContent>
           </Card>
@@ -51,7 +51,6 @@ function QList(props) {
 
   function setPropertyValue(propsList, propsValue, index, newValue) {
     let result = '';
-
     if (!propsValue) {
       for (let i = 0; i < propsList.length; i++) {
         if (i === index) {
@@ -83,7 +82,7 @@ function QList(props) {
                 <FormControlLabel value={listitem}
                                   control={<Checkbox color="primary" checked={readPropertyValue(props.value, index)}
                                                      onChange={(event) =>
-                                                         props.handleChange(props.INDEX, setPropertyValue(props.list, props.value, index, event.target.checked))}
+                                                         props.handleChange(props.SECTION_INDEX,props.INDEX, setPropertyValue(props.list, props.value, index, event.target.checked))}
                                                      name={listitem}/>}
                                   label={listitem} labelPlacement='end'/>
             ))}

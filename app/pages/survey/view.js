@@ -61,6 +61,14 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
   },
+  section: {
+    margin:'2rem',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  line: {
+    width: '20%'
+  }
 }));
 
 
@@ -68,7 +76,7 @@ export default function Survey(prop) {
   const classes = useStyles(useTheme());
   const [questionsVal, setQuestions] = useState([]);
   const [sectionsVal, setSections] = useState([]);
-  const [walletVal, setWallet] = useState('');
+  const [walletVal, setWallet] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -79,7 +87,7 @@ export default function Survey(prop) {
       } else {
         const dataWithAnswer = [];
         const sections = [];
-        let ans=''
+        let ans = ''
         for (let i = 0; i < data.length; i++) {
 
           dataWithAnswer.push([]);
@@ -87,30 +95,33 @@ export default function Survey(prop) {
 
           for (let j = 0; j < data[i]['questions'].length; j++) {
 
-            if (data[i]['questions'][j]['type']==QUESTION_TYPES.BINARY) {
+            if (data[i]['questions'][j]['type'] == QUESTION_TYPES.BINARY) {
               ans = false
             }
-            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER) {
-              ans='0'
+            else if (data[i]['questions'][j]['type'] == QUESTION_TYPES.SLIDER) {
+              ans = '0'
             }
-            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER_DISCRETE) {
-              ans='0'
+            else if (data[i]['questions'][j]['type'] == QUESTION_TYPES.SLIDER_DISCRETE) {
+              ans = '0'
             }
-            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.SLIDER) {
-              ans='0'
+            else if (data[i]['questions'][j]['type'] == QUESTION_TYPES.SLIDER) {
+              ans = '0'
             }
-            else if (data[i]['questions'][j]['type']==QUESTION_TYPES.DATE) {
-              ans=moment(new Date()).format('MM/DD/YYYY') 
+            else if (data[i]['questions'][j]['type'] == QUESTION_TYPES.DATE) {
+              ans = moment(new Date()).format('MM/DD/YYYY')
+            }
+            else if (data[i]['questions'][j]['type'] == 'wallet') {
+              setWallet([data[i]['questions'][j]['_id'], '']);
             }
             else {
               ans = ''
             }
             dataWithAnswer[i].push({
-                  '_id': data[i]['questions'][j]['_id'],
-                  'type': data[i]['questions'][j]['type'],
-                  'question': data[i]['questions'][j]['question'],
-                  'answer': ans,
-                  'options': data[i]['questions'][j]['options'],
+              '_id': data[i]['questions'][j]['_id'],
+              'type': data[i]['questions'][j]['type'],
+              'question': data[i]['questions'][j]['question'],
+              'answer': ans,
+              'options': data[i]['questions'][j]['options'],
             });
           }
         }
@@ -121,7 +132,7 @@ export default function Survey(prop) {
       }
     });
   };
-  
+
   useEffect(() => {
     const Id = prop.sid;
     getData(Id);
@@ -147,10 +158,10 @@ export default function Survey(prop) {
       for (let j = 0; j < questionsVal[i].length; ++j) {
         u += 1;
         if (questionsVal[i][j].answer != '' || questionsVal[i][j].type == QUESTION_TYPES.BINARY) {
-          if (questionsVal[k].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
+          if (questionsVal[i][j].type == QUESTION_TYPES.MULTIPLE_CHOICE) {
             const list = questionsVal[i][j].answer.split("");
-            for (let k=0; k<list.length; ++k) {
-              if (list[i]==1) {
+            for (let k = 0; k < list.length; ++k) {
+              if (list[i] == 1) {
                 cleanRes.responses[`Q${u}`] = {
                   'question_id': questionsVal[i][j]._id,
                   'answer': questionsVal[i][j].options[k],
@@ -166,17 +177,27 @@ export default function Survey(prop) {
           };
         }
         else {
-          flag = false
-          handleClose();
-          alert(`Fill value for ${questionsVal[i][j].question}`)
-          break;
+          if (questionsVal[i][j].type != 'wallet') {
+            flag = false
+            handleClose();
+            alert(`Fill value for ${questionsVal[i][j].question}`)
+            break;
+          }
+          else {
+            if (walletVal[1] == '') {
+              flag = false
+              handleClose();
+              alert(`Fill value for ${questionsVal[i][j].question}`)
+              break;
+            }
+          }
         }
       }
     }
 
     cleanRes.responses[`W1`] = {
-      'question_id': '',
-      'answer': walletVal,
+      'question_id': walletVal[0],
+      'answer': walletVal[1],
     }
 
     if (flag) {
@@ -185,91 +206,98 @@ export default function Survey(prop) {
     }
   }
 
-  function handleChange(k, answer) {
-    const type = questions[k]['type'];
-    const question = questions[k]['question'];
-    const _id = questionsVal[k]['_id'];
-    const options = questionsVal[k]['options'];
-    setQuestions(questionsVal.slice(0, k).concat([{ type: type, options: options, question: question, answer: answer, options: questionsVal[k]['options'], _id: _id }])
-        .concat(questionsVal.slice(k + 1, questionsVal.length)));
+  function handleChange(i, k, answer) {
+    const type = questionsVal[i][k]['type'];
+    const question = questionsVal[i][k]['question'];
+    const _id = questionsVal[i][k]['_id'];
+    const options = questionsVal[i][k]['options'];
+    const newQuestionVal = []
+    for (var a = 0; a < questionsVal.length; ++a) {
+      newQuestionVal.push([])
+      for (var b = 0; b < questionsVal[a].length; ++b) {
+        if (i == a && b == k) {
+          newQuestionVal[a].push({ type: type, options: options, question: question, answer: answer, options: questionsVal[i][k]['options'], _id: _id })
+        }
+        else
+          newQuestionVal[a].push(questionsVal[a][b])
+      }
+    }
+    console.log("THIS IS IT:",answer)
+    setQuestions(newQuestionVal)
   };
 
+
+
   function parseSurvey(survey) {
-
     const questions = [];
-    var global_index = 0;
     var page_index = 0;
-
     survey.map((section, j) => {
+      var global_index = 0;
       questions.push([]);
-
       if (page_index == 0) {
-        questions[page_index].push(<Wallet key={-1} question={'What is your wallet id?'} 
-                                    label='' handleChange={() => setWallet(event.target.value)} value={walletVal}/>);
+        questions[page_index].push(<Wallet key={-1} question={'What is your wallet id?'}
+          label='' handleChange={() => setWallet([walletVal[0], event.target.value])} value={walletVal[1]} />);
       }
- 
-      questions[page_index].push(<Typography key={-1} variant="h2">{sectionsVal[questions.length-1][0]}</Typography>);
-      questions[page_index].push(<Typography key={-1} variant="h3">{sectionsVal[questions.length-1][1]}</Typography>);
-      for(var i=0; i<section.length; i++) {
-        
-        if (i%5 == 0 && i>0) {
+      questions[page_index].push(<Typography className={classes.section} key={-1} variant="h2">{sectionsVal[j][0]}</Typography>);
+      questions[page_index].push(<Typography className={classes.section} key={-1} variant="h3">{sectionsVal[j][1]}</Typography>);
+      for (var i = 0; i < section.length; i++) {
+        /*if (i % 5 == 0 && i > 0) {
           questions.push([]);
-          page_index +=1;
-        }
-        
+          page_index += 1;
+        } dont use I use someting eles mabye the glble shit */ 
         const question = section[i];
         switch (question.type) {
           case QUESTION_TYPES.SLIDER_DISCRETE:
-            questions[page_index].push(<DiscreteSlider key={global_index} INDEX={global_index} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<DiscreteSlider key={i} SECTION_INDEX={j} INDEX={i} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.SLIDER:
-            questions[page_index].push(<Slider key={global_index} INDEX={global_index} question={question.question} label='' value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<Slider key={i} SECTION_INDEX={j} INDEX={i} question={question.question} label='' value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.DROPDOWN:
-            questions[page_index].push(<DropdownQA key={global_index} INDEX={global_index} question={question.question} list={question.options} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<DropdownQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} list={question.options} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.DATE:
-            questions[page_index].push(<DateQuestion key={global_index} INDEX={global_index} question={question.question} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<DateQuestion key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.SINGLE_CHOICE:
-            questions[page_index].push(<SingleQA key={global_index} INDEX={global_index} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<SingleQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.MULTIPLE_CHOICE:
-            questions[page_index].push(<MultipleQA key={global_index} INDEX={global_index} question={question.question} qList={question.options} value={questionsVal[i]['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<MultipleQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.TEXT:
-            questions[page_index].push(<TextQA key={global_index} INDEX={global_index} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<TextQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.RATE:
-            questions[page_index].push(<RateQA key={global_index} INDEX={global_index} question={question.question} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<RateQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.LIKERT:
-            questions[page_index].push(<Likert key={global_index} INDEX={global_index} question={question.question} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<Likert key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.BINARY:
-            questions[page_index].push(<YesNoQuestion key={global_index} INDEX={global_index} question={question.question} value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<YesNoQuestion key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
             break;
           case QUESTION_TYPES.NUMERIC:
-            questions[page_index].push(<NumericQA key={global_index} INDEX={global_index} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
+            questions[page_index].push(<NumericQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
             break;
+        }
+        global_index += 1;
       }
-      
-      global_index += 1;
-    }
+      page_index += 1;//??
 
-    page_index += 1;
     });
 
+    numOfpages = page_index + 1;//-1
 
     if (questions.length > 0) {
-      questions[questions.length-1].push(<div>
+      questions[questions.length - 1].push(<div>
         <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
           Submit</Button></div>
         <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">{'Submission'}</DialogTitle>
           <DialogContent>
@@ -288,14 +316,14 @@ export default function Survey(prop) {
         </Dialog>
       </div>);
     }
-
+    console.log(questions)
     return questions;
   }
 
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
-
+  var numOfpages = -1;
   if (isLoading) return <div className={classes.spinnerStyle}> <Spinner /></div>;
   const questions = parseSurvey(questionsVal);
 
@@ -305,11 +333,11 @@ export default function Survey(prop) {
   };
 
   const questionList = () => (
-      <div id="Cards">
-        {questions[page-1]}
-        <Pagination count={questionsVal.length} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
-        <br />
-      </div>
+    <div id="Cards">
+      {questions[page - 1]}
+      <Pagination count={questionsVal.length} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
+      <br />
+    </div>
   );
 
   const redirectUser = () => {

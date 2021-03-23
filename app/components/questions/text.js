@@ -22,7 +22,7 @@ export default function TextQA(props) {
         <CardHeader title={props.question}/>
         <CardContent>
           <TextField label={props.hint} variant="outlined" value={props.value}
-            onChange={() => props.handleChange(props.INDEX, event.target.value )} required/>
+            onChange={() => props.handleChange(props.SECTION_INDEX, props.INDEX, event.target.value )} required/>
         </CardContent>
       </Card>
     </div>
