@@ -25,7 +25,7 @@ export default class DateQuestion extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <PickDate value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
+            <PickDate value={this.props.value} SECTION_INDEX={this.props.SECTION_INDEX} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
             {/*<MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
@@ -64,7 +64,7 @@ function PickDate(props) {
         format="MM/dd/yyyy"
         value={parsePropsValue(props.value)} // selectedDate
         // onChange={handleDateChange}
-        onChange={(event, newValue) => props.handleChange(props.INDEX, newValue)}
+        onChange={(event, newValue) => props.handleChange(props.SECTION_INDEX, props.INDEX, newValue)}
         KeyboardButtonProps={{ariaLabel: 'change date'}}
       />
     </MuiPickersUtilsProvider>

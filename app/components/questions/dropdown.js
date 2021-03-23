@@ -20,7 +20,7 @@ export default class DropdownQA extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Drop_down list={this.props.list} label={this.props.label} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
+            <Drop_down list={this.props.list} SECTION_INDEX={this.props.SECTION_INDEX} label={this.props.label} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
           </CardContent>
         </Card>
       </div>
@@ -51,7 +51,7 @@ function Drop_down(props) {
         style={FormStyle}
         label={props.label}
         value={props.value ? props.value : ''}
-        onChange={(event) => props.handleChange(props.INDEX, event.target.value)}
+        onChange={(event) => props.handleChange(props.SECTION_INDEX,props.INDEX, event.target.value)}
         SelectProps={{
           native: true,
         }}

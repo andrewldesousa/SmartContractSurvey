@@ -25,7 +25,7 @@ export default class DiscreteSlider extends React.Component {
           <CardHeader title={this.props.question} />
           <CardContent>
             <FormLabel>{this.props.label}</FormLabel>
-            <GenSlider list={this.props.list} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
+            <GenSlider list={this.props.list} SECTION_INDEX={this.props.SECTION_INDEX} value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange} />
           </CardContent>
         </Card>
       </div>
@@ -44,7 +44,7 @@ const GenSlider = function MakeSlider(props) {
       <div style={sliderStyle}>
         <Slider
           value={props.value ? props.value : 0} // or if strings have to be stored parseInt(this.props.value)
-          onChange={(event, newValue) => props.handleChange(props.INDEX, newValue)} // for strings could be used newValue + ''
+          onChange={(event, newValue) => props.handleChange(props.SECTION_INDEX,props.INDEX, newValue)} // for strings could be used newValue + ''
           valueLabelFormat={props.list[value]}
           step={1}
           marks

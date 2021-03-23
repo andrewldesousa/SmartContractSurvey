@@ -5,9 +5,9 @@ const QUESTION_TYPES = {
   'RATE': 'rate',
   'TEXT': 'text',
   'SLIDER': 'slider',
-  'SLIDER DISCRETE': 'sliderDiscrete',
-  'SINGLE CHOICE': 'singleChoice',
-  'MULTIPLE CHOICE': 'multipleChoice',
+  'SLIDER_DISCRETE': 'sliderDiscrete',
+  'SINGLE_CHOICE': 'singleChoice',
+  'MULTIPLE_CHOICE': 'multipleChoice',
   'DROPDOWN': 'dropdown',
   'NUMERIC': 'numeric'
 };

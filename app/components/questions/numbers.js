@@ -22,7 +22,7 @@ export default function NumericQA(props) {
                 <CardHeader title={props.question}/>
                 <CardContent>
                     <TextField label={props.hint} variant="outlined" value={props.value}
-                               onChange={() => props.handleChange(props.INDEX, event.target.value )}
+                               onChange={() => props.handleChange(props.SECTION_INDEX,props.INDEX, event.target.value )}
                     type="number"/>
                 </CardContent>
             </Card>

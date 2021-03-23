@@ -52,7 +52,7 @@ export default class YesNoQuestion extends React.Component {
         <Card variant="outlined" style={cardStyle}>
           <CardHeader title={this.props.question} />
           <CardContent>
-            <Choose value={this.props.value} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
+            <Choose value={this.props.value} SECTION_INDEX={this.props.SECTION_INDEX} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>
             {/* <div display='inline-block'>
               <Typography component="div">
                 <Grid component="label" container alignItems="center" spacing={1}>
@@ -122,7 +122,7 @@ const Choose = function YesNo(props) {
           <Grid item>NO</Grid>
           <Grid item>
             <Switch color='primary' checked={props.value ? props.value : false}
-                    onChange={(event, newValue) => props.handleChange(props.INDEX, newValue )}
+                    onChange={(event, newValue) => props.handleChange(props.SECTION_INDEX,props.INDEX, newValue )}
             />
           </Grid>
           <Grid item>YES</Grid>
