@@ -62,12 +62,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   section: {
-    margin:'2rem',
+    margin: '2rem',
     display: 'flex',
     justifyContent: 'center',
   },
   line: {
-    width: '20%'
+    width: '20%',
+    backgroundColor: 'black',
   }
 }));
 
@@ -125,7 +126,6 @@ export default function Survey(prop) {
             });
           }
         }
-
         setSections(sections);
         setQuestions(dataWithAnswer);
         setLoading(false);
@@ -207,6 +207,8 @@ export default function Survey(prop) {
   }
 
   function handleChange(i, k, answer) {
+    console.log(answer,i,k)
+    console.log(questionsVal[i][k])
     const type = questionsVal[i][k]['type'];
     const question = questionsVal[i][k]['question'];
     const _id = questionsVal[i][k]['_id'];
@@ -225,73 +227,81 @@ export default function Survey(prop) {
     setQuestions(newQuestionVal)
   };
 
-
+  const questions = [];
+  function populatePage(page_index, section, j,size) {
+    //console.log(section)
+    for (var i = 0; i < section.length; i++) {
+      const question = section[i];
+      switch (question.type) {
+        case QUESTION_TYPES.SLIDER_DISCRETE:
+          questions[page_index].push(<DiscreteSlider key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.SLIDER:
+          questions[page_index].push(<Slider key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} label='' value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.DROPDOWN:
+          questions[page_index].push(<DropdownQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} list={question.options} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.DATE:
+          questions[page_index].push(<DateQuestion key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.SINGLE_CHOICE:
+          questions[page_index].push(<SingleQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.MULTIPLE_CHOICE:
+          questions[page_index].push(<MultipleQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.TEXT:
+          questions[page_index].push(<TextQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.RATE:
+          questions[page_index].push(<RateQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.LIKERT:
+          questions[page_index].push(<Likert key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.BINARY:
+          questions[page_index].push(<YesNoQuestion key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} value={question['answer']} handleChange={handleChange} />);
+          break;
+        case QUESTION_TYPES.NUMERIC:
+          questions[page_index].push(<NumericQA key={i} SECTION_INDEX={j} INDEX={i+size} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
+          break;
+      }
+    }
+    numOfpages += 1
+  }
 
   function parseSurvey(survey) {
-    const questions = [];
     var page_index = 0;
     survey.map((section, j) => {
-      var global_index = 0;
-      questions.push([]);
-      if (page_index == 0) {
-        questions[page_index].push(<Wallet key={-1} question={'What is your wallet id?'}
-          label='' handleChange={() => setWallet([walletVal[0], event.target.value])} value={walletVal[1]} />);
+      const pageCount = Math.ceil((section.length - 1) / 5)
+      if (pageCount == 0) {
+        pageCount = 1
       }
-      questions[page_index].push(<Typography className={classes.section} key={-1} variant="h2">{sectionsVal[j][0]}</Typography>);
-      questions[page_index].push(<Typography className={classes.section} key={-1} variant="h3">{sectionsVal[j][1]}</Typography>);
-      for (var i = 0; i < section.length; i++) {
-        /*if (i % 5 == 0 && i > 0) {
-          questions.push([]);
-          page_index += 1;
-        } dont use I use someting eles mabye the glble shit */ 
-        const question = section[i];
-        switch (question.type) {
-          case QUESTION_TYPES.SLIDER_DISCRETE:
-            questions[page_index].push(<DiscreteSlider key={i} SECTION_INDEX={j} INDEX={i} question={question.question} label='' list={question.options} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.SLIDER:
-            questions[page_index].push(<Slider key={i} SECTION_INDEX={j} INDEX={i} question={question.question} label='' value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.DROPDOWN:
-            questions[page_index].push(<DropdownQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} list={question.options} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.DATE:
-            questions[page_index].push(<DateQuestion key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.SINGLE_CHOICE:
-            questions[page_index].push(<SingleQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.MULTIPLE_CHOICE:
-            questions[page_index].push(<MultipleQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} qList={question.options} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.TEXT:
-            questions[page_index].push(<TextQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.RATE:
-            questions[page_index].push(<RateQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.LIKERT:
-            questions[page_index].push(<Likert key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.BINARY:
-            questions[page_index].push(<YesNoQuestion key={i} SECTION_INDEX={j} INDEX={i} question={question.question} value={question['answer']} handleChange={handleChange} />);
-            break;
-          case QUESTION_TYPES.NUMERIC:
-            questions[page_index].push(<NumericQA key={i} SECTION_INDEX={j} INDEX={i} question={question.question} hint='Answer here' value={question['answer']} handleChange={handleChange} />);
-            break;
+      for (var i = 0; i < pageCount; ++i) {
+        questions.push([]);
+        if (page_index == 0) {
+          questions[page_index].push(<Wallet key={-1} question={'What is your wallet id?'}
+            label='' handleChange={() => setWallet([walletVal[0], event.target.value])} value={walletVal[1]} />);
         }
-        global_index += 1;
+        questions[page_index].push(<Typography className={classes.section} key={-1} variant="h2">{sectionsVal[j][0]}</Typography>);
+        questions[page_index].push(<hr className={classes.line} key={-1}/>);
+        questions[page_index].push(<Typography className={classes.section} key={-1} variant="h3">{sectionsVal[j][1]}</Typography>);
+
+        if (i > 0) {
+          questions.push([])
+        }
+        populatePage(page_index, section.slice((5 * i), ((i + 1) * 5)), j, (i * 5));
+        page_index += 1;
       }
-      page_index += 1;//??
-
     });
-
-    numOfpages = page_index + 1;//-1
-
+    //numOfpages = page_index + 1;
+    //console.log("PAGE:",page_index)
     if (questions.length > 0) {
-      questions[questions.length - 1].push(<div>
-        <div className={classes.flexContainer}><Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
-          Submit</Button></div>
+      questions[page_index - 1].push(<div>
+        <div className={classes.flexContainer}>
+          <Button variant="contained" className={classes.submitStyle} color="primary" onClick={handleClickOpen} >
+            Submit</Button></div>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -315,15 +325,22 @@ export default function Survey(prop) {
         </Dialog>
       </div>);
     }
-    return questions;
+    var pageList=[];
+    for(var x=0; x<questions.length; ++x) {
+      if (questions[x].length==0)
+        break;
+      else
+        pageList.push(questions[x])
+    }
+    return pageList;
   }
 
   const [page, setPage] = React.useState(1);
   const [redirect, setRedirect] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
-  var numOfpages = -1;
+  var numOfpages = 1;
   if (isLoading) return <div className={classes.spinnerStyle}> <Spinner /></div>;
-  const questions = parseSurvey(questionsVal);
+  const questionsList = parseSurvey(questionsVal);
 
   const changePage = (event, value) => {
     setPage(value);
@@ -332,8 +349,13 @@ export default function Survey(prop) {
 
   const questionList = () => (
     <div id="Cards">
-      {questions[page - 1]}
-      <Pagination count={questionsVal.length} page={page} shape="rounded" className={classes.paginationStyle} onChange={changePage} />
+      {questionsList[page - 1]}
+      <Pagination
+        count={questionsList.length}
+        page={page}
+        shape="rounded"
+        className={classes.paginationStyle}
+        onChange={changePage} />
       <br />
     </div>
   );
