@@ -67,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
   },
   line: {
-    width: '20%'
+    width: '20%',
+    backgroundColor: 'black',
   }
 }));
 
@@ -284,6 +285,7 @@ export default function Survey(prop) {
             label='' handleChange={() => setWallet([walletVal[0], event.target.value])} value={walletVal[1]} />);
         }
         questions[page_index].push(<Typography className={classes.section} key={-1} variant="h2">{sectionsVal[j][0]}</Typography>);
+        questions[page_index].push(<hr className={classes.line} key={-1}/>);
         questions[page_index].push(<Typography className={classes.section} key={-1} variant="h3">{sectionsVal[j][1]}</Typography>);
 
         if (i > 0) {

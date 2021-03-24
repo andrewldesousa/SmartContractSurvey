@@ -1,13 +1,15 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, TextField } from '@material-ui/core';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Jumbotron} from 'react-bootstrap';
 
 var cardStyle = {
-    'text-align': 'left',
-    padding: '1.5rem',
+    align: 'left',
+    padding: '1.0rem',
     display: 'flex',
     color: 'inherit',
     display: 'block',
-    width: '70%',
+    width: '100%',
     transitionDuration: 'color 0.15s ease',
     minHeight: '180px'
 }
@@ -16,8 +18,7 @@ export default class Wallet extends React.Component {
     render() {
         return (
             <div align='center'>
-                <br />
-                <Card variant="outlined" style={cardStyle}>
+                <Jumbotron variant="outlined" style={cardStyle}>
                     <CardHeader title='Please enter your Wallet ID.' />
                     <CardContent>
                         <div style={{width:'520px'}}>
@@ -32,7 +33,7 @@ export default class Wallet extends React.Component {
                         />
                         </div>
                     </CardContent>
-                </Card>
+                </Jumbotron>
             </div>
         );
     }
