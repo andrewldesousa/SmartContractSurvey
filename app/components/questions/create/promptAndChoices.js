@@ -8,7 +8,10 @@ import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
+import Fab from '@material-ui/core/Fab';
+import { QuestionInfo} from '../../info';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     overflowY: 'scroll',
+    position: 'relative',
   },
 
   cancelContainer: {
@@ -28,6 +32,14 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     justifyContent: 'flex-end',
     height: '2rem',
+  },
+  infoContainer: {
+    width: '100px',
+    height: '100px',
+    position: 'absolute',
+    top : '0' ,
+    margin : '10px',
+
   },
   cardContent: {
     width: '100%',
@@ -78,6 +90,20 @@ export default function PromptAndChoices(props) {
 
     return output;
   }
+  function getInfo(questionType){
+    const questionInfo = QUESTION_INFO.map((row) => 
+      // <div key = {row.type} id = {row.type}> {row.info}</div>
+      {
+       if(row.type == questionType){
+         
+         return row.info
+        }
+     
+    }
+      );
+
+    return questionInfo
+  }
 
 
   function renderAnswers() {
@@ -101,11 +127,18 @@ export default function PromptAndChoices(props) {
   return (
     <Card variant="outlined" className={classes.paper}>
       <form className={classes.form}>
+     
         <div className={classes.cancelContainer}>
           <IconButton onClick={() => props.deleteQuestion(props.index)}>
             <CancelIcon />
           </IconButton>
+      
+          
         </div>
+        <div className={classes.infoContainer}>
+        <QuestionInfo type={props.type} />
+        </div>
+        
         <Typography className={classes.margin} variant="h3">{parseTitle(props.type)} Question</Typography>
         <FormControl className={classes.margin}>
           <TextField fullWidth={true} value={prompt} placeholder='Enter Question' variant='filled'
@@ -120,6 +153,7 @@ export default function PromptAndChoices(props) {
             Add Answer</Button>
             </FormControl>
       </form>
+     
     </Card>
   );
 };

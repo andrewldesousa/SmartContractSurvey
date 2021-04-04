@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardContent, CardHeader, Box} from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
-
+import { QuestionInfo} from '../info';
 const labels = {
   0: 'No Response',
   0.5: 'Unacceptable',
@@ -31,6 +31,17 @@ const cardStyle = {
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
+  position: 'relative',
+};
+
+const infoContainer = {
+  width: '100px',
+  height: '100px',
+  position: 'absolute',
+  top : '0' ,
+  marginLeft : '-15px',
+  marginTop : '10px',
+
 };
 
 export default class RateQA extends React.Component {
@@ -39,6 +50,9 @@ export default class RateQA extends React.Component {
       <div align='center'>
         <br />
         <Card variant="outlined" style={cardStyle}>
+        <div style={infoContainer}>
+           <QuestionInfo type='rate' />
+          </div>
           <CardHeader title={this.props.question} />
           <CardContent>
             <Rate key={this.props.key} value={this.props.value} SECTION_INDEX={this.props.SECTION_INDEX} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>

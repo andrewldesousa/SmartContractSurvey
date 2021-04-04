@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, CardContent, CardHeader, Slider, FormLabel} from '@material-ui/core';
+import { QuestionInfo} from '../info';
 
 const cardStyle = {
   textAlign: 'left',
@@ -10,18 +11,30 @@ const cardStyle = {
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
+  position: 'relative',
 };
 
 const sliderStyle = {
   width: '60%',
 };
+const infoContainer = {
+  width: '100px',
+  height: '100px',
+  position: 'absolute',
+  top : '0' ,
+  marginLeft : '-15px',
+  marginTop : '10px',
 
+};
 export default class DiscreteSlider extends React.Component {
   render() {
     return (
       <div align='center'>
         <br />
         <Card variant="outlined" style={cardStyle}>
+        <div style={infoContainer}>
+           <QuestionInfo type='sliderDiscrete' />
+          </div>
           <CardHeader title={this.props.question} />
           <CardContent>
             <FormLabel>{this.props.label}</FormLabel>
