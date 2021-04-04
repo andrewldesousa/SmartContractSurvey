@@ -4,6 +4,7 @@ import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
+import { QuestionInfo} from '../info';
 
 
 const labels = {
@@ -35,6 +36,16 @@ const cardStyle = {
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
+  position: 'relative',
+};
+const infoContainer = {
+  width: '100px',
+  height: '100px',
+  position: 'absolute',
+  top : '0' ,
+  marginLeft : '-15px',
+  marginTop : '10px',
+
 };
 
 
@@ -50,6 +61,9 @@ export default class YesNoQuestion extends React.Component {
       <div align="center">
         <br />
         <Card variant="outlined" style={cardStyle}>
+        <div style={infoContainer}>
+           <QuestionInfo type='binary' />
+          </div>
           <CardHeader title={this.props.question} />
           <CardContent>
             <Choose value={this.props.value} SECTION_INDEX={this.props.SECTION_INDEX} INDEX={this.props.INDEX} handleChange={this.props.handleChange}/>

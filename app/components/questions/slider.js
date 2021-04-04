@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import {Card, CardContent, CardHeader, Slider} from '@material-ui/core';
+import { QuestionInfo} from '../info';
 
 const cardStyle = {
   textAlign: 'left',
@@ -11,11 +12,23 @@ const cardStyle = {
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '180px',
+  position: 'relative',
 };
 
 const sliderStyle = {
   width: '60%',
 };
+
+const infoContainer = {
+  width: '100px',
+  height: '100px',
+  position: 'absolute',
+  top : '0' ,
+  marginLeft : '-15px',
+  marginTop : '10px',
+
+};
+
 
 function valuetext(value) {
   return `${value}`;
@@ -27,6 +40,9 @@ export default class SliderQA extends React.Component {
       <div align='center'>
         <br />
         <Card variant="outlined" style={cardStyle}>
+        <div style={infoContainer}>
+           <QuestionInfo type='slider' />
+          </div>
           <CardHeader title={this.props.question} />
           <CardContent>
             <div style={sliderStyle}>

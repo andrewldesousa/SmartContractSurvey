@@ -9,7 +9,7 @@ import {
   FormLabel,
 } from '@material-ui/core';
 import FormGroup from '@material-ui/core/FormGroup';
-
+import { QuestionInfo} from '../info';
 const cardStyle = {
   textAlign: 'left',
   padding: '1.5rem',
@@ -19,6 +19,17 @@ const cardStyle = {
   width: '70%',
   transitionDuration: 'color 0.15s ease',
   minHeight: '220px',
+  position: 'relative',
+};
+
+const infoContainer = {
+  width: '100px',
+  height: '100px',
+  position: 'absolute',
+  top : '0' ,
+  marginLeft : '-15px',
+  marginTop : '10px',
+
 };
 
 export default class SingleQA extends React.Component {
@@ -27,6 +38,9 @@ export default class SingleQA extends React.Component {
         <div align='center'>
           <br/>
           <Card variant="outlined" style={cardStyle}>
+          <div style={infoContainer}>
+           <QuestionInfo type='multipleChoice' />
+          </div>
             <CardHeader title={this.props.question}/>
             <CardContent>
               <QList list={this.props.qList} SECTION_INDEX={this.props.SECTION_INDEX} label={this.props.label} value={this.props.value}

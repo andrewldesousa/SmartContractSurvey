@@ -8,6 +8,8 @@ import {Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import CancelIcon from '@material-ui/icons/Cancel';
 import IconButton from '@material-ui/core/IconButton';
+import { QuestionInfo} from '../../info';
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,12 +20,21 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: 'relative',
   },
   cancelContainer: {
     display: 'flex',
     width: '100%',
     justifyContent: 'flex-end',
     height: '2rem',
+  },
+  infoContainer: {
+    width: '100px',
+    height: '100px',
+    position: 'absolute',
+    top : '0' ,
+    margin : '10px',
+
   },
   cardContent: {
     width: '100%',
@@ -67,6 +78,9 @@ export default function PromptOnly(props) {
     return output;
   }
 
+
+
+
   return (
     <Card variant="outlined" className={classes.paper}>
       <CardContent className={classes.cardContent}>
@@ -76,7 +90,9 @@ export default function PromptOnly(props) {
               <CancelIcon />
             </IconButton>
           </div>
-
+          <div className={classes.infoContainer}>
+           <QuestionInfo type={props.type} />
+          </div>
           <Typography className={classes.margin } variant="h3">{parseTitle(props.type)} Question</Typography>
           <FormControl className={classes.margin}>
             <TextField value={value} label='Question' placeholder='Enter the quesiton' required variant='filled'

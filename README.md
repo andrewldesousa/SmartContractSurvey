@@ -38,6 +38,7 @@ node app.js
 
 ## Project Contributors
 * Andrew Desousa (desousa.andrew11@gmail.com)
-* Madhvendra Singh Negi
+* Madhavendra Singh Negi
 * Navid Mirnouri
 * Abhishek Rathi
+

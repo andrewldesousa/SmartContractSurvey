@@ -274,7 +274,7 @@ export default function Survey(prop) {
   function parseSurvey(survey) {
     var page_index = 0;
     survey.map((section, j) => {
-      const pageCount = Math.ceil((section.length - 1) / 5)
+      var pageCount = Math.ceil((section.length - 1) / 5)
       if (pageCount == 0) {
         pageCount = 1
       }
