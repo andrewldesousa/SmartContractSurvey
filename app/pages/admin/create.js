@@ -19,6 +19,8 @@ import { QUESTION_TYPES, ADMIN_PROMPT_ONLY_TYPES } from '../../components/questi
 import Signin from '../../components/signin';
 import { makeSurvey, addQuestions, addOneQuestion } from '../api/store';
 import { isAuthenticated } from '../api/auth';
+import Tooltip from '@material-ui/core/Tooltip';
+import InfoIcon from '@material-ui/icons/Info';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -125,6 +127,10 @@ const useStyles = makeStyles((theme) => ({
   form: {
     margin: '1rem',
     width: '40%'
+  },
+  inline: {
+    display: 'flex',
+    justifyContent: 'space-between'
   }
 }));
 
@@ -317,7 +323,12 @@ export default function Create() {
       return (
         <>
           <br></br>
-          <Typography variant="h3">Section {selectedSection}</Typography>
+          <div className={classes.inline}>
+          <Typography variant="h3">Section {selectedSection} </Typography>
+          <Tooltip title={"Specify the title and description of this section and use the plus icon below to add different questions."} aria-label="add">
+              <InfoIcon />
+            </Tooltip>
+            </div>
           <br></br>
           <TextField label="Section Title" className={classes.textField} onChange={(event) => {
             var sectionsUpdated = Array.from(sections);
@@ -355,8 +366,11 @@ export default function Create() {
             <br></br>
 
             <div className={classes.leftPaneSection}>
-              <div>
-                <Typography variant="h3">Define the sections of the survey</Typography>
+              <div> 
+                <Typography variant="h3">Define the sections of the survey &nbsp; &nbsp;
+                <Tooltip title={"Press the icon to add new sections to the survey. Minimum 1 section is required."} aria-label="add">
+              <InfoIcon />
+            </Tooltip></Typography>
               </div>
               <Paper elevation={3} className={classes.sectionListContainer}>
                 {renderSectionList()}

@@ -13,17 +13,17 @@ const QUESTION_TYPES = {
 };
 
 const QUESTION_INFO = [
-  {type: 'binary', info : 'Select Yes or No'},
-  {type: 'likert', info :'Choose a ratio'},
-  {type: 'date',   info :'Choose a date'},
-  {type: 'rate',   info :'Choose a ratio'},
-  {type: 'text',   info :'Fill in the box with your text'},
-  {type: 'slider', info :'Choose a value'},
-  {type: 'sliderDiscrete', info : 'Choose a value'},
-  {type: 'singleChoice',   info :'Select only one option'},
-  {type: 'multipleChoice', info : 'Select every option that is correct'},
-  {type: 'dropdown',info :'Select an option'},
-  {type: 'numeric', info :'Enter a Number'}
+  {type: 'binary', info : 'Specify a Yes/No question which will be populated for the following.'},
+  {type: 'likert', info :'Specify the question for a 5-point likert.'},
+  {type: 'date',   info :'Specify a question for which you need the date.'},
+  {type: 'rate',   info :'Specify a question for a 5-star scale.'},
+  {type: 'text',   info :'Specify a question for which text based answer.'},
+  {type: 'slider', info :'Specify a question for numerical input between 1-100.'},
+  {type: 'sliderDiscrete', info : 'Specify a question for numerical input between 1-100.'},
+  {type: 'singleChoice',   info :'Specify a question and than provide options below corresponding to the choices.'},
+  {type: 'multipleChoice', info : 'Specify a question and than provide options below corresponding to the choices.'},
+  {type: 'dropdown',info :'Specify a question and than provide options below corresponding to the choices.'},
+  {type: 'numeric', info :'Specify a question for which you only need integer responses. Textual answers will not be accepted.'}
 ];
 
 const ADMIN_PROMPT_ONLY_TYPES = {
